@@ -21,7 +21,7 @@ public:
 
 	Player(unsigned int pixelSize, unsigned int tileSize) :  pixelSize(pixelSize), tileSize(tileSize)
 	{
-		texture.loadFromFile("tic_tac.png");
+		texture.loadFromFile("assets/tic_tac.png");
 
 		currentXTilePos = 2;
 		currentYTilePos = 2;

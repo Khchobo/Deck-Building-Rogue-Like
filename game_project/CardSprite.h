@@ -26,7 +26,7 @@ public:
 	CardSprite()
 	{
 		
-		texture.loadFromFile("card2.png");
+		texture.loadFromFile("assets/card2.png");
 		
 		sprite.setTexture(texture);
 		position = 0;

@@ -43,7 +43,7 @@ public:
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 
-		fixedColourShader.loadFromFile("fixedColourShader.frag", sf::Shader::Fragment);
+		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 
 		window.create(sf::VideoMode(windowedWidth *tileSize*pixelSize, windowedHeight *tileSize*pixelSize), "Game", sf::Style::Default, settings);
 

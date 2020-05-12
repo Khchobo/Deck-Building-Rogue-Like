@@ -2,16 +2,16 @@
 
 void TileMap::initialise()
 {
-		spriteImages[0].loadFromFile("air_0.png");
-		spriteImages[1].loadFromFile("flowers_0.png");
-		spriteImages[2].loadFromFile("flowers_1.png");
-		spriteImages[3].loadFromFile("rock_0.png");
-		spriteImages[4].loadFromFile("rock_1.png");
-		spriteImages[5].loadFromFile("rock_2.png");
-		spriteImages[6].loadFromFile("rock_3.png");
-		spriteImages[7].loadFromFile("rock_4.png");
-		spriteImages[8].loadFromFile("cardAction.png");
-		spriteImages[9].loadFromFile("crystal.png");
+		spriteImages[0].loadFromFile("assets/air_0.png");
+		spriteImages[1].loadFromFile("assets/flowers_0.png");
+		spriteImages[2].loadFromFile("assets/flowers_1.png");
+		spriteImages[3].loadFromFile("assets/rock_0.png");
+		spriteImages[4].loadFromFile("assets/rock_1.png");
+		spriteImages[5].loadFromFile("assets/rock_2.png");
+		spriteImages[6].loadFromFile("assets/rock_3.png");
+		spriteImages[7].loadFromFile("assets/rock_4.png");
+		spriteImages[8].loadFromFile("assets/cardAction.png");
+		spriteImages[9].loadFromFile("assets/crystal.png");
 }
 
 void TileMap::draw(sf::Texture& texture) const

@@ -13,7 +13,7 @@ void NumberEntity::initialise(float x, float y, int a, int initialValue)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		assert(digitTextures[i].loadFromFile("numbers_" + std::to_string(i)+".png"));
+		assert(digitTextures[i].loadFromFile("assets/numbers_" + std::to_string(i)+".png"));
 	}
 
 	//sprite.setTexture(texture);

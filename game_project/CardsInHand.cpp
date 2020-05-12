@@ -62,7 +62,7 @@ void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& 
 
 void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, int windowedHeight, int windowedWidth, int fullscreen,int tileReductionX)
 {
-	font.loadFromFile("minecraft.ttf");
+	font.loadFromFile("assets/minecraft.ttf");
 	text.setFont(font);
 	text.setCharacterSize(16);
 	if (fullscreen == 0)
@@ -270,7 +270,7 @@ void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long doub
 		//for some reason this breaks the textures so we now have to reload them
 		for (int i = 0; i < cardsInHand.size(); i++)
 		{
-			texture.loadFromFile("card2.png");
+			texture.loadFromFile("assets/card2.png");
 			cardsInHand[i].sprite.setTexture(texture);
 		}
 	}
