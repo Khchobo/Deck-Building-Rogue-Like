@@ -16,7 +16,7 @@ void Game::loop()
 				
 				sf::Time elapsed = clock.getElapsedTime();
 				frameTime = elapsed.asSeconds();
-				//std::cout << 1/frameTime << std::endl<<std::endl;
+				std::cout << 1/frameTime << std::endl<<std::endl;
 				clock.restart();
 
 
@@ -69,7 +69,7 @@ void Game::resize()
 
 
 
-		//window.setFramerateLimit(60);
+		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 		fullscreen = 1;
 	}

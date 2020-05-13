@@ -22,7 +22,7 @@ void CardSprite::draw(sf::RenderWindow& window)
 	window.draw(sprite);
 }
 
-void CardSprite::move(float frameTime, int i, WindowInfo windowInfo)
+void CardSprite::move(int i, WindowInfo windowInfo)
 {
 	
 	

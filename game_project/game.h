@@ -47,6 +47,7 @@ public:
 
 		window.create(sf::VideoMode(windowedWidth *tileSize*pixelSize, windowedHeight *tileSize*pixelSize), "Game", sf::Style::Default, settings);
 
+		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 	}
 
