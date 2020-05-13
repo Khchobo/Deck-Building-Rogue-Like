@@ -100,7 +100,7 @@ void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 	noOfCardsInHand.draw(window);
 }
 
-void CardsInHand::action(std::map<int, bool> keyboardArray, float frameTime, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
+void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
 						WindowInfo windowInfo, int& cardIndex,float& cardPoints)
 {
 	
@@ -237,7 +237,7 @@ void CardsInHand::action(std::map<int, bool> keyboardArray, float frameTime, std
 	{
 		if (cardsInHand[i].inMotion==true)
 		{
-			cardsInHand[i].move(frameTime, i, windowInfo);
+			cardsInHand[i].move(i, windowInfo);
 		}
 
 		

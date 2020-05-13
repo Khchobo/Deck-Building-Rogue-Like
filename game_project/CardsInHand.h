@@ -5,6 +5,7 @@
 #include "CardSprite.h"
 #include "NumberEntity.h"
 #include "WindowInfo.h"
+#include "globalVariables.h"
 static class CardsInHand: public Entity
 {
 public:
@@ -19,7 +20,7 @@ public:
 
 	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
 
-	void action(std::map<int, bool> keyboardArray, float frameTime, std::vector<Card>& cardsInDeck,
+	void action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck,
 				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex, float& cardPoints);
 
 	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining);

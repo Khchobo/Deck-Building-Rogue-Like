@@ -1,5 +1,4 @@
-#ifndef CARDSPRITE_HEADER
-#define CARDSPRITE_HEADER
+#pragma once
 
 #include "Entity.h"
 #include "WindowInfo.h"
@@ -37,7 +36,7 @@ public:
 
 	void draw(sf::RenderWindow& window);
 
-	void move(float frameTime, int i, WindowInfo windowInfo);
+	void move(int i, WindowInfo windowInfo);
 
 
 	//the location before this motion was initiated
@@ -56,5 +55,3 @@ private:
 	float motionDifference = 0;
 	
 };
-
-#endif

@@ -82,7 +82,7 @@ void CardSprite::move(int i, WindowInfo windowInfo)
 			break;
 		}
 		case(2):
-			
+		//test	
 			xPos = (previousXPos* (1 - easeInOut(motionPercentage)) + (i * 32)*( (easeInOut(motionPercentage))));
 			//std::cout << xPos<<std::endl;
 			if (windowInfo.fullscreen == 0) 

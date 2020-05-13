@@ -2,7 +2,7 @@
 #include "easeInOut.h"
 
 void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-	std::vector<std::vector<int>>& collision, float frameTime, WindowInfo windowInfo)
+	std::vector<std::vector<int>>& collision, WindowInfo windowInfo)
 {
 	bool flag = false;
 	if (keyboardArray[sf::Keyboard::W])
@@ -29,7 +29,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	
 	if (flag && cardPoints>cardPointsStepCost && !(inMotion))
 	{
-		move(direction, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, frameTime, windowInfo);
+		move(direction, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo);
 	}
 	//std::cout << inMotion;
 
@@ -75,7 +75,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 }
 
 void Player::move(unsigned int direction, float& playerDistanceFromEdgeX,
-	float& playerDistanceFromEdgeY, std::vector<std::vector<int>>& collision, float frameTime, WindowInfo windowInfo)
+	float& playerDistanceFromEdgeY, std::vector<std::vector<int>>& collision, WindowInfo windowInfo)
 {
 	switch(movementMode)
 	{ 

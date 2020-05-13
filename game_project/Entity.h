@@ -20,7 +20,6 @@ public:
 	void initialise(std::string fileName,float xPos,float yPos,bool offset);
 
 	void animationUpdate();
-
 	void animationNew(std::string name);
 
 	sf::Sprite sprite;

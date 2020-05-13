@@ -12,7 +12,7 @@
 #include "CardsInHand.h"
 #include "WindowInfo.h"
 #include "NumberEntity.h"
-
+#include "globalVariables.h"
 using namespace std;
 
 class Player : public Entity
@@ -32,10 +32,10 @@ public:
 	}
 
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-		std::vector<std::vector<int>>& collision, float frameTime, WindowInfo windowInfo);
+		std::vector<std::vector<int>>& collision, WindowInfo windowInfo);
 
 	void move(unsigned int direction, float& playerDistanceFromEdgeX,
-		float& playerDistanceFromEdgeY, std::vector<std::vector<int>>& collision, float frameTime, WindowInfo windowInfo);
+		float& playerDistanceFromEdgeY, std::vector<std::vector<int>>& collision, WindowInfo windowInfo);
 
 	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
 

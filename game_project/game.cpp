@@ -16,7 +16,7 @@ void Game::loop()
 				
 				sf::Time elapsed = clock.getElapsedTime();
 				frameTime = elapsed.asSeconds();
-				std::cout << 1/frameTime << std::endl<<std::endl;
+				//std::cout << 1/frameTime << std::endl<<std::endl;
 				clock.restart();
 
 
@@ -66,8 +66,6 @@ void Game::resize()
 	{
 
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
-
-
 
 		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
@@ -157,7 +155,7 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, frameTime, windowInfo);
+	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo);
 
 	//TODO get all this insidie functions
 	if (renderMode == 1)
@@ -170,7 +168,7 @@ void Game::action()
 		player.cardPointsNumber.yPos = windowHeight * pixelSize*tileSize+3*32 ;
 		player.cardPointsNumber.value = static_cast<int>(player.cardPoints);
 
-		cardsInHand.action(keyboardArray, frameTime, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, player.cardPoints);
+		cardsInHand.action(keyboardArray, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, player.cardPoints);
 
 		if (cardIndex != 10000)
 		{

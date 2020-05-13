@@ -15,6 +15,7 @@
 #include "WindowInfo.h"
 #include "cardActionMap.h"
 
+
 class Game
 {
 public:
@@ -60,12 +61,6 @@ private:
 	CardActionMap cardActionMap;
 
 	std::map<int,bool> keyboardArray;
-
-	//how long the last frame lasted
-	float frameTime;
-
-	//overall run time
-	float runTime;
 
 	sf::Clock clock;
 	sf::Shader fixedColourShader;
