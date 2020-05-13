@@ -1,13 +1,12 @@
 #include "CardSprite.h"
 #include <iostream>
 #include "easeInOut.h"
-
+#include "globalVariables.h"
 
 
 void CardSprite::initialise(Entity deckSprite)
 {
-	texture.loadFromFile("assets/card2.png");
-	sprite.setTexture(texture);
+	sprite.setTexture(imageManager.getImage("card2.png"));
 	
 	position = 2;
 	inMotion = 1;

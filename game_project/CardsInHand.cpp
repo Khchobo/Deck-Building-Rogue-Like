@@ -67,13 +67,13 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 	text.setCharacterSize(16);
 	if (fullscreen == 0)
 	{
-		deckSprite.initialise("card2.png", windowedWidth*pixelSize*tileSize - ((tileReductionX*pixelSize*tileSize) / 2), windowedHeight / 2 * pixelSize*tileSize, 1);
+		deckSprite.initialise("assets/card2.png", windowedWidth*pixelSize*tileSize - ((tileReductionX*pixelSize*tileSize) / 2), windowedHeight / 2 * pixelSize*tileSize, 1);
 		text.setPosition(windowedWidth*pixelSize*tileSize - (tileReductionX - 1)*pixelSize*tileSize, (windowedHeight / 2 + 3) * pixelSize*tileSize);
 
 	}
 	else
 	{
-		deckSprite.initialise("card2.png", sf::VideoMode::getDesktopMode().width - ((tileReductionX*pixelSize*tileSize) / 2), sf::VideoMode::getDesktopMode().height/2.0, 1);
+		deckSprite.initialise("assets/card2.png", sf::VideoMode::getDesktopMode().width - ((tileReductionX*pixelSize*tileSize) / 2), sf::VideoMode::getDesktopMode().height/2.0, 1);
 		text.setPosition(sf::VideoMode::getDesktopMode().width - (tileReductionX - 1)*pixelSize*tileSize, sf::VideoMode::getDesktopMode().height/2.0+3 * pixelSize*tileSize);
 	}
 	cardsInHand.clear();

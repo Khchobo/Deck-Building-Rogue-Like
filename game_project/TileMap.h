@@ -35,7 +35,7 @@ public:
 	//
 	TileMap(unsigned int mapWidth, unsigned int mapHeight, unsigned int tileSize, std::vector<TileType> mapInfo) :
 		mapInfo(mapInfo), mapWidth(mapWidth), mapHeight(mapHeight), tileSize(tileSize), spriteImages(10),mapTileType(mapInfo.size())
-		//,quads(sf::Quads, mapWidth*mapHeight*tileSize*tileSize * 4), pixels(mapWidth*mapHeight*tileSize*tileSize *pixelSize*pixelSize * 4) , tiles(mapWidth*mapHeight, tileSize)
+	
 	{
 		srand(time(NULL));
 		layoutSeed = rand();

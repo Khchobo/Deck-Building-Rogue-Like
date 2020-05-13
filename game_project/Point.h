@@ -1,5 +1,5 @@
-#ifndef POINT_HEADER
-#define POINT_HEADER
+#pragma once
+
 struct Point
 {
 public:
@@ -10,4 +10,3 @@ public:
 	int y;
 };
 
-#endif

@@ -1,5 +1,5 @@
 #include "game.h"
-
+#include "ImageManager.h"
 using namespace std;
 
 class Tile : public sf::Drawable
@@ -245,8 +245,6 @@ public:
 int main()
 {
 	srand(time(NULL));
-
-	
 
 	//0 is gameplay, one for tile to text conversion, 2 for map to text conversion
 	int openingMode = 0;

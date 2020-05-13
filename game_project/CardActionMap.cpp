@@ -65,6 +65,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
 		{
 			//TODO clean up this horrible mess
+			//TODO continue when colliding with wall or out of range of map
 			ActionPoint newActionPoint(playerXPos+i+1, playerYPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
 			cardActionMap.push_back(newActionPoint);
 			ActionPoint newActionPoint2(playerXPos - i-1, playerYPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);

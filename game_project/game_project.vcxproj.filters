@@ -72,6 +72,9 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TileType.h">
@@ -120,6 +123,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globalVariables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
