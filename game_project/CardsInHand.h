@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <iostream>
 #include <stdlib.h>
@@ -19,6 +20,8 @@ public:
 	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, int windowedHeight,int windowedWidth, int fullscreen, int tileReductionX);
 
 	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
+
+	void resize(WindowInfo windowInfo);
 
 	void action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck,
 				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex, float& cardPoints);

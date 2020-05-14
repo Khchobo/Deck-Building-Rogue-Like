@@ -100,33 +100,35 @@ void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 	noOfCardsInHand.draw(window);
 }
 
+//move the deck sprite to its relative location if changing between fullscreen and windowed
+void CardsInHand::resize(WindowInfo windowInfo)
+{
+	std::cout << "test";
+	if (windowInfo.fullscreen == 0)
+	{
+		//TODO
+	}
+	else
+	{
+		text.setPosition(windowInfo.windowedWidth*pixelSize*tileSize - (windowInfo.tileReductionX - 1)*pixelSize*tileSize, (windowInfo.windowedHeight / 2 + 3) * pixelSize*tileSize);
+
+		deckSprite.xPos = windowInfo.windowedWidth * pixelSize*tileSize - ((windowInfo.tileReductionX*pixelSize*tileSize) / 2) - 32;
+		deckSprite.yPos = (windowInfo.windowedHeight * pixelSize*tileSize) / 2.0 - 48;
+
+		std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
+
+		for (int i = 0; i < cardsInHand.size(); i++)
+		{
+			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight * 32);
+			cardsInHand[i].yPos = cardsInHand[i].yPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight * 32);
+		}
+
+	}
+}
+
 void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
 						WindowInfo windowInfo, int& cardIndex,float& cardPoints)
 {
-	
-	//move the deck sprite to its relative location if changing between fullscreen and windowed
-	if (keyboardArray[sf::Keyboard::F11])
-	{
-		
-		if (windowInfo.fullscreen == 1)
-		{
-		}
-		else
-		{
-			
-			deckSprite.xPos = windowInfo.windowedWidth * pixelSize*tileSize - ((windowInfo.tileReductionX*pixelSize*tileSize) / 2)-32;
-			deckSprite.yPos = (windowInfo.windowedHeight * pixelSize*tileSize) / 2.0-48 ;
-
-			//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
-
-			for (int i = 0; i < cardsInHand.size(); i++)
-			{
-				cardsInHand[i].previousYPos = cardsInHand[i].previousYPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight * 32);
-				cardsInHand[i].yPos = cardsInHand[i].yPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight*32);
-			}
-			
-		}
-	}
 
 	//MOTION
 

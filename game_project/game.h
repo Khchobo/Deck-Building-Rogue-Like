@@ -46,8 +46,8 @@ public:
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 
-		window.create(sf::VideoMode(windowedWidth *tileSize*pixelSize, windowedHeight *tileSize*pixelSize), "Game", sf::Style::Default, settings);
-
+		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
+		fullscreen = 1;
 		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 	}

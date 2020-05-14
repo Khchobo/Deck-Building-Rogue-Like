@@ -45,7 +45,9 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				continue;
 			}
 
-			std::vector<Point> v = lineOfSight(playerXPos, playerYPos, xPos, yPos);
+			A a;
+			std::vector<Point> v;
+			v = a.lineOfSight(playerXPos, playerYPos, xPos, yPos);
 
 			ActionPoint newActionPoint(xPos, yPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
 			for (int k = 0; k < v.size(); k++)
@@ -98,8 +100,9 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 
 				if (euclideanDistance<=tileRadius)
 				{
-					std::vector<Point> v = lineOfSight(playerXPos, playerYPos, i, j);
-
+					A a;
+					std::vector<Point> v;
+					v = a.lineOfSight(playerXPos, playerYPos, i, j);
 					for (int k = 0; k < v.size(); k++)
 					{
 						if (collision[v[k].y][v[k].x] == 1)

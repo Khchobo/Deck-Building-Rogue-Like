@@ -1,12 +1,13 @@
+#pragma once
+
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include <unordered_map>
 #include <string>
 #include <assert.h>
 #include "Animation.h"
-
-#ifndef ENTITY_HEADER
-#define ENTITY_HEADER
+#include "globalVariables.h"
+#include <minmax.h>
 
 class Entity
 {
@@ -29,8 +30,7 @@ public:
 	std::unordered_map<std::string,Animation> animationMap;
 
 	std::string currentAnimation;
-	int currentAnimationFrameNumber;
+	float animationFrameTime;
+	int animationFrame;
 
 };
-
-#endif

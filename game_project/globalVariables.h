@@ -1,10 +1,10 @@
 #pragma once
 #include "ImageManager.h"
 
-ImageManager imageManager;
+extern ImageManager imageManager;
 
 //how long the last frame lasted
-float frameTime;
+extern float frameTime;
 
 //overall run time
-float runTime;
+extern float runTime;

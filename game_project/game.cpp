@@ -56,8 +56,8 @@ void Game::initialiseBattleMode()
 	cardActionMap.reset();
 	cardsInHand.initialise(cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowedHeight, windowedWidth, fullscreen, tileReductionX);
 
-	windowWidth = windowedWidth - tileReductionX;
-	windowHeight = windowedHeight - tileReductionY;
+	windowWidth = sf::VideoMode::getDesktopMode().width / (tileSize*pixelSize) - tileReductionX;
+	windowHeight = sf::VideoMode::getDesktopMode().height / (tileSize*pixelSize) - tileReductionY;
 }
 
 void Game::resize()
@@ -92,6 +92,7 @@ void Game::resize()
 		fullscreen = 0;
 
 	}
+	cardsInHand.resize(windowInfo);
 }
 
 void Game::resizeVisibleField()

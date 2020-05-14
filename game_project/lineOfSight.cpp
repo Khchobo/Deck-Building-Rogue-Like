@@ -1,7 +1,7 @@
 #include "lineOfSight.h"
 
 
-std::vector<Point> lineOfSight(int x1, int y1, int x2, int y2)
+std::vector<Point> A::lineOfSight(int x1, int y1, int x2, int y2)
 {
 	std::vector<Point> v;
 

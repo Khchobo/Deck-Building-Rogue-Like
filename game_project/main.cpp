@@ -242,6 +242,10 @@ public:
 	}
 };
 
+ImageManager imageManager;
+float frameTime;
+float runTime;
+
 int main()
 {
 	srand(time(NULL));
