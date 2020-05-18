@@ -1,0 +1,51 @@
+#include <algorithm>
+#include "Point.h"
+#include "globalVariables.h"
+#include <vector>
+#include <string>
+#include "WindowInfo.h"
+#include <stdexcept>
+
+#ifndef STANDALONE_H
+#define STANDALONE_H
+
+namespace standaloneFunctions {
+
+	enum class Alignment {left, right, centre, top, bottom};
+	enum class Axis {x,y};
+
+	float easeInOut(float x);
+	std::vector<Point> lineOfSight(int x, int y, int x2, int y2);
+
+	/**
+	*Gives a position in the window in pixels based on an offset given in tiles from a
+	*particular side of the screen. This function will automatically handle fullscreen
+	*or windowed mode
+	*
+	*@param alignment The point on the screen to offset from. Can only take the following enum values:
+	*'Alignment::top', 'Alignment::centre', 'Alignment::bottom, 'Alignment::left', 'Alignment::right'
+	*
+	*@param axis The axis of the coordinate to be returned. Can only take enum values 'Axis::x', 'Axis::y'
+	*@param offset The offset from the alignment position, given in tiles
+	*@return The coordinate along the axis given in pixels
+	*/
+	float setPosition(Alignment alignment, Axis axis, float offset, WindowInfo windowInfo);
+	/**
+	*Gives a position in the window in pixels based on an offset given in tiles from a
+	*particular side of the screen. This function will automatically handle fullscreen
+	*or windowed mode
+	*
+	*@param alignment The point on the screen along parameter 'axis' to offset from, given in pixels.
+	*
+	*
+	*@param axis The axis of the coordinate to be returned. Can only take values 'x', 'y'
+	*@param offset The offset from the alignment position, given in tiles
+	*@return The coordinate along the axis given in pixels
+	*/
+	float setPosition(float alignment, Axis axis, float offset, WindowInfo windowInfo);
+
+	float setWindowSize(Axis axis, WindowInfo windowInfo);
+
+}
+
+#endif
