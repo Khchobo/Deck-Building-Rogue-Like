@@ -33,4 +33,6 @@ public:
 	float animationFrameTime;
 	int animationFrame;
 
+	int alignment;
+
 };

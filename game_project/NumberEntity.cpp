@@ -2,14 +2,14 @@
 #include <iostream>
 #include <assert.h>
 
-NumberEntity::NumberEntity() : digitTextures(10) { initialise(0, 0, 0, 0); }
+NumberEntity::NumberEntity() : digitTextures(10) { initialise(0, 0, 0); }
 
-NumberEntity::NumberEntity(float xPos, float yPos, int alignmentMode, int initialValue) : digitTextures(10)
+NumberEntity::NumberEntity(float xPos, float yPos, int initialValue) : digitTextures(10)
 {
-	initialise(xPos, yPos, alignmentMode, initialValue);
+	initialise(xPos, yPos, initialValue);
 }
 
-void NumberEntity::initialise(float x, float y, int a, int initialValue)
+void NumberEntity::initialise(float x, float y, int initialValue)
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -21,8 +21,6 @@ void NumberEntity::initialise(float x, float y, int a, int initialValue)
 
 	value = initialValue;
 
-	//0 for centred, 1 for left alignment, 2 for right alignment
-	alignmentMode = a;
 	xPos = x;
 	yPos = y;
 }

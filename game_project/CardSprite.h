@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "WindowInfo.h"
+#include "standaloneFunctions.h"
 
 class CardSprite : public Entity
 {

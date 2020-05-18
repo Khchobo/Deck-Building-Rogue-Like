@@ -39,9 +39,6 @@
     <ClCompile Include="CardSprite.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EaseInOut.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CardsInDeck.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
@@ -60,19 +57,16 @@
     <ClCompile Include="ActionPoint.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lineOfSight.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="Point.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lineOfSight.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="standaloneFunctions.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,9 +90,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CardSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="easeInOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CardsInDeck.h">
@@ -129,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="globalVariables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="standaloneFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,30 +24,34 @@ public:
 	TileMap tileMap;
 	int mapWidth, mapHeight;
 
-	//size of the screen in windowed mode
-	int windowedWidth, windowedHeight;
+	WindowInfo windowInfo;
 
-	//current screen size (changes when in fullscreen)
-	int windowWidth, windowHeight;
-
-	unsigned int tileSize = 16;
 	std::vector<std::vector<int>> collision;
 	sf::RenderWindow window;
-	unsigned int pixelSize = 2;
-
-
 
 	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize, std::vector<std::vector<int>> collision) :
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(pixelSize, tileSize), mapWidth(mapXSize), mapHeight(mapYSize),
-		windowedWidth(windowedWidth), windowedHeight(windowedHeight), collision(collision), cardsInHand(1), cardsInDeck(50)
+		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo), mapWidth(mapXSize),
+		mapHeight(mapYSize), collision(collision), cardsInHand(1), cardsInDeck(50)
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 
-		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
-		fullscreen = 1;
+		std::cout << windowInfo.fullscreen;
+		
+		windowInfo.setWindowedWidth(windowedWidth);
+		windowInfo.setWindowedHeight(windowedHeight);
+
+		switch (windowInfo.fullscreen) {
+		case(0):
+			window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels), "Game", sf::Style::Default);
+			break;
+		case(1):
+			window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Game", sf::Style::Fullscreen);
+			break;
+		}
+
 		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 	}
@@ -68,19 +72,10 @@ private:
 	//Determines which mode we are in. 0 is overworld movement, 1 is card fight.
 	int renderMode;
 
-	//How much to change the window size by in tiles if renderMode 1 is on
-	int tileReductionX;
-	int tileReductionY;
-
 	Player player;
-
-	//TODO boolify
-	int fullscreen = 0;
 
 	//TODO rename
 	int renderModeTimeout = 0;
-
-	WindowInfo windowInfo;
 
 	//TODO refactor??
 	//player distance from top and left edge
