@@ -50,46 +50,47 @@ void Game::loop()
 void Game::initialiseBattleMode()
 {
 	renderMode = 1;
-	tileReductionX = 8;
-	tileReductionY = 4;
+	windowInfo.UIWidth = 8;
+	windowInfo.UIHeight = 4;
 	cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	cardsInHand.initialise(cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowedHeight, windowedWidth, fullscreen, tileReductionX);
+	cardsInHand.initialise(cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo);
 
-	windowWidth = sf::VideoMode::getDesktopMode().width / (tileSize*pixelSize) - tileReductionX;
-	windowHeight = sf::VideoMode::getDesktopMode().height / (tileSize*pixelSize) - tileReductionY;
+	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
+	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 }
 
 void Game::resize()
 {
-	if (fullscreen == 0)
+	if (windowInfo.fullscreen == 0)
 	{
 
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
 
 		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
-		fullscreen = 1;
+		windowInfo.fullscreen = 1;
 	}
 	else
 	{
 
-		if (playerDistanceFromEdgeY > (windowedHeight - 1) * 16 * 2 - 80)
+		if (playerDistanceFromEdgeY > windowInfo.windowedHeightPixels-windowInfo.tileSizeInPixels - 80)
 		{
-			playerDistanceFromEdgeY = (windowedHeight - 1) * 16 * 2 - 80;
+			playerDistanceFromEdgeY = windowInfo.windowedHeightPixels - windowInfo.tileSizeInPixels - 80;
 		}
 
-		if (playerDistanceFromEdgeX > (windowedWidth - 1) * 16 * 2 - 80)
+		if (playerDistanceFromEdgeX > windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 80)
 		{
-			playerDistanceFromEdgeX = (windowedWidth - 1) * 16 * 2 - 80;
+			playerDistanceFromEdgeX = windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 80;
 		}
 
 		//TODO
-		window.create(sf::VideoMode(windowedWidth *tileSize*pixelSize, windowedHeight *tileSize*pixelSize), "SFMLtest", sf::Style::Default);
+		window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels),
+						"SFMLtest", sf::Style::Default);
 
 		//window.setFramerateLimit(60);
 		window.setVerticalSyncEnabled(true);
-		fullscreen = 0;
+		windowInfo.fullscreen = 0;
 
 	}
 	cardsInHand.resize(windowInfo);
@@ -97,17 +98,17 @@ void Game::resize()
 
 void Game::resizeVisibleField()
 {
-	if (fullscreen == 1)
+	if (windowInfo.fullscreen == 1)
 	{
 		//sets window size in tiles to desktop size
-		windowWidth = sf::VideoMode::getDesktopMode().width / (tileSize*pixelSize) - tileReductionX;
-		windowHeight = sf::VideoMode::getDesktopMode().height / (tileSize*pixelSize) - tileReductionY;
+		windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
+		windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 	}
 	else
 	{
 		//sets window size to preset values
-		windowWidth = windowedWidth - tileReductionX;
-		windowHeight = windowedHeight - tileReductionY;
+		windowInfo.setactiveSceneWidth(windowInfo.windowedWidthTiles - windowInfo.UIWidth);
+		windowInfo.setactiveSceneHeight(windowInfo.windowedHeightTiles - windowInfo.UIHeight);
 
 	}
 }
@@ -121,21 +122,11 @@ void Game::action()
 	//toggles between fullscreen and windowed mode. the function resize executes any code on the graphics to resize them accordingly
 	if (keyboardArray[sf::Keyboard::F11] && renderModeTimeout > 10)
 	{
-		std::cout << fullscreen;
 		resize();
 		resizeVisibleField();
 		keyboardArray[sf::Keyboard::F11] = false;
 		renderModeTimeout = 0;
 	}
-
-	windowInfo.fullscreen = fullscreen;
-	windowInfo.tileReductionX = tileReductionX;
-	windowInfo.tileReductionY = tileReductionY;
-	windowInfo.windowedHeight = windowedHeight;
-	windowInfo.windowedWidth = windowedWidth;
-	windowInfo.windowHeight = windowHeight;
-	windowInfo.windowWidth = windowWidth;
-
 				
 	if (keyboardArray[sf::Keyboard::F1] && renderModeTimeout > 10)
 	{
@@ -146,8 +137,8 @@ void Game::action()
 		else if (renderMode == 1)
 		{
 			renderMode = 0;
-			tileReductionX = 0;
-			tileReductionY = 0;
+			windowInfo.UIWidth = 0;
+			windowInfo.UIHeight = 0;
 		}
 
 		resizeVisibleField();
@@ -158,15 +149,16 @@ void Game::action()
 	
 	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo);
 
-	//TODO get all this insidie functions
+	//TODO refactor this so it happens within the player class
 	if (renderMode == 1)
 	{
 		int cardIndex = 10000;
 
 		player.cardPoints = min(static_cast<float>(player.cardPointsMax), player.cardPoints + player.cardPointRecoveryRate*frameTime);
 
-		player.cardPointsNumber.xPos = windowWidth * pixelSize*tileSize + 4 * 32;
-		player.cardPointsNumber.yPos = windowHeight * pixelSize*tileSize+3*32 ;
+		//TODO only need to set position on window resize
+		player.cardPointsNumber.xPos = windowInfo.activeSceneWidthPixels + 4 * 32;
+		player.cardPointsNumber.yPos = windowInfo.getWindowHeight()-32;
 		player.cardPointsNumber.value = static_cast<int>(player.cardPoints);
 
 		cardsInHand.action(keyboardArray, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, player.cardPoints);
@@ -205,7 +197,7 @@ void Game::draw()
 {
 
 	sf::Texture texture;
-	texture.create(mapWidth*tileSize*pixelSize, mapHeight*tileSize*pixelSize);
+	texture.create(mapWidth*windowInfo.tileSize*windowInfo.pixelSize, mapHeight*windowInfo.tileSize*windowInfo.pixelSize);
 
 	tileMap.draw(texture);
 	//player.draw(texture);
@@ -219,38 +211,40 @@ void Game::draw()
 	float xPosition, yPosition;
 
 	//determined by the players position as well as their distance from edge. however cant be further in either direction than the edge of the map
-	xPosition = max(static_cast<float>(-((mapWidth - windowWidth)*static_cast<int>(tileSize)*static_cast<int>(pixelSize))), min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
-	yPosition = max(static_cast<float>(-((mapHeight - windowHeight) * static_cast<int>(tileSize)*static_cast<int>(pixelSize))), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
+	xPosition = max(static_cast<float>(-((mapWidth - windowInfo.activeSceneWidthTiles)*static_cast<int>(windowInfo.tileSizeInPixels))),
+		min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
+	yPosition = max(static_cast<float>(-((mapHeight - windowInfo.activeSceneHeightTiles) * static_cast<int>(windowInfo.tileSizeInPixels))),
+		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
 
 
-	if (fullscreen == 1)
+	if (windowInfo.fullscreen == 1)
 	{
 		int desktopWidthPixels = sf::VideoMode::getDesktopMode().width;
 		int desktopHeightPixels = sf::VideoMode::getDesktopMode().height;
 
 		//width and height of the fullscreen window measured in tiles (rounded to nearest tile)
-		int desktopWidthTiles = desktopWidthPixels / (tileSize*pixelSize);
-		int desktopHeightTiles = desktopHeightPixels / (tileSize*pixelSize);
+		int desktopWidthTiles = desktopWidthPixels / (windowInfo.tileSize*windowInfo.pixelSize);
+		int desktopHeightTiles = desktopHeightPixels / (windowInfo.tileSize*windowInfo.pixelSize);
 
 		//if the fullscreen window is larger, centre it 
 		if (mapWidth < desktopWidthTiles)
 		{
-			xPosition = (sf::VideoMode::getDesktopMode().width / 2) - (((mapWidth+tileReductionX)*static_cast<int>(tileSize)*static_cast<int>(pixelSize)) / 2);
+			xPosition = (sf::VideoMode::getDesktopMode().width / 2) - (((mapWidth+ windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 		}
 		//otherwise, position as normal (using the exact desktop pixel size rather than rounded to the nearest tile)
 		else
 		{
-			xPosition = max(static_cast<float>(-(((mapWidth+tileReductionX)*static_cast<int>(tileSize)*static_cast<int>(pixelSize)) - desktopWidthPixels)), min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
+			xPosition = max(static_cast<float>(-(((mapWidth+ windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopWidthPixels)), min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
 		}
 
 
 		if (mapHeight < desktopHeightTiles)
 		{
-			yPosition = (sf::VideoMode::getDesktopMode().height / 2) - ((mapHeight*static_cast<int>(tileSize)*static_cast<int>(pixelSize)) / 2);
+			yPosition = (sf::VideoMode::getDesktopMode().height / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 		}
 		else
 		{
-			yPosition = max(static_cast<float>(-(((mapHeight+tileReductionY)*static_cast<int>(tileSize)*static_cast<int>(pixelSize)) - desktopHeightPixels)), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
+			yPosition = max(static_cast<float>(-(((mapHeight+ windowInfo.UIHeight)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopHeightPixels)), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
 		}
 	}
 	sprite.setPosition(xPosition, yPosition);
@@ -264,12 +258,12 @@ void Game::draw()
 	if (renderMode == 1)
 	{
 		//occludes the bottom and right part of the screen
-		sf::RectangleShape blackoutRectBottom(sf::Vector2f(windowWidth*pixelSize*tileSize,pixelSize*tileSize*tileReductionY));
-		sf::RectangleShape blackoutRectRight(sf::Vector2f(pixelSize*tileSize*tileReductionX, (windowHeight+tileReductionY)*pixelSize*tileSize));
+		sf::RectangleShape blackoutRectBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, windowInfo.tileSizeInPixels*windowInfo.UIHeight));
+		sf::RectangleShape blackoutRectRight(sf::Vector2f(windowInfo.tileSizeInPixels*windowInfo.UIWidth, (windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight)*windowInfo.tileSizeInPixels));
 
 		//creates a line white line to delineate the bottom and right parts of screen
-		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowWidth*pixelSize*tileSize, 1));
-		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowHeight+tileReductionY+1)*pixelSize*tileSize));
+		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, 1));
+		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight+1)*windowInfo.tileSizeInPixels));
 
 		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.cardPointsMax)*6*32,16));
 		cardPoints.setFillColor(sf::Color::White);
@@ -281,30 +275,30 @@ void Game::draw()
 		delineatingLineRight.setFillColor(sf::Color::White);
 
 		//if fullscreen, set position according to exact distance frm edge of screen (not tile aligned)
-		if (fullscreen == 1)
+		if (windowInfo.fullscreen == 1)
 		{
-			blackoutRectBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height)-tileReductionY*pixelSize*tileSize);
-			blackoutRectRight.setPosition(sf::VideoMode::getDesktopMode().width - (tileReductionX * pixelSize*tileSize), 0);
+			blackoutRectBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height)- windowInfo.UIHeight*windowInfo.tileSizeInPixels);
+			blackoutRectRight.setPosition(sf::VideoMode::getDesktopMode().width - (windowInfo.UIWidth * windowInfo.tileSizeInPixels), 0);
 
-			delineatingLineBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height) - tileReductionY * pixelSize*tileSize);
-			delineatingLineRight.setPosition((sf::VideoMode::getDesktopMode().width) - tileReductionX * pixelSize*tileSize,0);
+			delineatingLineBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight * windowInfo.tileSizeInPixels);
+			delineatingLineRight.setPosition((sf::VideoMode::getDesktopMode().width) - windowInfo.UIWidth * windowInfo.tileSizeInPixels,0);
 
 		}
 
 		//if windowed, use tile alignment
 		else
 		{
-			blackoutRectBottom.setPosition(0, windowHeight*pixelSize*tileSize);
-			blackoutRectRight.setPosition(windowWidth*pixelSize*tileSize, 0);
+			blackoutRectBottom.setPosition(0, windowInfo.activeSceneHeightPixels);
+			blackoutRectRight.setPosition(windowInfo.activeSceneWidthPixels, 0);
 
-			delineatingLineBottom.setPosition(0, windowHeight*pixelSize*tileSize);
-			delineatingLineRight.setPosition(windowWidth*pixelSize*tileSize,0);
+			delineatingLineBottom.setPosition(0, windowInfo.activeSceneHeightPixels);
+			delineatingLineRight.setPosition(windowInfo.activeSceneWidthPixels,0);
 
 			
 		}
 
-		cardPoints.setPosition(windowWidth*pixelSize*tileSize + 1 * pixelSize*tileSize, windowHeight*pixelSize*tileSize + 96);
-
+		cardPoints.setPosition(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 32);
+		
 		//draw them to the window
 		window.draw(blackoutRectBottom);
 		window.draw(blackoutRectRight);

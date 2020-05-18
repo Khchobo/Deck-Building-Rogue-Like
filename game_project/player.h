@@ -13,21 +13,23 @@
 #include "WindowInfo.h"
 #include "NumberEntity.h"
 #include "globalVariables.h"
+#include "standaloneFunctions.h"
+
 using namespace std;
 
 class Player : public Entity
 {
 public:
 
-	Player(unsigned int pixelSize, unsigned int tileSize) :  pixelSize(pixelSize), tileSize(tileSize)
+	Player(WindowInfo windowInfo)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
 
 		currentXTilePos = 2;
 		currentYTilePos = 2;
 
-		xPos = currentXTilePos * pixelSize*tileSize;
-		yPos = currentYTilePos * pixelSize*tileSize;
+		xPos = currentXTilePos * windowInfo.tileSizeInPixels;
+		yPos = currentYTilePos * windowInfo.tileSizeInPixels;
 
 	}
 
@@ -58,9 +60,6 @@ private:
 
 	//0 for classic continuous movement (unused), 1 for new discrete jumping
 	unsigned int movementMode=1;
-	
-	unsigned int pixelSize;
-	unsigned int tileSize;
 
 	//movement speed for continuous motion
 	const float speed = 400;

@@ -17,7 +17,7 @@ public:
 		cardsInHand[selected].offset = 1;
 	}
 
-	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, int windowedHeight,int windowedWidth, int fullscreen, int tileReductionX);
+	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo);
 
 	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
 
@@ -42,8 +42,7 @@ private:
 
 	sf::Text text;
 	sf::Font font;
-	int pixelSize = 2;
-	int tileSize = 16;
+
 	Entity deckSprite;
 	NumberEntity noOfCardsInHand;
 	unsigned int selected;

@@ -1,28 +1,34 @@
 #include "Entity.h"
 
-
-void Entity::initialise(std::string fileName,float x, float y,bool offset)
+//alignmentMode is whether to position relative to the top right corner or the middle of the texture.
+void Entity::initialise(std::string fileName,float x, float y,bool alignmentMode)
 {
-	//offset is whether to position relative to the top right corner or the middle of the texture.
 	
+	alignment = alignmentMode;
+
 	texture.loadFromFile(fileName);
 	sprite.setTexture(texture);
 
-	if (offset==0)
-	{
-		xPos = x;
-		yPos = y;
-	}
-	else
-	{
-		xPos = x-texture.getSize().x/2;
-		yPos = y- texture.getSize().y / 2;
-	}
+	xPos = x;
+	yPos = y;
+	
 }
 
 void Entity::draw(sf::RenderWindow& window)
 {
-	sprite.setPosition(xPos, yPos);
+	switch (alignment)
+	{
+	case(0):
+		sprite.setPosition(xPos, yPos);
+		break;
+	case(1):
+		sprite.setPosition(xPos - texture.getSize().x / 2, yPos - texture.getSize().y / 2);
+		break;
+	default:
+		throw std::invalid_argument("alignment only takes 0 or 1");
+		break;
+	}
+
 	window.draw(sprite);
 }
 

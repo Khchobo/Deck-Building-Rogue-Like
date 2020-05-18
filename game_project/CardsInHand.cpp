@@ -3,10 +3,12 @@
 #include <vector>
 #include <assert.h>
 #include <iomanip>
-#include "easeInOut.h"
 #include <string>
 #include <sstream>
 
+using namespace standaloneFunctions;
+
+#define ALIGN Alignment
 
 //print information about the card to console (its ID and name) DEBUG
 
@@ -60,25 +62,32 @@ void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& 
 	window.draw(text);
 }
 
-void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, int windowedHeight, int windowedWidth, int fullscreen,int tileReductionX)
+void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo)
 {
 	font.loadFromFile("assets/minecraft.ttf");
 	text.setFont(font);
 	text.setCharacterSize(16);
-	if (fullscreen == 0)
-	{
-		deckSprite.initialise("assets/card2.png", windowedWidth*pixelSize*tileSize - ((tileReductionX*pixelSize*tileSize) / 2), windowedHeight / 2 * pixelSize*tileSize, 1);
-		text.setPosition(windowedWidth*pixelSize*tileSize - (tileReductionX - 1)*pixelSize*tileSize, (windowedHeight / 2 + 3) * pixelSize*tileSize);
 
-	}
-	else
-	{
-		deckSprite.initialise("assets/card2.png", sf::VideoMode::getDesktopMode().width - ((tileReductionX*pixelSize*tileSize) / 2), sf::VideoMode::getDesktopMode().height/2.0, 1);
-		text.setPosition(sf::VideoMode::getDesktopMode().width - (tileReductionX - 1)*pixelSize*tileSize, sf::VideoMode::getDesktopMode().height/2.0+3 * pixelSize*tileSize);
-	}
+	//temporary values for x & y for readability
+
+	//offset from right of screen by half the width of the UI box
+	float initialX = setPosition(ALIGN::right,Axis::x,-((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2),windowInfo);
+	//centred vertically
+	float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+
+	deckSprite.initialise("assets/card2.png", initialX, initialY, 1);
+
+	//one tile to the right from the edge of the UI box
+	initialX = setPosition(ALIGN::right, Axis::x,- (windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
+	//3 tiles lower than centre
+	initialY = setPosition(ALIGN::centre, Axis::y, 3*windowInfo.tileSizeInPixels, windowInfo);
+
+	text.setPosition(initialX, initialY);
+	
 	cardsInHand.clear();
-	std::cout << cardsRemaining.size();
-	noOfCardsInHand.initialise(deckSprite.xPos+(deckSprite.texture.getSize().x/2.0), deckSprite.yPos + (deckSprite.texture.getSize().y / 2.0), 0, cardsRemaining.size());
+
+	noOfCardsInHand.initialise(deckSprite.xPos, deckSprite.yPos, cardsRemaining.size());
+
 	drawCard(cardsInDeck,cardsRemaining);
 	drawCard(cardsInDeck, cardsRemaining);
 	drawCard(cardsInDeck, cardsRemaining);
@@ -103,24 +112,35 @@ void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 //move the deck sprite to its relative location if changing between fullscreen and windowed
 void CardsInHand::resize(WindowInfo windowInfo)
 {
-	std::cout << "test";
-	if (windowInfo.fullscreen == 0)
+
+	float tempX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
+	float tempY = setPosition(ALIGN::centre, Axis::y, 3 * windowInfo.tileSizeInPixels, windowInfo);
+
+	text.setPosition(tempX, tempY);
+
+	deckSprite.xPos = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
+
+	//centred as it is moved up by 48 i.e. half the length of the card
+	deckSprite.yPos = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+
+	noOfCardsInHand.xPos = deckSprite.xPos;
+	noOfCardsInHand.yPos = deckSprite.yPos;
+
+	if (windowInfo.fullscreen == 1)
 	{
-		//TODO
+		for (int i = 0; i < cardsInHand.size(); i++)
+		{
+			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].yPos = cardsInHand[i].yPos + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+		}
 	}
 	else
 	{
-		text.setPosition(windowInfo.windowedWidth*pixelSize*tileSize - (windowInfo.tileReductionX - 1)*pixelSize*tileSize, (windowInfo.windowedHeight / 2 + 3) * pixelSize*tileSize);
-
-		deckSprite.xPos = windowInfo.windowedWidth * pixelSize*tileSize - ((windowInfo.tileReductionX*pixelSize*tileSize) / 2) - 32;
-		deckSprite.yPos = (windowInfo.windowedHeight * pixelSize*tileSize) / 2.0 - 48;
-
-		std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
 
 		for (int i = 0; i < cardsInHand.size(); i++)
 		{
-			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight * 32);
-			cardsInHand[i].yPos = cardsInHand[i].yPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeight * 32);
+			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].yPos = cardsInHand[i].yPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
 		}
 
 	}
@@ -241,12 +261,7 @@ void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& c
 		{
 			cardsInHand[i].move(i, windowInfo);
 		}
-
-		
 	}
-
-
-
 }
 
 void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining)

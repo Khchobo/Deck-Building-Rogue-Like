@@ -130,16 +130,14 @@
     <ClCompile Include="CardsInDeck.cpp" />
     <ClCompile Include="CardsInHand.cpp" />
     <ClCompile Include="CardSprite.cpp" />
-    <ClCompile Include="EaseInOut.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
-    <ClCompile Include="lineOfSight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NumberEntity.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="lineOfSight.h" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="standaloneFunctions.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileType.cpp" />
     <ClCompile Include="WindowInfo.cpp" />
@@ -152,7 +150,6 @@
     <ClInclude Include="CardsInDeck.h" />
     <ClInclude Include="CardsInHand.h" />
     <ClInclude Include="CardSprite.h" />
-    <ClInclude Include="easeInOut.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="globalVariables.h" />
@@ -160,6 +157,7 @@
     <ClInclude Include="NumberEntity.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="standaloneFunctions.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileType.h" />
     <ClInclude Include="WindowInfo.h" />

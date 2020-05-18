@@ -2,7 +2,7 @@
 #include "CardsInDeck.h"
 #include "ActionPoint.h"
 #include "Point.h"
-#include "lineOfSight.h"
+#include "standaloneFunctions.h"
 
 //Class that stores information about all the card actions occuring on the map and can pass
 //their locations to the tileMap to update the tiles accordingly

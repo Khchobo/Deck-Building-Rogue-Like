@@ -1,6 +1,5 @@
 #include "CardSprite.h"
 #include <iostream>
-#include "easeInOut.h"
 #include "globalVariables.h"
 
 
@@ -73,32 +72,32 @@ void CardSprite::move(int i, WindowInfo windowInfo)
 		{
 			
 
-			yPos = previousYPos - (easeInOut(motionPercentage) * 32);
+			yPos = previousYPos - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
 		case(1):
 		{
-			yPos = previousYPos + (easeInOut(motionPercentage) * 32);
+			yPos = previousYPos + (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
 		case(2):
 		//test	
-			xPos = (previousXPos* (1 - easeInOut(motionPercentage)) + (i * 32)*( (easeInOut(motionPercentage))));
+			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*( (standaloneFunctions::easeInOut(motionPercentage))));
 			//std::cout << xPos<<std::endl;
 			if (windowInfo.fullscreen == 0) 
 			{ 
-				yPos = previousYPos* (1-easeInOut(motionPercentage)) + ((windowInfo.windowHeight + 1) * 32)*(easeInOut(motionPercentage));
+				yPos = previousYPos* (1- standaloneFunctions::easeInOut(motionPercentage)) + ((windowInfo.activeSceneHeightTiles + 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
 			}
 			else { 
-				yPos = previousYPos* (1-easeInOut(motionPercentage)) + (sf::VideoMode::getDesktopMode().height - (windowInfo.tileReductionY - 1) * 32)*(easeInOut(motionPercentage));
+				yPos = previousYPos* (1- standaloneFunctions::easeInOut(motionPercentage)) + (sf::VideoMode::getDesktopMode().height - (windowInfo.UIHeight - 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
 			}
 		case(3):
-			xPos = (previousXPos* (1 - easeInOut(motionPercentage)) + (i * 32)*((easeInOut(motionPercentage))));
+			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
 			
 			break;
 		case(4):
-			xPos = (previousXPos* (1 - easeInOut(motionPercentage)) + (i * 32)*((easeInOut(motionPercentage))));
-			yPos = previousYPos - (easeInOut(motionPercentage) * 32);
+			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
+			yPos = previousYPos - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 		default:
 			break;
 		}
