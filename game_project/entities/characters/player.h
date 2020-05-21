@@ -14,23 +14,23 @@
 #include "entities\other\NumberEntity.h"
 #include "BattlingCharacter.h"
 #include "globalVariables.h"
+#include "BattlingCharacterType.h"
 #include "standaloneFunctions.h"
 #include "CardActionMap.h"
+
 using namespace std;
 
 class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo) : cardsInHand(1), cardsInDeck(50)
+	Player(WindowInfo windowInfo, BattlingCharacterType& type) : BattlingCharacter(type), cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
 
 		cardPoints = 50;
-		cardPointsMax = 200;
-		cardPointRecoveryRate = 12.5; //in points per second
 		cardPointsStepCost = 5;
-
+		
 		currentXTilePos = 2;
 		currentYTilePos = 2;
 
@@ -45,7 +45,7 @@ public:
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
 		std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap);
 
-	bool checkForMotion(std::map<int, bool> keyboardArray, int& direction);
+	bool checkForMotion(std::map<int, bool> keyboardArray);
 
 	void resize(WindowInfo windowInfo);
 

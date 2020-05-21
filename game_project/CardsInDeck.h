@@ -10,7 +10,7 @@ class CardsInDeck
 {
 public:
 	
-	CardsInDeck();
+	CardsInDeck() {};
 
 	CardsInDeck(int n): cardsInDeck(n), cardsRemaining(n)
 	{

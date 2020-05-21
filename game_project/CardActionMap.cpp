@@ -20,6 +20,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 		{
 			int xPos;
 			int yPos;
+			
 			switch (direction)
 			{
 			case(0):
@@ -37,6 +38,9 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			case(3):
 				xPos = playerXPos + 1 + i;
 				yPos = playerYPos;
+				break;
+			default:
+				assert(false);
 				break;
 			}
 
@@ -56,7 +60,6 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 					goto line_finish;
 				}
 			}
-
 			cardActionMap.push_back(newActionPoint);
 
 		line_finish:;

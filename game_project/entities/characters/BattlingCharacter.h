@@ -3,15 +3,17 @@
 #include "standaloneFunctions.h"
 #include "cardsInHand.h"
 #include "CardsInDeck.h"
+#include "BattlingCharacterType.h"
 
 using namespace standaloneFunctions;
 
 class BattlingCharacter : public Entity
 {
 public:
-	BattlingCharacter();
 
-	float cardPoints, cardPointsMax, cardPointRecoveryRate; //in points per second
+	BattlingCharacter(BattlingCharacterType& type);
+
+	float cardPoints;
 
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
@@ -23,6 +25,8 @@ public:
 
 	CardsInHand cardsInHand;
 	CardsInDeck cardsInDeck;
+
+	BattlingCharacterType& type;
 
 protected:
 
@@ -44,8 +48,7 @@ protected:
 	bool inMotion = false;
 	//how far the motion the character is, 0 in beginning and 1 is end.
 	float motionPercentage;
-	//how long tile motion takes for tile based motion
-	float motionTime = 0.15;
+	
 
 };
 

@@ -1,6 +1,6 @@
 #include "player.h"
 
-bool Player::checkForMotion(std::map<int, bool> keyboardArray,int& direction)
+bool Player::checkForMotion(std::map<int, bool> keyboardArray)
 {
 	bool flag = false;
 	if (keyboardArray[sf::Keyboard::W])
@@ -40,8 +40,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 {
 	//PLAYER MOTION
 
-	int direction;
-	bool flag=checkForMotion(keyboardArray,direction);
+	bool flag=checkForMotion(keyboardArray);
 	
 	if (flag && cardPoints>cardPointsStepCost && !(inMotion))
 	{
@@ -63,7 +62,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	{
 		int cardIndex = 10000;
 
-		cardPoints = min(static_cast<float>(cardPointsMax), cardPoints + cardPointRecoveryRate*frameTime);
+		cardPoints = min(static_cast<float>(type.cardPointsMax), cardPoints + type.cardPointRecoveryRate*frameTime);
 
 		cardPointsNumber.value = static_cast<int>(cardPoints);
 

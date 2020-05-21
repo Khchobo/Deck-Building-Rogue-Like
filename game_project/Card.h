@@ -25,6 +25,7 @@ public:
 	int cardPointCost;
 
 private:
+	//TODO move into data file
 	const std::vector<std::string> adjectives = {"Flowing","Graceful","Evil","Dangerous","Beautiful",
 											"Shining","Dancing","Shaky","Ghastly",
 											"Mysterious","Puzzling",

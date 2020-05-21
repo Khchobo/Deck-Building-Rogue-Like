@@ -14,7 +14,7 @@
 #include "CardsInDeck.h"
 #include "WindowInfo.h"
 #include "cardActionMap.h"
-
+#include "BattlingCharacterType.h"
 
 class Game
 {
@@ -29,9 +29,10 @@ public:
 	std::vector<std::vector<int>> collision;
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize, std::vector<std::vector<int>> collision) :
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo), mapWidth(mapXSize),
-		mapHeight(mapYSize), collision(collision)
+	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize,
+		std::vector<std::vector<int>> collision, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
+		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo, battlingCharacterTypes["player"]), mapWidth(mapXSize),
+		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes)
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -62,6 +63,8 @@ private:
 
 	CardActionMap cardActionMap;
 
+	std::map<std::string, BattlingCharacterType> battlingCharacterTypes;
+
 	std::map<int,bool> keyboardArray;
 
 	sf::Clock clock;
@@ -85,5 +88,4 @@ private:
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();
-
 };

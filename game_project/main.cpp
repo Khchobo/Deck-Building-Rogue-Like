@@ -148,7 +148,11 @@ TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileT
 
 	if (openingMode == 0)
 	{
-		Game game(windowedWidth, windowedHeight, gameMapInfo1, mapXSize, mapYSize, map1Collision);
+		//TODO move this into an entity handler class
+		std::map<std::string, BattlingCharacterType> battlingCharacterTypes;
+		battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>("player", BattlingCharacterType("player")));
+
+		Game game(windowedWidth, windowedHeight, gameMapInfo1, mapXSize, mapYSize, map1Collision,battlingCharacterTypes);
 
 		game.loop();
 	}

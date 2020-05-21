@@ -198,7 +198,7 @@ void Game::draw()
 	yPosition = max(static_cast<float>(-((mapHeight - windowInfo.activeSceneHeightTiles) * static_cast<int>(windowInfo.tileSizeInPixels))),
 		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
 
-
+	//TODO see if you can make the position definitions in this block more readable by using the new WindowInfo methods
 	if (windowInfo.fullscreen == 1)
 	{
 		int desktopWidthPixels = sf::VideoMode::getDesktopMode().width;
@@ -247,7 +247,7 @@ void Game::draw()
 		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, 1));
 		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight+1)*windowInfo.tileSizeInPixels));
 
-		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.cardPointsMax)*6*32,16));
+		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.type.cardPointsMax)*6*32,16));
 		cardPoints.setFillColor(sf::Color::White);
 
 		blackoutRectBottom.setFillColor(sf::Color::Black);
@@ -300,7 +300,7 @@ void Game::draw()
 
 void Game::initialise()
 	{
-
 		tileMap.initialise();
 		initialiseBattleMode();
 	}
+

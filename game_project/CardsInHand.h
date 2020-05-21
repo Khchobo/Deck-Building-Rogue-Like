@@ -10,6 +10,9 @@
 static class CardsInHand: public Entity
 {
 public:
+
+	CardsInHand(){}
+
 	CardsInHand(int x) : cardsInHand(x)
 	{
 		selected = rand() % x;

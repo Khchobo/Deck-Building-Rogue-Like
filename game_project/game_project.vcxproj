@@ -123,25 +123,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BattlingCharacter.cpp" />
     <ClCompile Include="ActionPoint.cpp" />
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="BattlingCharacterType.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardActionMap.cpp" />
     <ClCompile Include="CardsInDeck.cpp" />
     <ClCompile Include="CardsInHand.cpp" />
-    <ClCompile Include="CardSprite.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="entities\characters\BattlingCharacter.cpp" />
     <ClCompile Include="entities\characters\player.cpp" />
     <ClCompile Include="entities\other\CardSprite.cpp" />
     <ClCompile Include="entities\other\Entity.cpp" />
     <ClCompile Include="entities\other\NumberEntity.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NumberEntity.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -151,23 +149,20 @@
   <ItemGroup>
     <ClInclude Include="ActionPoint.h" />
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="BattlingCharacter.h" />
+    <ClInclude Include="BattlingCharacterType.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardActionMap.h" />
     <ClInclude Include="CardsInDeck.h" />
     <ClInclude Include="CardsInHand.h" />
-    <ClInclude Include="CardSprite.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="entities\characters\BattlingCharacter.h" />
     <ClInclude Include="entities\characters\player.h" />
     <ClInclude Include="entities\other\CardSprite.h" />
     <ClInclude Include="entities\other\Entity.h" />
     <ClInclude Include="entities\other\NumberEntity.h" />
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="globalVariables.h" />
     <ClInclude Include="ImageManager.h" />
-    <ClInclude Include="NumberEntity.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="standaloneFunctions.h" />
     <ClInclude Include="TileMap.h" />
@@ -175,6 +170,7 @@
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\data\characters\player\data.json" />
     <None Include="fixedColourShader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
