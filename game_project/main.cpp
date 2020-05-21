@@ -2,195 +2,6 @@
 #include "ImageManager.h"
 using namespace std;
 
-class Tile : public sf::Drawable
-{
-public:
-
-	std::vector<int> pixelColourMapOld;
-	std::vector<std::vector<int>> pixelColourMap;
-
-	//constructor
-	Tile() {}
-
-	//Create vertex array of size large enough depending on tileSize
-	Tile(unsigned int tileSize) : quads(sf::Quads, tileSize*tileSize * 4), tileSize(tileSize)
-	{
-	}
-
-	//Set vertex positions for this tile
-	//TODO remove flag, unused
-	void setVertexPositions(sf::Vector2u relativeLocation, unsigned int pixelSize, bool flag)
-	{
-		//Over each pixel
-
-
-		for (unsigned int i = 0; i < tileSize*tileSize; i++)
-		{
-			/*
-				//Determins which x and y we are on based on i value
-				int xPos = i % tileSize;
-				int yPos = floor(i / static_cast<float>(tileSize));
-
-
-
-					quads[4 * i].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize, relativeLocation.y + yPos * pixelSize);
-					quads[4 * i + 1].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize + pixelSize, relativeLocation.y + yPos * pixelSize);
-					quads[4 * i + 3].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize, relativeLocation.y + yPos * pixelSize + pixelSize);
-					quads[4 * i + 2].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize + pixelSize, relativeLocation.y + yPos * pixelSize + pixelSize);
-
-				*/
-		}
-
-	}
-
-	void setVertexColour(sf::Vector2u relativeLocation, unsigned int pixelSize)
-	{
-		for (unsigned int i = 0; i < tileSize*tileSize; i++)
-		{
-			if (pixelColourMapOld[i] == 1)
-			{
-				int xPos = i % tileSize;
-				int yPos = i / tileSize;
-
-
-
-				quads[4 * i].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize, relativeLocation.y + yPos * pixelSize);
-				quads[4 * i + 1].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize + pixelSize, relativeLocation.y + yPos * pixelSize);
-				quads[4 * i + 3].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize, relativeLocation.y + yPos * pixelSize + pixelSize);
-				quads[4 * i + 2].position = sf::Vector2f(relativeLocation.x + xPos * pixelSize + pixelSize, relativeLocation.y + yPos * pixelSize + pixelSize);
-			}
-
-		}
-	}
-
-	void setVertexColourNew()
-	{
-		for (unsigned int i = 0; i < tileSize*tileSize * 4; i++)
-		{
-			quads[i].color = sf::Color::Black;
-		}
-
-		for (unsigned int i = 0; i < pixelColourMap.size(); i++)
-		{
-			quads[4 * pixelColourMap[i][0]].color = sf::Color(pixelColourMap[i][1], pixelColourMap[i][2], pixelColourMap[i][3]);
-			quads[4 * pixelColourMap[i][0] + 1].color = sf::Color(pixelColourMap[i][1], pixelColourMap[i][2], pixelColourMap[i][3]);
-			quads[4 * pixelColourMap[i][0] + 2].color = sf::Color(pixelColourMap[i][1], pixelColourMap[i][2], pixelColourMap[i][3]);
-			quads[4 * pixelColourMap[i][0] + 3].color = sf::Color(pixelColourMap[i][1], pixelColourMap[i][2], pixelColourMap[i][3]);
-
-
-		}
-	}
-
-private:
-
-	bool test()
-	{
-		return 1;
-	}
-
-
-
-	sf::VertexArray quads;
-	unsigned int tileSize;
-	//TODO ONLY DRAW IF NONBLACK
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		target.draw(quads);
-	}
-
-};
-
-struct PixelColourMapsOld
-{
-
-
-	const std::vector<int> tic_tac =
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0,
-0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	};
-};
-
-void ArrayFromImageMethod2(std::string filename)
-{
-	sf::Image image;
-	image.loadFromFile(filename + ".png");
-
-	ofstream myfile;
-	myfile.open(filename + ".txt");
-
-	myfile << "{";
-
-	int count = 0;
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 16; j++)
-		{
-			if (image.getPixel(j, i) != sf::Color(0, 0, 0))
-			{
-				myfile << "{" << count << "," << (int)image.getPixel(j, i).r
-					<< "," << (int)image.getPixel(j, i).g << "," << (int)image.getPixel(j, i).b << "},";
-
-			}
-			count++;
-		}
-
-	}
-	myfile << "};";
-	myfile.close();
-}
-
-class ArrayFromImageMethod1
-{
-public:
-	ArrayFromImageMethod1(std::string filename)
-	{
-		//sf::RenderWindow window;
-		//window.create(sf::VideoMode(16,16), "ArrayFromImage", sf::Style::Default);
-		sf::Image image;
-		image.loadFromFile(filename);
-
-		ofstream myfile;
-		myfile.open("example.txt");
-
-		myfile << "{";
-
-		for (int i = 0; i < 16; i++)
-		{
-			for (int j = 0; j < 16; j++)
-			{
-				if (image.getPixel(j, i) == sf::Color(255, 255, 255))
-				{
-					myfile << "1";
-				}
-				else {
-					myfile << "0";
-				}
-				myfile << ",";
-			}
-
-			myfile << "\n";
-		}
-		myfile << "};";
-		myfile.close();
-	}
-
-
-};
-
 class MapFromImage
 {
 public:
@@ -258,8 +69,6 @@ int main()
 
 	int mapXSize = 40;
 	int mapYSize = 35;
-
-	//std::vector<TileType> gameMapInfo(xSize*ySize, TileType::wall);
 
 	std::vector<TileType> gameMapInfo1 =
 	{ TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,
@@ -341,28 +150,9 @@ TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileType::wall,TileT
 	{
 		Game game(windowedWidth, windowedHeight, gameMapInfo1, mapXSize, mapYSize, map1Collision);
 
-		/*
-		for(int i=0;i<100;i++)
-		{
-			cout.precision(200);
-			long double numb = 1;
-			for (int j = 0; j < 10; j++)
-			{
-				numb = numb * static_cast<long double>(rand());
-			}
-			std::cout << numb << std::endl;
-		}
-		*/
 		game.loop();
 	}
 	else if (openingMode == 1)
-	{
-		ArrayFromImageMethod2("tic_tac");
-		ArrayFromImageMethod2("rock_0");
-		ArrayFromImageMethod2("air_0");
-		ArrayFromImageMethod2("flowers_0");
-	}
-	else if (openingMode == 2)
 	{
 		MapFromImage mapFromImage("map.png");
 	}

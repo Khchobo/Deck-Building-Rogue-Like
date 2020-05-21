@@ -3,8 +3,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include "Card.h"
-#include "CardSprite.h"
-#include "NumberEntity.h"
+#include "entities\other\CardSprite.h"
+#include "entities\other\NumberEntity.h"
 #include "WindowInfo.h"
 #include "globalVariables.h"
 static class CardsInHand: public Entity

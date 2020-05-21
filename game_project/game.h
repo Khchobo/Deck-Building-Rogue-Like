@@ -9,7 +9,7 @@
 #include "SFML/System.hpp"
 #include <assert.h>
 #include <time.h>
-#include "player.h"
+#include "entities\characters\player.h"
 #include "TileMap.h"
 #include "CardsInDeck.h"
 #include "WindowInfo.h"

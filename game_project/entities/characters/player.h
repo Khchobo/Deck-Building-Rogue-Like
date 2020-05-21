@@ -11,7 +11,7 @@
 #include <time.h>
 #include "CardsInHand.h"
 #include "WindowInfo.h"
-#include "NumberEntity.h"
+#include "entities\other\NumberEntity.h"
 #include "BattlingCharacter.h"
 #include "globalVariables.h"
 #include "standaloneFunctions.h"

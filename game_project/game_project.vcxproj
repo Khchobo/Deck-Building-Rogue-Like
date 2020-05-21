@@ -99,7 +99,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\include;C:\Users\Matthew\source\repos\game_project\game_project</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -131,6 +131,11 @@
     <ClCompile Include="CardsInDeck.cpp" />
     <ClCompile Include="CardsInHand.cpp" />
     <ClCompile Include="CardSprite.cpp" />
+    <ClCompile Include="entities\characters\BattlingCharacter.cpp" />
+    <ClCompile Include="entities\characters\player.cpp" />
+    <ClCompile Include="entities\other\CardSprite.cpp" />
+    <ClCompile Include="entities\other\Entity.cpp" />
+    <ClCompile Include="entities\other\NumberEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
@@ -152,6 +157,11 @@
     <ClInclude Include="CardsInDeck.h" />
     <ClInclude Include="CardsInHand.h" />
     <ClInclude Include="CardSprite.h" />
+    <ClInclude Include="entities\characters\BattlingCharacter.h" />
+    <ClInclude Include="entities\characters\player.h" />
+    <ClInclude Include="entities\other\CardSprite.h" />
+    <ClInclude Include="entities\other\Entity.h" />
+    <ClInclude Include="entities\other\NumberEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="globalVariables.h" />

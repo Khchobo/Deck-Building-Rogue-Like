@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.h"
+#include "entities\other\Entity.h"
 #include "standaloneFunctions.h"
 #include "cardsInHand.h"
 #include "CardsInDeck.h"
