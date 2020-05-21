@@ -62,35 +62,39 @@ void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& 
 	window.draw(text);
 }
 
-void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo)
+void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo,std::string identifier)
 {
-	font.loadFromFile("assets/minecraft.ttf");
-	text.setFont(font);
-	text.setCharacterSize(16);
-
-	//temporary values for x & y for readability
-
-	//offset from right of screen by half the width of the UI box
-	float initialX = setPosition(ALIGN::right,Axis::x,-((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2),windowInfo);
-	//centred vertically
-	float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
-
-	deckSprite.initialise("assets/card2.png", initialX, initialY, 1);
-
-	//one tile to the right from the edge of the UI box
-	initialX = setPosition(ALIGN::right, Axis::x,- (windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
-	//3 tiles lower than centre
-	initialY = setPosition(ALIGN::centre, Axis::y, 3*windowInfo.tileSizeInPixels, windowInfo);
-
-	text.setPosition(initialX, initialY);
 	
 	cardsInHand.clear();
+	if (identifier == "player")
+	{
 
-	noOfCardsInHand.initialise(deckSprite.xPos, deckSprite.yPos, cardsRemaining.size());
+		font.loadFromFile("assets/minecraft.ttf");
+		text.setFont(font);
+		text.setCharacterSize(16);
 
-	drawCard(cardsInDeck,cardsRemaining);
-	drawCard(cardsInDeck, cardsRemaining);
-	drawCard(cardsInDeck, cardsRemaining);
+		//temporary values for x & y for readability
+
+		//offset from right of screen by half the width of the UI box
+		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
+		//centred vertically
+		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+
+		deckSprite.initialise("assets/card2.png", initialX, initialY, 1);
+
+		//one tile to the right from the edge of the UI box
+		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
+		//3 tiles lower than centre
+		initialY = setPosition(ALIGN::centre, Axis::y, 3 * windowInfo.tileSizeInPixels, windowInfo);
+
+		text.setPosition(initialX, initialY);
+
+		noOfCardsInHand.initialise(deckSprite.xPos, deckSprite.yPos, cardsRemaining.size());
+	}
+
+	drawCard(cardsInDeck,cardsRemaining,identifier);
+	drawCard(cardsInDeck, cardsRemaining, identifier);
+	drawCard(cardsInDeck, cardsRemaining,identifier);
 	selected = 0;
 
 }
@@ -146,8 +150,8 @@ void CardsInHand::resize(WindowInfo windowInfo)
 	}
 }
 
-void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
-						WindowInfo windowInfo, int& cardIndex,float& cardPoints)
+void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
+						WindowInfo windowInfo, int& cardIndex,float& cardPoints,std::map<BehaviourTrigger,bool> behaviourTriggers)
 {
 
 	//MOTION
@@ -156,23 +160,18 @@ void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& c
 
 		//DRAW NEW CARD
 
-		if (keyboardArray[sf::Keyboard::LControl] && drawCardCooldown>=15)
+		if (behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
 		{
 			drawCardCooldown = 0;
-			drawCard(cardsInDeck,cardsRemaining);
+			drawCard(cardsInDeck,cardsRemaining,identifier);
 		}
 		
 		bool inMotion=false;
-		for (int i=0;i<cardsInHand.size();i++)
-		{
-			if (cardsInHand[i].inMotion == true)
-			{
-				inMotion = true;
-				break;
-		}
-		}
 
-		
+		if (identifier == "player")
+		{
+			inMotion = anyCardsInMotion(cardsInHand);
+		}
 
 		//only initiate new  motion if no card is currently in motion
 
@@ -181,32 +180,16 @@ void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& c
 			//SELECTION 
 
 			//only allows selection moving if we have more than 1 card
-			if ((keyboardArray[sf::Keyboard::Left] || keyboardArray[sf::Keyboard::Right]) && cardsInHand.size() > 1)
+			if ((behaviourTriggers[selectCardLeft] || behaviourTriggers[selectCardRight]) && cardsInHand.size() > 1)
 			{
-				newMotion(selected);
-				if (keyboardArray[sf::Keyboard::Left])
-				{
-					if (selected == 0)
-					{
-						selected = cardsInHand.size() - 1;
-					}
-					else {
-						selected = (selected - 1) % cardsInHand.size();
-					}
-				}
-				else
-				{
-					selected = (selected + 1) % cardsInHand.size();
-				}
-				cardInfoPrint(cardsInDeck);
-				newMotion(selected);
+				changeSelection(selected, identifier, cardsInHand,behaviourTriggers,cardsInDeck);
 			}	
 
 			//USE CARD
 
 			//TODO ensure this can only happen when the player is stationary
 
-			else if (keyboardArray[sf::Keyboard::Enter])
+			else if (behaviourTriggers[useCard] && cardsInHand.size() > 1)
 			{
 				
 				long double cardSelected = cardsInHand[selected].id;
@@ -264,14 +247,55 @@ void CardsInHand::action(std::map<int, bool> keyboardArray, std::vector<Card>& c
 	}
 }
 
-void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining)
+void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,
+									std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck)
+{
+	std::cout << selected;
+	if (identifier == "player")
+	{
+		newMotion(selected);
+	}
+	if (behaviourTriggers[selectCardLeft])
+	{
+		if (selected == 0)
+		{
+			
+			selected = cardsInHand.size() - 1;
+		}
+		else {
+			selected = (selected - 1) % cardsInHand.size();
+		}
+	}
+	else
+	{
+		selected = (selected + 1) % cardsInHand.size();
+	}
+	if (identifier == "player")
+	{
+		cardInfoPrint(cardsInDeck);
+		newMotion(selected);
+	}
+}
+
+bool CardsInHand::anyCardsInMotion(std::vector<CardSprite> cardsInHand)
+{
+	for (int i = 0; i < cardsInHand.size(); i++)
+	{
+		if (cardsInHand[i].inMotion == true)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier)
 {
 	if (cardsRemaining.size()>0)
 	{
 		std::cout << "Drawing New Card" << std::endl;
 
 		CardSprite newCard;
-
 
 		//choose a new card from the list of remaining cards
 
@@ -282,13 +306,18 @@ void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long doub
 		cardsRemaining.erase(cardsRemaining.begin() + index);
 		noOfCardsInHand.value--;
 		newCard.initialise(deckSprite);
-		cardsInHand.push_back(newCard);
-
-		//for some reason this breaks the textures so we now have to reload them
-		for (int i = 0; i < cardsInHand.size(); i++)
+		
+		if (identifier == "player")
 		{
-			texture.loadFromFile("assets/card2.png");
-			cardsInHand[i].sprite.setTexture(texture);
+			cardsInHand.push_back(newCard);
+
+
+			//for some reason this breaks the textures so we now have to reload them
+			for (int i = 0; i < cardsInHand.size(); i++)
+			{
+				texture.loadFromFile("assets/card2.png");
+				cardsInHand[i].sprite.setTexture(texture);
+			}
 		}
 	}
 	else

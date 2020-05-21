@@ -16,6 +16,6 @@ public:
 	float cardPointsMax, cardPointRecoveryRate;
 	//how long tile motion takes for tile based motion
 	float motionTime;
-	std::string type;
+	std::string identifier;
 };
 

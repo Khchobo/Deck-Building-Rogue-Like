@@ -1,29 +1,43 @@
 #include "player.h"
 
-bool Player::checkForMotion(std::map<int, bool> keyboardArray)
+void Player::checkInputs(std::map<int, bool> keyboardArray)
 {
-	bool flag = false;
 	if (keyboardArray[sf::Keyboard::W])
 	{
 		direction = 0;
-		flag = true;
+		behaviourTriggers[initiateMotion] = true;
 	}
 	else if (keyboardArray[sf::Keyboard::A])
 	{
 		direction = 1;
-		flag = true;
+		behaviourTriggers[initiateMotion] = true;
 	}
 	else if (keyboardArray[sf::Keyboard::S])
 	{
 		direction = 2;
-		flag = true;
+		behaviourTriggers[initiateMotion] = true;
 	}
 	else if (keyboardArray[sf::Keyboard::D])
 	{
 		direction = 3;
-		flag = true;
+		behaviourTriggers[initiateMotion] = true;
 	}
-	return flag;
+	if (keyboardArray[sf::Keyboard::LControl])
+	{
+		behaviourTriggers[drawCardFromDeck] = true;
+	}
+	else if (keyboardArray[sf::Keyboard::Enter])
+	{
+		behaviourTriggers[useCard] = true;
+	}
+	if (keyboardArray[sf::Keyboard::Left])
+	{
+		behaviourTriggers[selectCardLeft] = true;
+	}
+	else if (keyboardArray[sf::Keyboard::Right])
+	{
+		behaviourTriggers[selectCardRight] = true;
+	}
 }
 
 void Player::resize(WindowInfo windowInfo)
@@ -38,11 +52,20 @@ void Player::resize(WindowInfo windowInfo)
 void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
 	std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap)
 {
-	//PLAYER MOTION
 
-	bool flag=checkForMotion(keyboardArray);
+	type->identifier = "player";
+
+	//reset behaviour triggers
+	map<BehaviourTrigger, bool>::iterator it;
+	for (it = behaviourTriggers.begin(); it != behaviourTriggers.end(); it++)
+	{
+		behaviourTriggers[it->first] = false;
+	}
+
+	checkInputs(keyboardArray);
 	
-	if (flag && cardPoints>cardPointsStepCost && !(inMotion))
+	//PLAYER MOTION
+	if (behaviourTriggers[initiateMotion] && cardPoints>cardPointsStepCost && !(inMotion))
 	{
 		initiateNewMotion(direction, collision);
 	}
@@ -62,11 +85,11 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	{
 		int cardIndex = 10000;
 
-		cardPoints = min(static_cast<float>(type.cardPointsMax), cardPoints + type.cardPointRecoveryRate*frameTime);
+		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 
 		cardPointsNumber.value = static_cast<int>(cardPoints);
 
-		cardsInHand.action(keyboardArray, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints);
+		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex,cardPoints,behaviourTriggers);
 
 		if (cardIndex != 10000)
 		{

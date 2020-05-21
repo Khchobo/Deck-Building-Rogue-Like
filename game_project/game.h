@@ -31,7 +31,7 @@ public:
 
 	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize,
 		std::vector<std::vector<int>> collision, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo, battlingCharacterTypes["player"]), mapWidth(mapXSize),
+		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo, &battlingCharacterTypes["player"]), mapWidth(mapXSize),
 		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes)
 	{
 		sf::ContextSettings settings;

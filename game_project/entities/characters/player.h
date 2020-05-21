@@ -24,9 +24,11 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo, BattlingCharacterType& type) : BattlingCharacter(type), cardsInHand(1), cardsInDeck(50)
+	Player(WindowInfo windowInfo, BattlingCharacterType* type) : BattlingCharacter(type), cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
+
+		
 
 		cardPoints = 50;
 		cardPointsStepCost = 5;
@@ -45,7 +47,7 @@ public:
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
 		std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap);
 
-	bool checkForMotion(std::map<int, bool> keyboardArray);
+	void checkInputs(std::map<int, bool> keyboardArray);
 
 	void resize(WindowInfo windowInfo);
 

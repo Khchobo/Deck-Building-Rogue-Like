@@ -1,7 +1,8 @@
 #include "BattlingCharacter.h"
 
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType& type) : cardsInHand(1), cardsInDeck(50), type(type) {};
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type) : 
+	cardsInHand(1), cardsInDeck(50), type(type) {};
 
 void BattlingCharacter::checkForMotion() {}
 
@@ -16,7 +17,7 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	}
 
 	//motion percentage determined according to frame time to keep motion speed constant regardless of framerate
-	motionPercentage += frameTime / type.motionTime;
+	motionPercentage += frameTime / type->motionTime;
 
 	//cap the percentage at 1
 	if (motionPercentage > 1)

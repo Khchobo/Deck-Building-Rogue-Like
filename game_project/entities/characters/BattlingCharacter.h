@@ -11,7 +11,7 @@ class BattlingCharacter : public Entity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType& type);
+	BattlingCharacter(BattlingCharacterType* type);
 
 	float cardPoints;
 
@@ -26,9 +26,13 @@ public:
 	CardsInHand cardsInHand;
 	CardsInDeck cardsInDeck;
 
-	BattlingCharacterType& type;
+	BattlingCharacterType* type;
 
 protected:
+
+	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
+															{initiateMotion, false}, {selectCardLeft, false},
+															{selectCardRight, false} };
 
 	float verticalHopOffset;
 

@@ -7,6 +7,10 @@
 #include "entities\other\NumberEntity.h"
 #include "WindowInfo.h"
 #include "globalVariables.h"
+#include <string>
+
+enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight };
+
 static class CardsInHand: public Entity
 {
 public:
@@ -20,22 +24,28 @@ public:
 		cardsInHand[selected].offset = 1;
 	}
 
-	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo);
+	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo, std::string identifier);
 
 	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
 
 	void resize(WindowInfo windowInfo);
 
-	void action(std::map<int, bool> keyboardArray, std::vector<Card>& cardsInDeck,
-				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex, float& cardPoints);
+	void action(std::string identifier, std::vector<Card>& cardsInDeck,
+				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex,
+				float& cardPoints, std::map<BehaviourTrigger, bool> behaviourTriggers);
 
-	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining);
+	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier);
 
 	void newMotion(int index);
 
 	void cardInfoPrint(std::vector<Card>& cardsInDeck);
 
 	void cardInfoDraw(std::vector<Card>& cardsInDeck, sf::RenderWindow& window);
+
+	bool anyCardsInMotion(std::vector<CardSprite> cardsInHand);
+
+	void changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,
+							std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck);
 
 	std::vector<CardSprite> cardsInHand;
 

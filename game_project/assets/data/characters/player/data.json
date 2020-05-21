@@ -1,6 +1,6 @@
 {
-  "type":  "player",
-  "cardPointsMax": 500, //200 default
-  "cardPointRecoveryRate": 12.5, //in points per second
+  "identifier":  "player",
+  "cardPointsMax": 300, //200 default
+  "cardPointRecoveryRate": 50,  //12.5 default
   "motionTime": 0.15
 }

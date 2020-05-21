@@ -54,7 +54,8 @@ void Game::initialiseBattleMode()
 	windowInfo.UIHeight = 4;
 	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo);
+	std::cout <<"player identifier: "<< player.type->identifier<<std::endl;
+	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier);
 
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
@@ -247,7 +248,7 @@ void Game::draw()
 		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, 1));
 		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight+1)*windowInfo.tileSizeInPixels));
 
-		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.type.cardPointsMax)*6*32,16));
+		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.type->cardPointsMax)*6*32,16));
 		cardPoints.setFillColor(sf::Color::White);
 
 		blackoutRectBottom.setFillColor(sf::Color::Black);
@@ -300,6 +301,7 @@ void Game::draw()
 
 void Game::initialise()
 	{
+		player.type->identifier = "player";
 		tileMap.initialise();
 		initialiseBattleMode();
 	}

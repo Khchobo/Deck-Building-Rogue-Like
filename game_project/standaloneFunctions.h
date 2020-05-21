@@ -12,7 +12,7 @@
 namespace standaloneFunctions {
 
 
-	enum class BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight };
+	
 	enum class Alignment {left, right, centre, top, bottom};
 	enum class Axis {x,y};
 

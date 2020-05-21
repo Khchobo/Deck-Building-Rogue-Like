@@ -15,8 +15,8 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 	}
 	file >> data;
 	cardPointsMax = data["cardPointsMax"].asFloat();
-	type = data["type"].asString();
+	identifier = data["identifier"].asString();
 	cardPointRecoveryRate= data["cardPointRecoveryRate"].asFloat();
 	motionTime= data["motionTime"].asFloat();
-
 }
+
