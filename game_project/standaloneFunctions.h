@@ -18,6 +18,12 @@ namespace standaloneFunctions {
 	std::vector<Point> lineOfSight(int x, int y, int x2, int y2);
 
 	/**
+	*Returns the quadratic formula -a*x^2+ax between x=0 and x=1. Used to give a vertical offset when moving
+	*Based upon move percentage
+	*/
+	float quadraticHop(float a, float x);
+
+	/**
 	*Gives a position in the window in pixels based on an offset given in tiles from a
 	*particular side of the screen. This function will automatically handle fullscreen
 	*or windowed mode

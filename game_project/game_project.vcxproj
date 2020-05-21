@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattlingCharacter.cpp" />
     <ClCompile Include="ActionPoint.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Card.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="ActionPoint.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="BattlingCharacter.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardActionMap.h" />
     <ClInclude Include="CardsInDeck.h" />

@@ -9,8 +9,8 @@ void CardSprite::initialise(Entity deckSprite)
 	
 	position = 2;
 	inMotion = 1;
-	xPos = deckSprite.xPos;
-	yPos = deckSprite.yPos;
+	xPos = deckSprite.xPos-32;
+	yPos = deckSprite.yPos-48;
 	previousXPos = xPos;
 	previousYPos = yPos;
 }

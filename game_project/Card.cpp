@@ -41,19 +41,19 @@ Card::Card()
 	}
 
 	rando = rand() % 3;
-//	int rando = 0;
+	//rando = 1;
 
 	int shapeCost;
 
 	switch (rando)
 	{
 	case(0):
-		shapeCost = 110;
+		shapeCost = 100;
 		attackType = AttackType::circle;
 		attackRadius = d(gen) +2;
 		break;
 	case(1):
-		shapeCost = 5;
+		shapeCost = -20;
 		attackType = AttackType::line;
 		attackRadius = d(gen) + 2;
 		break;
@@ -75,6 +75,6 @@ Card::Card()
 	//random percentage change in cost. defaults at +-10%. TODO implement ability to change this with luck and mutation chance stats
 	rando = rand() % 200 + 900;
 	float mutationMod =rando/1000.0;
-	cardPointCost = floor(((shapeCost + attackRadius*3 + (attackEmanationSpeed * 3) + (persistence * 5))/1.5)*mutationMod);
+	cardPointCost = floor(((shapeCost + attackRadius*7 + (attackEmanationSpeed * 3) + (persistence * 5))/1.5)*mutationMod);
 }
 

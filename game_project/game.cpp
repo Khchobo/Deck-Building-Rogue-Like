@@ -52,12 +52,15 @@ void Game::initialiseBattleMode()
 	renderMode = 1;
 	windowInfo.UIWidth = 8;
 	windowInfo.UIHeight = 4;
-	cardsInDeck.resetDeck();
+	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	cardsInHand.initialise(cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo);
+	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo);
 
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
+
+	player.cardPointsNumber.xPos = windowInfo.activeSceneWidthPixels + 4 * 32;
+	player.cardPointsNumber.yPos = windowInfo.getWindowHeight() - 32;
 }
 
 void Game::resize()
@@ -84,7 +87,7 @@ void Game::resize()
 			playerDistanceFromEdgeX = windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 80;
 		}
 
-		//TODO
+		
 		window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels),
 						"SFMLtest", sf::Style::Default);
 
@@ -93,10 +96,12 @@ void Game::resize()
 		windowInfo.fullscreen = 0;
 
 	}
-	cardsInHand.resize(windowInfo);
+
+	resizeActiveScene();
+	player.resize(windowInfo);
 }
 
-void Game::resizeVisibleField()
+void Game::resizeActiveScene()
 {
 	if (windowInfo.fullscreen == 1)
 	{
@@ -122,9 +127,8 @@ void Game::action()
 	//toggles between fullscreen and windowed mode. the function resize executes any code on the graphics to resize them accordingly
 	if (keyboardArray[sf::Keyboard::F11] && renderModeTimeout > 10)
 	{
-		resize();
-		resizeVisibleField();
 		keyboardArray[sf::Keyboard::F11] = false;
+		resize();
 		renderModeTimeout = 0;
 	}
 				
@@ -141,38 +145,16 @@ void Game::action()
 			windowInfo.UIHeight = 0;
 		}
 
-		resizeVisibleField();
-
+		resizeActiveScene();
 		renderModeTimeout = 0;
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo);
+	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo, renderMode, cardActionMap);
 
-	//TODO refactor this so it happens within the player class
-	if (renderMode == 1)
-	{
-		int cardIndex = 10000;
+	cardActionMap.action(frameTime);
 
-		player.cardPoints = min(static_cast<float>(player.cardPointsMax), player.cardPoints + player.cardPointRecoveryRate*frameTime);
-
-		//TODO only need to set position on window resize
-		player.cardPointsNumber.xPos = windowInfo.activeSceneWidthPixels + 4 * 32;
-		player.cardPointsNumber.yPos = windowInfo.getWindowHeight()-32;
-		player.cardPointsNumber.value = static_cast<int>(player.cardPoints);
-
-		cardsInHand.action(keyboardArray, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, player.cardPoints);
-
-		if (cardIndex != 10000)
-		{
-			cardActionMap.newAction(cardIndex, cardsInDeck, player.direction, player.currentXTilePos, player.currentYTilePos, collision);
-		}
-
-
-		cardActionMap.action(frameTime);
-
-		tileMap.cardActionUpdateMap(cardActionMap);
-	}
+	tileMap.cardActionUpdateMap(cardActionMap);
 
 	draw();
 
@@ -310,7 +292,7 @@ void Game::draw()
 		
 		player.cardPointsNumber.draw(window);
 
-		cardsInHand.draw(window,cardsInDeck.cardsInDeck);
+		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck);
 
 	}
 	
@@ -318,6 +300,7 @@ void Game::draw()
 
 void Game::initialise()
 	{
+
 		tileMap.initialise();
 		initialiseBattleMode();
 	}

@@ -31,7 +31,7 @@ public:
 
 	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize, std::vector<std::vector<int>> collision) :
 		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo), mapWidth(mapXSize),
-		mapHeight(mapYSize), collision(collision), cardsInHand(1), cardsInDeck(50)
+		mapHeight(mapYSize), collision(collision)
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -60,8 +60,6 @@ public:
 	
 private:
 
-	CardsInHand cardsInHand;
-	CardsInDeck cardsInDeck;
 	CardActionMap cardActionMap;
 
 	std::map<int,bool> keyboardArray;
@@ -85,7 +83,7 @@ private:
 	void action();	
 	void initialise();
 	void resize();
-	void resizeVisibleField();
+	void resizeActiveScene();
 	void initialiseBattleMode();
 
 };

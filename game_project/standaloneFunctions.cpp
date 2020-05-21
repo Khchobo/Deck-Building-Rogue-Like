@@ -2,6 +2,15 @@
 
 #define PI 3.14159265
 
+float standaloneFunctions::quadraticHop(float a, float x)
+{
+	if (x>1 || x<0)
+	{
+		throw std::invalid_argument("value must be between 0 and 1");
+	}
+	return -a * x*x + a * x;
+}
+
 float standaloneFunctions::easeInOut(float x)
 {
 	return -(cos(PI*x) - 1) / 2;

@@ -12,18 +12,24 @@
 #include "CardsInHand.h"
 #include "WindowInfo.h"
 #include "NumberEntity.h"
+#include "BattlingCharacter.h"
 #include "globalVariables.h"
 #include "standaloneFunctions.h"
-
+#include "CardActionMap.h"
 using namespace std;
 
-class Player : public Entity
+class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo)
+	Player(WindowInfo windowInfo) : cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
+
+		cardPoints = 50;
+		cardPointsMax = 200;
+		cardPointRecoveryRate = 12.5; //in points per second
+		cardPointsStepCost = 5;
 
 		currentXTilePos = 2;
 		currentYTilePos = 2;
@@ -33,44 +39,22 @@ public:
 
 	}
 
-	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-		std::vector<std::vector<int>>& collision, WindowInfo windowInfo);
+	CardsInHand cardsInHand;
+	CardsInDeck cardsInDeck;
 
-	void move(unsigned int direction, float& playerDistanceFromEdgeX,
-		float& playerDistanceFromEdgeY, std::vector<std::vector<int>>& collision, WindowInfo windowInfo);
+	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
+		std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap);
+
+	bool checkForMotion(std::map<int, bool> keyboardArray, int& direction);
+
+	void resize(WindowInfo windowInfo);
 
 	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
 
 	//direction player is facing, 0 is up and then proceed counter clockwise
 	int direction;
 
-	//current tile alignment or tile alignment before current motion began
-	int currentXTilePos;
-	int currentYTilePos;
-
-	float cardPoints=50;
-	float cardPointsMax=200;
-	float cardPointRecoveryRate=12.5; //in points per second
-
+	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
 	NumberEntity cardPointsNumber;
 
-private:
-
-	int cardPointsStepCost = 5;
-
-	//0 for classic continuous movement (unused), 1 for new discrete jumping
-	unsigned int movementMode=1;
-
-	//movement speed for continuous motion
-	const float speed = 400;
-
-	int futureXTilePos;
-	int futureYTilePos;
-
-	//for discrete motion, determines whether a motion animation is already occurring
-	bool inMotion = false;
-	//how far the motion the player is, 0 in beginning and 1 is end.
-	float motionPercentage;
-	//how long tile motion takes for tile based motion
-	float motionTime = 0.1;
 };
