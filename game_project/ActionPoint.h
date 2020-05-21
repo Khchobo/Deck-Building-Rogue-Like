@@ -4,7 +4,7 @@ class ActionPoint
 {
 public:
 	ActionPoint(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement);
-
+	//test
 	//map position in tiles
 	int xPos;
 	int yPos;
