@@ -45,14 +45,15 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				break;
 			}
 
+			//check if it goes out of range of the map
 			if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
 			{
 				continue;
 			}
 
-			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
-
 			if (lineOfSightObstructed(playerXPos, playerYPos, xPos, yPos, collision)) { continue; }
+
+			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
 			ActionPoint newActionPoint(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
 				cardsInDeck.cardsInDeck[cardIndex].attackElement);
@@ -79,6 +80,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				xPos = playerXPos + i * directionMap[j][0] + directionMap[j][0];
 				yPos = playerYPos + i * directionMap[j][1] + directionMap[j][1];
 
+				//check if it goes out of range of the map
 				if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
 				{
 					continue;
@@ -106,14 +108,13 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 		{
 			for (int j = playerYPos - tileRadius; j < playerYPos + tileRadius + 1; j++)
 			{
-
-				float euclideanDistance = sqrt(pow((playerXPos - i), 2) + pow((playerYPos - j), 2));
-				//std::cout << i << " " << j << " " << euclideanDistance << std::endl;
-
+				//check if it goes out of range of the map
 				if (i < 0 || i >= collision[0].size() || j < 0 || j >= collision.size())
 				{
 					continue;
 				}
+
+				float euclideanDistance = sqrt(pow((playerXPos - i), 2) + pow((playerYPos - j), 2));
 
 				if (euclideanDistance <= tileRadius)
 				{
