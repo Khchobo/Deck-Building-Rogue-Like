@@ -16,11 +16,12 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 	switch (cardsInDeck.cardsInDeck[cardIndex].attackType)
 	{
 	case(AttackType::line):
-		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius;i++)
+	{
+		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
 		{
 			int xPos;
 			int yPos;
-			
+
 			switch (direction)
 			{
 			case(0):
@@ -49,86 +50,94 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				continue;
 			}
 
-			std::vector<Point> v;
-			v = standaloneFunctions::lineOfSight(playerXPos, playerYPos, xPos, yPos);
+			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
-			ActionPoint newActionPoint(xPos, yPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
-			for (int k = 0; k < v.size(); k++)
-			{
-				if (collision[v[k].y][v[k].x] == 1)
-				{
-					goto line_finish;
-				}
-			}
+			if (lineOfSightObstructed(playerXPos, playerYPos, xPos, yPos, collision)) { continue; }
+
+			ActionPoint newActionPoint(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
+				cardsInDeck.cardsInDeck[cardIndex].attackElement);
 			cardActionMap.push_back(newActionPoint);
 
 		line_finish:;
 		}
 		break;
+	}
 	case(AttackType::cross):
+	{
+		std::vector<std::vector<int>> directionMap = { {1,0},{-1,0},{0,1},{0,-1} };
+		float activationTime;
+		int xPos;
+		int yPos;
+
 		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
 		{
-			//TODO clean up this horrible mess
-			//TODO continue when colliding with wall or out of range of map
-			ActionPoint newActionPoint(playerXPos+i+1, playerYPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
-			cardActionMap.push_back(newActionPoint);
-			ActionPoint newActionPoint2(playerXPos - i-1, playerYPos, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
-			cardActionMap.push_back(newActionPoint2);
-			ActionPoint newActionPoint3(playerXPos, playerYPos+i+1, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
-			cardActionMap.push_back(newActionPoint3);
-			ActionPoint newActionPoint4(playerXPos, playerYPos-i-1, i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed), i*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + 0.5, cardsInDeck.cardsInDeck[cardIndex].attackElement);
-			cardActionMap.push_back(newActionPoint4);
-			
+
+			activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
+			for (int j = 0; j < 4; j++)
+			{
+
+				xPos = playerXPos + i * directionMap[j][0] + directionMap[j][0];
+				yPos = playerYPos + i * directionMap[j][1] + directionMap[j][1];
+
+				if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
+				{
+					continue;
+				}
+
+				if (lineOfSightObstructed(playerXPos, playerYPos, xPos, yPos, collision)) {
+					continue;
+				}
+
+				ActionPoint newActionPoint(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
+					cardsInDeck.cardsInDeck[cardIndex].attackElement);
+				cardActionMap.push_back(newActionPoint);
+			}
+
 		}
 		break;
+	}
 	case(AttackType::circle):
-		
+	{
 		int tileRadius = cardsInDeck.cardsInDeck[cardIndex].attackRadius;
 
-		std::cout << playerXPos << " " << playerYPos << std::endl << std::endl;
+		float activationTime;
 
-		for (int i = playerXPos - tileRadius; i < playerXPos + tileRadius+1; i++)
+		for (int i = playerXPos - tileRadius; i < playerXPos + tileRadius + 1; i++)
 		{
-			for (int j = playerYPos - tileRadius; j < playerYPos + tileRadius+1; j++)
+			for (int j = playerYPos - tileRadius; j < playerYPos + tileRadius + 1; j++)
 			{
-				
-				float euclideanDistance = sqrt(pow((playerXPos - i),2) + pow((playerYPos - j), 2));
+
+				float euclideanDistance = sqrt(pow((playerXPos - i), 2) + pow((playerYPos - j), 2));
 				//std::cout << i << " " << j << " " << euclideanDistance << std::endl;
 
-				if (i<0 || i>=collision[0].size() || j<0 || j>=collision.size())
+				if (i < 0 || i >= collision[0].size() || j < 0 || j >= collision.size())
 				{
-					goto circle_finish;
+					continue;
 				}
 
-				if (euclideanDistance<=tileRadius)
+				if (euclideanDistance <= tileRadius)
 				{
-					std::vector<Point> v;
-					v = standaloneFunctions::lineOfSight(playerXPos, playerYPos, i, j);
-					for (int k = 0; k < v.size(); k++)
-					{
-						if (collision[v[k].y][v[k].x] == 1)
-						{
-							goto circle_finish;
-						}
-					}
+					if (lineOfSightObstructed(playerXPos, playerYPos, i, j, collision)) { continue; }
 
-					ActionPoint newActionPoint(i, j, euclideanDistance*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed),
-						euclideanDistance*(0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed) + cardsInDeck.cardsInDeck[cardIndex].persistence, cardsInDeck.cardsInDeck[cardIndex].attackElement);
+					activationTime= euclideanDistance * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
+
+					ActionPoint newActionPoint(i, j, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
+												cardsInDeck.cardsInDeck[cardIndex].attackElement);
 					cardActionMap.push_back(newActionPoint);
 				}
-			circle_finish:;
+
 			}
-			
+
 		}
 
 		break;
 	}
 
 
-	
-	
 
 
+
+	}
 }
 
 void CardActionMap::action(float frameTime)
@@ -153,4 +162,29 @@ void CardActionMap::action(float frameTime)
 		}
 		i++;
 	}
+}
+
+/**
+* Checks whether there is line of sight between two points. Returns false if there is line of sight and returns
+* true if line of sight is obstructed.
+* @param xPos1 the x position of the first point
+* @param yPos1 the y position of the first point
+* @param xPos2 the x position of the second point
+* @param yPos2 the y position of the second point
+* @param collision the map of cells indicating whether there is a solid object at a given point
+*/
+bool CardActionMap::lineOfSightObstructed(int xPos1,int yPos1,int xPos2,int yPos2, std::vector<std::vector<int>> collision)
+{
+	std::vector<Point> v;
+	v = standaloneFunctions::lineOfSight(xPos1, yPos1, xPos2, yPos2);
+
+	for (int k = 0; k < v.size(); k++)
+	{
+		if (collision[v[k].y][v[k].x] == 1)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

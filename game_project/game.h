@@ -15,6 +15,7 @@
 #include "WindowInfo.h"
 #include "cardActionMap.h"
 #include "BattlingCharacterType.h"
+#include <filesystem>
 
 class Game
 {
@@ -36,6 +37,15 @@ public:
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
+
+		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
+		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
+		{
+			std::string folderName = p.path().u8string().erase(0, 23);
+			if (folderName == "player") continue;
+			battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>(folderName, BattlingCharacterType(folderName)));
+			std::cout << battlingCharacterTypes[folderName].cardPointRecoveryRate;
+		}
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 

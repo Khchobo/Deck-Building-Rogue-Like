@@ -54,7 +54,6 @@ void Game::initialiseBattleMode()
 	windowInfo.UIHeight = 4;
 	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	std::cout <<"player identifier: "<< player.type->identifier<<std::endl;
 	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier);
 
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);

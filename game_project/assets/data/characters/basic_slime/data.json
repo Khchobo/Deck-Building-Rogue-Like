@@ -1,0 +1,6 @@
+{
+  "identifier":  "basic_slime",
+  "cardPointsMax": 50,
+  "cardPointRecoveryRate": 10,
+  "motionTime": 0.15
+}

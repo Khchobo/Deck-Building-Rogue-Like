@@ -18,5 +18,8 @@ public:
 	void action(float frameTime);
 
 	std::vector<ActionPoint> cardActionMap;
+
+private:
+	bool lineOfSightObstructed(int playerXPos, int playerYPos, int xPos, int yPos, std::vector<std::vector<int>> collision);
 };
 
