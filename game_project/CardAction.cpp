@@ -1,8 +1,8 @@
-#include "ActionPoint.h"
+#include "CardAction.h"
 
 
 
-ActionPoint::ActionPoint(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement) :
+CardAction::CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement) :
 	xPos(xPos), yPos(yPos), activationTime(activationTime), destructionTime(destructionTime), attackElement(attackElement)
 {
 	aliveTime = 0.0;

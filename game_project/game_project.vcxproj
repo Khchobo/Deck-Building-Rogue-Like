@@ -124,7 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActionPoint.cpp" />
+    <ClCompile Include="CardAction.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BattlingCharacterType.cpp" />
     <ClCompile Include="Card.cpp" />
@@ -148,7 +148,7 @@
     <ClCompile Include="WindowInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActionPoint.h" />
+    <ClInclude Include="CardAction.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="BattlingCharacterType.h" />
     <ClInclude Include="Card.h" />

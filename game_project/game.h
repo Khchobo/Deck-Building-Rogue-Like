@@ -32,8 +32,10 @@ public:
 
 	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize,
 		std::vector<std::vector<int>> collision, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo), player(windowInfo, &battlingCharacterTypes["player"]), mapWidth(mapXSize),
-		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes)
+
+		tileMap(mapXSize, mapYSize, 16, gameMapInfo,collision), player(windowInfo, &battlingCharacterTypes["player"]), mapWidth(mapXSize),
+		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes),
+		activePlayerActionsPoints(collision.size(), std::vector<int>(collision[0].size)) //initialise a matrix of zeroes the same size as the collision map
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -98,4 +100,6 @@ private:
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();
+
+	std::vector<std::vector<int>> activePlayerActionsPoints;
 };

@@ -21,7 +21,7 @@ void TileMap::draw(sf::Texture& texture) const
 		for (unsigned int yPos = 0; yPos < mapHeight; yPos++)
 		{
 			//std::cout << mapTileType[yPos*mapWidth + xPos];
-			texture.update(spriteImages[mapTilesWActionPoints[yPos*mapWidth + xPos]], xPos*tileSize*pixelSize, yPos*tileSize*pixelSize);
+			texture.update(spriteImages[mapTilesWCardActions[yPos*mapWidth + xPos]], xPos*tileSize*pixelSize, yPos*tileSize*pixelSize);
 		}
 	}
 }
@@ -84,7 +84,7 @@ void TileMap::initiateMap()
 //Update the tile map with the action point sprites
 void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 {
-	mapTilesWActionPoints = mapTileType;
+	mapTilesWCardActions = mapTileType;
 
 	//Iterate over each action point
 	for (int i = 0; i < cardActionMap.cardActionMap.size(); i++)
@@ -108,7 +108,7 @@ void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 				tileNo = 1;
 				break;
 			}
-			mapTilesWActionPoints[cardActionMap.cardActionMap[i].yPos*mapWidth + cardActionMap.cardActionMap[i].xPos] = tileNo;
+			mapTilesWCardActions[cardActionMap.cardActionMap[i].yPos*mapWidth + cardActionMap.cardActionMap[i].xPos] = tileNo;
 		}
 	}
 }

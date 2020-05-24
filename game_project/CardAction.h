@@ -11,10 +11,10 @@
 *self destruct. TODO currently there is no implementation for BattlingCharacters to take damage
 *when touching an active action point
 */
-class ActionPoint
+class CardAction
 {
 public:
-	ActionPoint(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement);
+	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement);
 	//test
 	//map position in tiles
 	int xPos;

@@ -33,9 +33,10 @@ public:
 	//tileSize - height and width of each tile in pixels
 	//map info - array of tile IDs
 	//
-	TileMap(unsigned int mapWidth, unsigned int mapHeight, unsigned int tileSize, std::vector<TileType> mapInfo) :
-		mapInfo(mapInfo), mapWidth(mapWidth), mapHeight(mapHeight), tileSize(tileSize), spriteImages(10),mapTileType(mapInfo.size())
-	
+	TileMap(unsigned int mapWidth, unsigned int mapHeight, unsigned int tileSize, std::vector<TileType> mapInfo, std::vector<std::vector<int>> collision) :
+
+		mapInfo(mapInfo), mapWidth(mapWidth), mapHeight(mapHeight),
+		tileSize(tileSize), spriteImages(10),mapTileType(mapInfo.size())
 	{
 		srand(time(NULL));
 		layoutSeed = rand();
@@ -54,6 +55,6 @@ public:
 	virtual void draw(sf::Texture& texture) const;
 private:
 	std::vector<TileType> mapInfo;
-	std::vector<int> mapTilesWActionPoints;
+	std::vector<int> mapTilesWCardActions;
 	std::vector<int> mapTileType;
 };

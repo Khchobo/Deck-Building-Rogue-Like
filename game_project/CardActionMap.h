@@ -1,6 +1,6 @@
 #pragma once
 #include "CardsInDeck.h"
-#include "ActionPoint.h"
+#include "CardAction.h"
 #include "Point.h"
 #include "standaloneFunctions.h"
 
@@ -17,7 +17,7 @@ public:
 
 	void action(float frameTime);
 
-	std::vector<ActionPoint> cardActionMap;
+	std::vector<CardAction> cardActionMap;
 
 private:
 	bool lineOfSightObstructed(int playerXPos, int playerYPos, int xPos, int yPos, std::vector<std::vector<int>> collision);
