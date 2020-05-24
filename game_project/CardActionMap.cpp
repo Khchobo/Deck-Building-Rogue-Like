@@ -12,6 +12,7 @@ void CardActionMap::reset() {
 
 void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, int playerXPos, int playerYPos, std::vector<std::vector<int>> collision)
 {
+	std::vector<std::vector<int>> directionMap = { {0,-1},{-1,0},{0,1},{1,0} };
 
 	switch (cardsInDeck.cardsInDeck[cardIndex].attackType)
 	{
@@ -22,28 +23,8 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			int xPos;
 			int yPos;
 
-			switch (direction)
-			{
-			case(0):
-				xPos = playerXPos;
-				yPos = playerYPos - 1 - i;
-				break;
-			case(1):
-				xPos = playerXPos - 1 - i;
-				yPos = playerYPos;
-				break;
-			case(2):
-				xPos = playerXPos;
-				yPos = playerYPos + 1 + i;
-				break;
-			case(3):
-				xPos = playerXPos + 1 + i;
-				yPos = playerYPos;
-				break;
-			default:
-				assert(false);
-				break;
-			}
+			xPos = playerXPos+directionMap[direction][0]*(i+1);
+			yPos = playerYPos+directionMap[direction][1]*(i+1);
 
 			//check if it goes out of range of the map
 			if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
@@ -65,7 +46,6 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 	}
 	case(AttackType::cross):
 	{
-		std::vector<std::vector<int>> directionMap = { {1,0},{-1,0},{0,1},{0,-1} };
 		float activationTime;
 		int xPos;
 		int yPos;
@@ -77,8 +57,8 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			for (int j = 0; j < 4; j++)
 			{
 
-				xPos = playerXPos + i * directionMap[j][0] + directionMap[j][0];
-				yPos = playerYPos + i * directionMap[j][1] + directionMap[j][1];
+				xPos = playerXPos + (i + 1) * directionMap[j][0];
+				yPos = playerYPos + (i + 1) * directionMap[j][1];
 
 				//check if it goes out of range of the map
 				if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
