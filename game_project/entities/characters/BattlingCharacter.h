@@ -41,6 +41,7 @@ protected:
 	void updateMotion(WindowInfo windowInfo);
 	virtual void checkForMotion();
 
+	//TODO make data
 	//card point cost to move 1 tile
 	float cardPointsStepCost;
 
