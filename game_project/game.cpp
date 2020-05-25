@@ -18,7 +18,7 @@ void Game::loop()
 				
 				sf::Time elapsed = clock.getElapsedTime();
 				frameTime = elapsed.asSeconds();
-				std::cout << 1/frameTime << std::endl<<std::endl;
+				//std::cout << 1/frameTime << std::endl;
 				clock.restart();
 
 
@@ -58,6 +58,8 @@ void Game::initialiseBattleMode()
 	cardActionMap.reset();
 	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier);
 
+	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
+
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 
@@ -79,14 +81,14 @@ void Game::resize()
 	else
 	{
 
-		if (playerDistanceFromEdgeY > windowInfo.windowedHeightPixels-windowInfo.tileSizeInPixels - 80)
+		if (playerDistanceFromEdgeY > windowInfo.windowedHeightPixels-windowInfo.tileSizeInPixels - 200)
 		{
-			playerDistanceFromEdgeY = windowInfo.windowedHeightPixels - windowInfo.tileSizeInPixels - 80;
+			playerDistanceFromEdgeY = windowInfo.windowedHeightPixels - windowInfo.tileSizeInPixels - 200;
 		}
 
-		if (playerDistanceFromEdgeX > windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 80)
+		if (playerDistanceFromEdgeX > windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 200)
 		{
-			playerDistanceFromEdgeX = windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 80;
+			playerDistanceFromEdgeX = windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 200;
 		}
 
 		
@@ -229,7 +231,7 @@ void Game::draw()
 	xPosition = max(static_cast<float>(-((mapWidth - windowInfo.activeSceneWidthTiles)*static_cast<int>(windowInfo.tileSizeInPixels))),
 		min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
 	yPosition = max(static_cast<float>(-((mapHeight - windowInfo.activeSceneHeightTiles) * static_cast<int>(windowInfo.tileSizeInPixels))),
-		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
+		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPosNoOffset));
 
 	//TODO see if you can make the position definitions in this block more readable by using the new WindowInfo methods
 	if (windowInfo.fullscreen == 1)

@@ -27,6 +27,8 @@ public:
 	CardsInDeck cardsInDeck;
 
 	BattlingCharacterType* type;
+	
+	float yPosNoOffset;
 
 protected:
 

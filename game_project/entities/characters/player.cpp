@@ -76,7 +76,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 		//ensures the player stays bounded within the screen scroll static region
 		playerDistanceFromEdgeX = min(max(static_cast<float>(200),playerDistanceFromEdgeX+distanceMovedX), static_cast<float>((windowInfo.activeSceneWidthPixels-windowInfo.tileSizeInPixels) - 200));
-		playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY + distanceMovedY), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
+		playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY + distanceMovedY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
 	}
 
 	//CARDS

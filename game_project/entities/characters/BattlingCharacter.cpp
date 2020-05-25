@@ -39,10 +39,11 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	
 	//the difference between the location on this frame and the previous frame
 	distanceMovedX = newXPos - xPos;
-	distanceMovedY = newYPos - yPos;
+	distanceMovedY = newYPos - yPosNoOffset;
 
 	//update the location as a linear interpolation between the old location and new, weighted by motion percentage
 	xPos = newXPos;
+	yPosNoOffset = newYPos;
 	yPos = newYPos-verticalHopOffset;
 }
 

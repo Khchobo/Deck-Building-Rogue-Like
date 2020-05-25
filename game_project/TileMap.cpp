@@ -85,7 +85,6 @@ void TileMap::testDrawPath(AStar::CoordinateList path)
 {
 	for (auto& coordinate : path) 
 	{
-		std::cout << "hi";
 		mapTilesWCardActions[coordinate.y*mapWidth + coordinate.x]=9;
 	}
 }

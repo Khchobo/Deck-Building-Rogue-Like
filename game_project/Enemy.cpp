@@ -24,7 +24,7 @@ AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, WindowI
 
 	AStar::Generator generator;
 	// Set 2d map size.
-	generator.setWorldSize({ windowInfo.windowedWidthTiles, windowInfo.windowedHeightTiles });
+	generator.setWorldSize({ static_cast<int>(walkableTiles[0].size()), static_cast<int>(walkableTiles.size()) });
 	// You can use a few heuristics : manhattan, euclidean or octagonal.
 	generator.setHeuristic(AStar::Heuristic::euclidean);
 	generator.setDiagonalMovement(false);
