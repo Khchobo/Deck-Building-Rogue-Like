@@ -81,6 +81,15 @@ void TileMap::initiateMap()
 
 }
 
+void TileMap::testDrawPath(AStar::CoordinateList path)
+{
+	for (auto& coordinate : path) 
+	{
+		std::cout << "hi";
+		mapTilesWCardActions[coordinate.y*mapWidth + coordinate.x]=9;
+	}
+}
+
 //Update the tile map with the action point sprites
 void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 {
@@ -103,7 +112,7 @@ void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 			case(AttackElement::physical):
 				tileNo = 9;
 				break;
-
+			//TODO give its own texture
 			default:
 				tileNo = 1;
 				break;

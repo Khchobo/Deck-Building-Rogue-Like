@@ -6,7 +6,7 @@ float standaloneFunctions::quadraticHop(float a, float x)
 {
 	if (x>1 || x<0)
 	{
-		throw std::invalid_argument("value must be between 0 and 1");
+		throw std::invalid_argument("dvalue must be between 0 and 1");
 	}
 	return -a * x*x + a * x;
 }

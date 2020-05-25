@@ -11,7 +11,7 @@ class BattlingCharacter : public Entity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType* type);
+	BattlingCharacter(BattlingCharacterType* type,std::string identity);
 
 	float cardPoints;
 

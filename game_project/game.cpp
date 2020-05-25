@@ -1,5 +1,7 @@
 #include "game.h"
 
+const float INF = std::numeric_limits<float>::infinity();
+
 void Game::loop()
 {
 	{
@@ -16,7 +18,7 @@ void Game::loop()
 				
 				sf::Time elapsed = clock.getElapsedTime();
 				frameTime = elapsed.asSeconds();
-				//std::cout << 1/frameTime << std::endl<<std::endl;
+				std::cout << 1/frameTime << std::endl<<std::endl;
 				clock.restart();
 
 
@@ -152,9 +154,40 @@ void Game::action()
 	
 	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo, renderMode, cardActionMap);
 
-	cardActionMap.action(frameTime);
+	std::vector<Point> activationPoints, destructionPoints;
+	cardActionMap.updateAllCardActions(frameTime, activationPoints, destructionPoints);
+
+	//TODO only call this when the room is first loaded
+	for (int i = 0; i < collision.size(); i++)
+	{
+		for (int j = 0; j < collision[0].size(); j++)
+		{
+			activePlayerActionPoints[i][j] = 0;
+
+			if (collision[i][j] == 0)
+			{
+				activePlayerActionPoints[i][j] = 1;
+			}
+		}
+	}
+
+	//update player action points map
+	for (int i = 0; i < activationPoints.size(); i++)
+	{
+		activePlayerActionPoints[activationPoints[i].x][activationPoints[i].y] = 1;
+	}
+	for (int i = 0; i < destructionPoints.size(); i++)
+	{
+		activePlayerActionPoints[activationPoints[i].x][activationPoints[i].y] = 0;
+	}
+	
+	
 
 	tileMap.cardActionUpdateMap(cardActionMap);
+
+	//DEBUG testing pathfinding working correctly
+	AStar::CoordinateList path=testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
+	tileMap.testDrawPath(path);
 
 	draw();
 

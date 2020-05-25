@@ -16,6 +16,7 @@
 #include "cardActionMap.h"
 #include "BattlingCharacterType.h"
 #include <filesystem>
+#include "Enemy.h"
 
 class Game
 {
@@ -27,16 +28,18 @@ public:
 
 	WindowInfo windowInfo;
 
-	std::vector<std::vector<int>> collision;
 	sf::RenderWindow window;
 
 	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize,
 		std::vector<std::vector<int>> collision, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
 
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo,collision), player(windowInfo, &battlingCharacterTypes["player"]), mapWidth(mapXSize),
+		tileMap(mapXSize, mapYSize, 16, gameMapInfo,collision), player(windowInfo, &battlingCharacterTypes["player"], "player"), mapWidth(mapXSize),
 		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes),
-		activePlayerActionsPoints(collision.size(), std::vector<int>(collision[0].size)) //initialise a matrix of zeroes the same size as the collision map
+		activePlayerActionPoints(collision), //initialise a matrix of zeroes the same size as the collision map
+		testEnemy(&battlingCharacterTypes["basic_slime"], "basic_slime",14,14, windowInfo)
 	{
+
+		//load settings TODO make an ini file with these settings and make them changable in game
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 
@@ -46,16 +49,15 @@ public:
 			std::string folderName = p.path().u8string().erase(0, 23);
 			if (folderName == "player") continue;
 			battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>(folderName, BattlingCharacterType(folderName)));
-			std::cout << battlingCharacterTypes[folderName].cardPointRecoveryRate;
+			std::cout << folderName<<std::endl;
 		}
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
-
-		std::cout << windowInfo.fullscreen;
 		
 		windowInfo.setWindowedWidth(windowedWidth);
 		windowInfo.setWindowedHeight(windowedHeight);
 
+		//create window of appropriate size depending on default fullscreen setting
 		switch (windowInfo.fullscreen) {
 		case(0):
 			window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels), "Game", sf::Style::Default);
@@ -87,12 +89,11 @@ private:
 
 	Player player;
 
-	//TODO rename
 	int renderModeTimeout = 0;
 
-	//TODO refactor??
-	//player distance from top and left edge
-	float playerDistanceFromEdgeX = 80, playerDistanceFromEdgeY = 80;
+	//default minimum distance between the player and edge of the screen
+	//todo fix bug where it doesnt adjest with gui and fullscreen
+	float playerDistanceFromEdgeX = 200, playerDistanceFromEdgeY = 200;
 
 	void draw();	
 	void action();	
@@ -101,5 +102,10 @@ private:
 	void resizeActiveScene();
 	void initialiseBattleMode();
 
-	std::vector<std::vector<int>> activePlayerActionsPoints;
+	Enemy testEnemy;
+
+	std::vector<std::vector<int>> collision;
+	std::vector<std::vector<int>> activePlayerActionPoints;
+
+	
 };

@@ -121,7 +121,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 	}
 }
 
-void CardActionMap::action(float frameTime)
+void CardActionMap::updateAllCardActions(float frameTime,std::vector<Point>& activationPoints, std::vector<Point>& destructionPoints)
 {
 	auto i = cardActionMap.begin();
 	while (i !=cardActionMap.end())
@@ -130,14 +130,15 @@ void CardActionMap::action(float frameTime)
 		int index= std::distance(cardActionMap.begin(), i);
 
 		cardActionMap[index].aliveTime += frameTime;
-		//std::cout << index << " " << cardActionMap[index].aliveTime<<" "<< cardActionMap[index].activationTime << std::endl;
 
 		if (cardActionMap[index].aliveTime>= cardActionMap[index].activationTime)
 		{
 			cardActionMap[index].active = true;
+			activationPoints.push_back(Point(cardActionMap[index].xPos, cardActionMap[index].yPos));
 		}
 		if (cardActionMap[index].aliveTime >= cardActionMap[index].destructionTime)
 		{
+			activationPoints.push_back(Point(cardActionMap[index].xPos, cardActionMap[index].yPos));
 			i=cardActionMap.erase(cardActionMap.begin()+index);
 			continue;
 		}

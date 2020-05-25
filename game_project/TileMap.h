@@ -12,6 +12,7 @@
 #include <time.h>
 #include "TileType.h"
 #include "CardActionMap.h"
+#include "AStar.hpp"
 
 class TileMap
 {
@@ -51,6 +52,8 @@ public:
 	void initiateMap();
 
 	void cardActionUpdateMap(CardActionMap cardActionMap);
+
+	void testDrawPath(AStar::CoordinateList path);
 
 	virtual void draw(sf::Texture& texture) const;
 private:

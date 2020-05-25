@@ -16,6 +16,12 @@
     <Filter Include="Resource Files\Data Files">
       <UniqueIdentifier>{8e3aed56-77ba-45ed-81bc-df0669c0bd0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{08640f12-e8fd-4840-b0a7-a2c58ddbdeb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Source Files\Entity">
+      <UniqueIdentifier>{8a1e8cdf-d961-46fd-97f8-51969329bb31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,24 +63,6 @@
     <ClCompile Include="standaloneFunctions.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entities\other\CardSprite.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="entities\other\Entity.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="entities\other\NumberEntity.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="entities\characters\BattlingCharacter.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="entities\characters\player.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BattlingCharacterType.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
@@ -82,6 +70,27 @@
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CardAction.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\characters\BattlingCharacter.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\other\Entity.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\other\CardSprite.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\characters\player.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="entities\other\NumberEntity.cpp">
+      <Filter>Resource Files\Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,28 +134,31 @@
     <ClInclude Include="standaloneFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entities\characters\BattlingCharacter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entities\characters\player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entities\other\CardSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entities\other\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="entities\other\NumberEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BattlingCharacterType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CardAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\characters\BattlingCharacter.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\other\Entity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\other\CardSprite.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\characters\player.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="entities\other\NumberEntity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

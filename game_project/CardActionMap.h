@@ -15,7 +15,7 @@ public:
 
 	void newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, int playerXPos, int playerYPos, std::vector<std::vector<int>> collision);
 
-	void action(float frameTime);
+	void updateAllCardActions(float frameTime, std::vector<Point>& activationPoints, std::vector<Point>& destructionPoints);
 
 	std::vector<CardAction> cardActionMap;
 

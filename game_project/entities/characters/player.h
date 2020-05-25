@@ -24,7 +24,7 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo, BattlingCharacterType* type) : BattlingCharacter(type), cardsInHand(1), cardsInDeck(50)
+	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity) : BattlingCharacter(type, identity), cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
 

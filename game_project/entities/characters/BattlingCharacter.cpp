@@ -1,8 +1,11 @@
 #include "BattlingCharacter.h"
 
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type) : 
-	cardsInHand(1), cardsInDeck(50), type(type) {};
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity) : 
+	cardsInHand(1), cardsInDeck(50), type(type) 
+{
+	type->identifier = identity;
+};
 
 void BattlingCharacter::checkForMotion() {}
 
