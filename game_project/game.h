@@ -36,7 +36,7 @@ public:
 		tileMap(mapXSize, mapYSize, 16, gameMapInfo,collision), player(windowInfo, &battlingCharacterTypes["player"], "player"), mapWidth(mapXSize),
 		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes),
 		activePlayerActionPoints(collision), //initialise a matrix of zeroes the same size as the collision map
-		testEnemy(&battlingCharacterTypes["basic_slime"], "basic_slime",14,14, windowInfo)
+		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo)
 	{
 		gameData = loadGameData();
 

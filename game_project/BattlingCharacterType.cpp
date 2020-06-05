@@ -6,8 +6,7 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 {
 	std::ifstream file;
 	Json::Value data;
-	std::string temp = "assets/data/characters/" + typeName + "/data.json";
-	file.open("assets/data/characters/" + typeName + "/data.json");
+	file.open("assets/data/characters/" + typeName + "Data.json");
 	if (file.fail())
 	{
 		std::cout << "loading file " + typeName + " failed" << std::endl;
