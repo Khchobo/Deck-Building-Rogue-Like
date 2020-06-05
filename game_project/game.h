@@ -30,17 +30,17 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData) :
 
 		player(windowInfo, &battlingCharacterTypes["player"], "player"),
 		battlingCharacterTypes(battlingCharacterTypes),
-		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo)
+		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo),gameData(gameData)
 	{
 		/////////////
 		//LOAD DATA//
 		/////////////
 
-		gameData = standaloneFunctions::loadJsonFile("assets/data/gameData.json");
+		
 		windowInfo.fullscreen = gameData["fullscreen"].asBool();
 
 		//////////////
@@ -50,6 +50,10 @@ public:
 		if (gameData["debugSettings"]["loadTestMap"].asBool())
 		{
 			loadTestMap();
+		}
+		else
+		{
+			//TODO GENERATING MAPS
 		}
 	
 

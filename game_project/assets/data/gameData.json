@@ -3,5 +3,6 @@
     "drawAIPath": true,
     "loadTestMap": true
   },
-  "fullscreen" :  true
+  "fullscreen": true,
+  "openInMapGenMode" :  false
 }
