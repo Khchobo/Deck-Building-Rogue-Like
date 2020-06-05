@@ -126,7 +126,7 @@ void Game::action()
 {
 
 	window.clear(sf::Color::Black);
-	tileMap.initiateMap();
+	//tileMap.initiateMap();
 
 	//toggles between fullscreen and windowed mode. the function resize executes any code on the graphics to resize them accordingly
 	if (keyboardArray[sf::Keyboard::F11] && renderModeTimeout > 10)
@@ -154,24 +154,10 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collision, windowInfo, renderMode, cardActionMap);
+	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, windowInfo, renderMode, cardActionMap);
 
 	std::vector<Point> activationPoints, destructionPoints;
 	cardActionMap.updateAllCardActions(frameTime, activationPoints, destructionPoints);
-
-	//TODO only call this when the room is first loaded
-	for (int i = 0; i < collision.size(); i++)
-	{
-		for (int j = 0; j < collision[0].size(); j++)
-		{
-			activePlayerActionPoints[i][j] = 0;
-
-			if (collision[i][j] == 0)
-			{
-				activePlayerActionPoints[i][j] = 1;
-			}
-		}
-	}
 
 	//update player action points map
 	for (int i = 0; i < activationPoints.size(); i++)
@@ -346,17 +332,67 @@ void Game::initialise()
 		initialiseBattleMode();
 	}
 
-Json::Value Game::loadGameData()
+void Game::loadTestMap()
 {
-	std::ifstream file;
-	Json::Value data;
+	Json::Value mapDataJson = loadJsonFile("assets/data/levels/testMap.json");
 
-	file.open("assets/data/gameData.json");
-	if (file.fail())
+	mapWidth = mapDataJson["mapXSize"].asInt();
+	mapHeight = mapDataJson["mapYSize"].asInt();
+
+	tileTypeMap= std::vector<TileType>(mapDataJson["tileTypeMap"].size());
+	collisionMap= std::vector<std::vector<int>>(mapHeight);
+
+	for (int i = 0; i < mapDataJson["tileTypeMap"].size(); i++)
 	{
-		std::cout << "loading gameData failed" << std::endl;
-		assert(false);
+		int tileTypeID= mapDataJson["tileTypeMap"][i].asInt();
+		switch (tileTypeID)
+		{
+		case(0):
+			tileTypeMap[i] = TileType::air;
+			break;
+		case(1):
+			tileTypeMap[i] = TileType::wall;
+			break;
+		case(2):
+			tileTypeMap[i] = TileType::flowers;
+			break;
+		default:
+			std::stringstream errMsg;
+			std::cout << std::to_string(tileTypeID) + " is an invalid Tile ID";
+			errMsg << "Invalid Tile ID";
+			throw std::exception(errMsg.str().c_str());
+			break;
+		}
 	}
-	file >> data;
-	return data;
+
+	for (int i = 0; i < mapHeight; i++)
+	{
+		for (int j = 0; j < mapWidth; j++)
+		{
+			collisionMap[i].push_back(mapDataJson["collisionMap"][i][j].asInt());
+		}
+	}
+
+	tileMap = TileMap(mapWidth, mapHeight, 16, tileTypeMap, collisionMap);
+	activePlayerActionPoints = std::vector<std::vector<int>>(mapHeight);
+
+	for (int i = 0; i < collisionMap.size(); i++)
+	{
+		activePlayerActionPoints[i] = std::vector<int>(mapWidth);
+	}
+
+	for (int i = 0; i < collisionMap.size(); i++)
+	{
+		for (int j = 0; j < collisionMap[0].size(); j++)
+		{
+			activePlayerActionPoints[i][j]=0;
+
+			if (collisionMap[i][j] == 0)
+			{
+				activePlayerActionPoints[i][j] = 1;
+			}
+		}
+	}
+
 }
+;

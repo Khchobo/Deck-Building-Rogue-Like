@@ -85,8 +85,10 @@ void TileMap::testDrawPath(AStar::CoordinateList path)
 {
 	for (auto& coordinate : path) 
 	{
+		std::cout << coordinate.y << " " << coordinate.x<<std::endl;
 		mapTilesWCardActions[coordinate.y*mapWidth + coordinate.x]=9;
 	}
+	std::cout << std::endl;
 }
 
 //Update the tile map with the action point sprites

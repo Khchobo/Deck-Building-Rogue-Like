@@ -1,5 +1,7 @@
 {
   "debugSettings": {
-    "drawAIPath": true
-  }
+    "drawAIPath": true,
+    "loadTestMap": true
+  },
+  "fullscreen" :  true
 }

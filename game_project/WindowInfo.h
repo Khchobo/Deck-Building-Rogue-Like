@@ -9,7 +9,7 @@ public:
 	//the product of the above, the size of a tile in absolute pixels
 	int tileSizeInPixels;
 
-	int fullscreen = 1;
+	int fullscreen = 0;
 
 	//windowed width and height is the size of the window when not in fullscreen mode
 	int windowedWidthTiles, windowedHeightTiles, windowedWidthPixels, windowedHeightPixels;

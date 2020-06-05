@@ -30,15 +30,28 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::vector<TileType> gameMapInfo, int mapXSize, int mapYSize,
-		std::vector<std::vector<int>> collision, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes) :
 
-		tileMap(mapXSize, mapYSize, 16, gameMapInfo,collision), player(windowInfo, &battlingCharacterTypes["player"], "player"), mapWidth(mapXSize),
-		mapHeight(mapYSize), collision(collision),battlingCharacterTypes(battlingCharacterTypes),
-		activePlayerActionPoints(collision), //initialise a matrix of zeroes the same size as the collision map
+		player(windowInfo, &battlingCharacterTypes["player"], "player"),
+		battlingCharacterTypes(battlingCharacterTypes),
 		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo)
 	{
+		/////////////
+		//LOAD DATA//
+		/////////////
+
 		gameData = standaloneFunctions::loadJsonFile("assets/data/gameData.json");
+		windowInfo.fullscreen = gameData["fullscreen"].asBool();
+
+		//////////////
+		//CREATE MAP//
+		//////////////
+
+		if (gameData["debugSettings"]["loadTestMap"].asBool())
+		{
+			loadTestMap();
+		}
+	
 
 		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
 		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
@@ -100,10 +113,12 @@ private:
 	void resizeActiveScene();
 	void initialiseBattleMode();
 	Json::Value loadGameData();
+	void loadTestMap();
 
 	Enemy testEnemy;
 
-	std::vector<std::vector<int>> collision;
+	std::vector<std::vector<int>> collisionMap;
+	std::vector<TileType> tileTypeMap;
 	std::vector<std::vector<int>> activePlayerActionPoints;
 
 	
