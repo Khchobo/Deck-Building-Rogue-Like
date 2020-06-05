@@ -4,15 +4,9 @@ BattlingCharacterType::BattlingCharacterType() {};
 
 BattlingCharacterType::BattlingCharacterType(std::string typeName)
 {
-	std::ifstream file;
-	Json::Value data;
-	file.open("assets/data/characters/" + typeName + "Data.json");
-	if (file.fail())
-	{
-		std::cout << "loading file " + typeName + " failed" << std::endl;
-		assert(false);
-	}
-	file >> data;
+	std::string filePath = "assets/data/characters/" + typeName + "Data.json";
+	Json::Value data = standaloneFunctions::loadJsonFile(filePath.c_str());
+
 	cardPointsMax = data["cardPointsMax"].asFloat();
 	identifier = data["identifier"].asString();
 	cardPointRecoveryRate= data["cardPointRecoveryRate"].asFloat();

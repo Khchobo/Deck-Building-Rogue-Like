@@ -2,6 +2,22 @@
 
 #define PI 3.14159265
 
+Json::Value standaloneFunctions::loadJsonFile(const char* filename)
+{
+	std::ifstream file;
+	Json::Value data;
+	file.open(filename);
+	if (file.fail())
+	{
+		std::stringstream errMsg;
+		errMsg << "loading file failed";
+		throw std::exception(errMsg.str().c_str());
+
+	}
+	file >> data;
+	return data;
+}
+
 float standaloneFunctions::quadraticHop(float a, float x)
 {
 	if (x>1 || x<0)

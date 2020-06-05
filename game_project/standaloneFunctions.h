@@ -5,6 +5,8 @@
 #include <string>
 #include "WindowInfo.h"
 #include <stdexcept>
+#include "json/json.h"
+#include <fstream>
 
 #ifndef STANDALONE_H
 #define STANDALONE_H
@@ -18,6 +20,8 @@ namespace standaloneFunctions {
 
 	float easeInOut(float x);
 	std::vector<Point> lineOfSight(int x, int y, int x2, int y2);
+
+	Json::Value loadJsonFile(const char* filename);
 
 	/**
 	*Returns the quadratic formula -a*x^2+ax between x=0 and x=1. Used to give a vertical offset when moving

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <assert.h>
 #include "json\json.h"
+#include "standaloneFunctions.h"
 
 class BattlingCharacterType
 {
