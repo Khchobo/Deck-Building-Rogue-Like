@@ -340,3 +340,17 @@ void Game::initialise()
 		initialiseBattleMode();
 	}
 
+Json::Value Game::loadGameData()
+{
+	std::ifstream file;
+	Json::Value data;
+
+	file.open("assets/data/gameData.json");
+	if (file.fail())
+	{
+		std::cout << "loading gameData failed" << std::endl;
+		assert(false);
+	}
+	file >> data;
+	return data;
+}

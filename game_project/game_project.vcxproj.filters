@@ -166,8 +166,5 @@
     <None Include="fixedColourShader.frag">
       <Filter>Resource Files\Source Files</Filter>
     </None>
-    <None Include="assets\data\characters\player\data.json">
-      <Filter>Resource Files\Data Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -173,7 +173,6 @@
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\data\characters\player\data.json" />
     <None Include="fixedColourShader.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

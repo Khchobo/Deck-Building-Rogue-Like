@@ -38,10 +38,7 @@ public:
 		activePlayerActionPoints(collision), //initialise a matrix of zeroes the same size as the collision map
 		testEnemy(&battlingCharacterTypes["basic_slime"], "basic_slime",14,14, windowInfo)
 	{
-
-		//load settings TODO make an ini file with these settings and make them changable in game
-		sf::ContextSettings settings;
-		settings.antialiasingLevel = 8;
+		gameData = loadGameData();
 
 		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
 		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
@@ -76,19 +73,15 @@ public:
 private:
 
 	CardActionMap cardActionMap;
-
 	std::map<std::string, BattlingCharacterType> battlingCharacterTypes;
-
 	std::map<int,bool> keyboardArray;
-
 	sf::Clock clock;
 	sf::Shader fixedColourShader;
+	Player player;
+	Json::Value gameData;
 
 	//Determines which mode we are in. 0 is overworld movement, 1 is card fight.
 	int renderMode;
-
-	Player player;
-
 	int renderModeTimeout = 0;
 
 	//default minimum distance between the player and edge of the screen
@@ -101,6 +94,7 @@ private:
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();
+	Json::Value loadGameData();
 
 	Enemy testEnemy;
 
