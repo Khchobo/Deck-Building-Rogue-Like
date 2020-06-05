@@ -10,8 +10,8 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 	file.open("assets/data/characters/" + typeName + "/data.json");
 	if (file.fail())
 	{
+		std::cout << "loading file " + typeName + " failed" << std::endl;
 		assert(false);
-		std::cout << "loading file" + typeName + "failed" << std::endl;
 	}
 	file >> data;
 	cardPointsMax = data["cardPointsMax"].asFloat();

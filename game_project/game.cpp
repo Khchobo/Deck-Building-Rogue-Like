@@ -188,8 +188,14 @@ void Game::action()
 	tileMap.cardActionUpdateMap(cardActionMap);
 
 	//DEBUG testing pathfinding working correctly
-	AStar::CoordinateList path=testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
-	tileMap.testDrawPath(path);
+	
+	std::cout << gameData["debugSettings"]["drawAIPath"];
+	if (gameData["debugSettings"]["drawAIPath"].asBool())
+	{
+		std::cout << gameData["debugSettings"]["drawAIPath"];
+		AStar::CoordinateList path = testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
+		tileMap.testDrawPath(path);
+	}
 
 	draw();
 
