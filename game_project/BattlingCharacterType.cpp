@@ -22,7 +22,7 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 		attackVisionRadius = data["attackVisionRadius"].asInt();
 		movementTimeoutRunning = data["movementTimeoutRunning"].asFloat();
 		targetDirection = directionMap[data["targetDirection"].asString()];
-		tagetDistance = data["targetDistance"].asInt();
+		targetDistance = data["targetDistance"].asInt();
 
 	}
 
