@@ -7,7 +7,7 @@ BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string ide
 	type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
-	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0, imageManager);
+	directionalArrow.initialise("directionalArrow.png", position, 0, imageManager);
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -18,8 +18,7 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	if (motionPercentage == 1)
 	{
 		inMotion = 0;
-		currentXTilePos = futureXTilePos;
-		currentYTilePos = futureYTilePos;
+		currentTilePos = futureTilePos;
 	}
 
 	//motion percentage determined according to frame time to keep motion speed constant regardless of framerate
@@ -35,19 +34,19 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	float newYPos;
 
 
-	newXPos = (currentXTilePos + standaloneFunctions::easeInOut(motionPercentage) * (futureXTilePos - currentXTilePos))*windowInfo.tileSizeInPixels;
-	newYPos = (currentYTilePos + standaloneFunctions::easeInOut(motionPercentage) * (futureYTilePos - currentYTilePos))*windowInfo.tileSizeInPixels;
+	newXPos = (currentTilePos.x + standaloneFunctions::easeInOut(motionPercentage) * (futureTilePos.x - currentTilePos.x))*windowInfo.tileSizeInPixels;
+	newYPos = (currentTilePos.y + standaloneFunctions::easeInOut(motionPercentage) * (futureTilePos.y - currentTilePos.y))*windowInfo.tileSizeInPixels;
 
 	verticalHopOffset = quadraticHop(50, motionPercentage);
 	
 	//the difference between the location on this frame and the previous frame
-	distanceMovedX = newXPos - xPos;
+	distanceMovedX = newXPos - position.x;
 	distanceMovedY = newYPos - yPosNoOffset;
 
 	//update the location as a linear interpolation between the old location and new, weighted by motion percentage
-	xPos = newXPos;
+	position.x = newXPos;
 	yPosNoOffset = newYPos;
-	yPos = newYPos-verticalHopOffset;
+	position.y = newYPos-verticalHopOffset;
 }
 
 void BattlingCharacter::initialiseBattleMode()
@@ -56,8 +55,8 @@ void BattlingCharacter::initialiseBattleMode()
 
 void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
 {
-	directionalArrow.xPos = xPos;
-	directionalArrow.yPos = yPos+32;
+	directionalArrow.position.x = position.x;
+	directionalArrow.position.y = position.y+32;
 
 	//PLAYER MOTION
 	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
@@ -88,26 +87,22 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	switch (direction) {
 		//up
 	case(0):
-		futureXTilePos = currentXTilePos;
-		futureYTilePos = currentYTilePos - 1;
+		futureTilePos = sf::Vector2i(currentTilePos.x, currentTilePos.y-1);
 		break;
 		//left
 	case(1):
-		futureXTilePos = currentXTilePos - 1;
-		futureYTilePos = currentYTilePos;
+		futureTilePos = sf::Vector2i(currentTilePos.x-1, currentTilePos.y);
 		break;
 		//down
 	case(2):
-		futureXTilePos = currentXTilePos;
-		futureYTilePos = currentYTilePos + 1;
+		futureTilePos = sf::Vector2i(currentTilePos.x, currentTilePos.y +1);
 		break;
 		//right
 	case(3):
-		futureXTilePos = currentXTilePos + 1;
-		futureYTilePos = currentYTilePos;
+		futureTilePos = sf::Vector2i(currentTilePos.x+1, currentTilePos.y);
 		break;
 	}
-	if (collision[futureYTilePos][futureXTilePos] == 0)
+	if (collision[futureTilePos.y][futureTilePos.x] == 0)
 	{
 		cardPoints -= cardPointsStepCost;
 		inMotion = true;
@@ -115,12 +110,12 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	}
 }
 
-void BattlingCharacter::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager)
+void BattlingCharacter::draw(sf::RenderWindow& window, Point backgroundTexturePosition, ImageManager& imageManager)
 {
-	directionalArrow.xPos = directionalArrow.xPos + backgroundXPos;
-	directionalArrow.yPos = directionalArrow.yPos + backgroundYPos;
+	directionalArrow.position.x += backgroundTexturePosition.x;
+	directionalArrow.position.y += backgroundTexturePosition.y;
 	directionalArrow.draw(window, imageManager);
 	sprite.setTexture(texture);
-	sprite.setPosition(xPos + backgroundXPos, yPos + backgroundYPos);
+	sprite.setPosition(position.x + backgroundTexturePosition.x, position.y + backgroundTexturePosition.y);
 	window.draw(sprite);
 }

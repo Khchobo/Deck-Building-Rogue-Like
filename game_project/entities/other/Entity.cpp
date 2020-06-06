@@ -1,17 +1,16 @@
 #include "Entity.h"
 
 //alignmentMode is whether to position relative to the top right corner or the middle of the texture.
-void Entity::initialise(std::string fileName,float x, float y,bool alignmentMode,ImageManager& imageManager)
+void Entity::initialise(std::string fileName,sf::Vector2f position,bool alignmentMode,ImageManager& imageManager)
 {
 	
 	alignment = alignmentMode;
 
 	sprite.setTexture(imageManager.getImage(fileName)); 
-	std::cout << fileName<<std::endl<<std::endl;
-	textureName = fileName;
-	xPos = x;
-	yPos = y;
 	
+	textureSize = (imageManager.getImage(fileName).getSize());
+	position = position;
+
 }
 
 void Entity::draw(sf::RenderWindow& window,ImageManager& imageManager)
@@ -19,10 +18,10 @@ void Entity::draw(sf::RenderWindow& window,ImageManager& imageManager)
 	switch (alignment)
 	{
 	case(0):
-		sprite.setPosition(xPos, yPos);
+		sprite.setPosition(position);
 		break;
 	case(1):
-		sprite.setPosition(xPos - imageManager.getImage(textureName).getSize().x / 2, yPos - imageManager.getImage(textureName).getSize().y / 2);
+		sprite.setPosition(position.x - textureSize.x / 2, position.y - textureSize.y / 2);
 		break;
 	default:
 		throw std::invalid_argument("alignment only takes 0 or 1");

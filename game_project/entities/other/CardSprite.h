@@ -18,16 +18,15 @@ public:
 	//0 is not selected, 1 is selected. Only switches once the in motion
 	//variable is set to false, so for example if inMotion is true and 
 	//position is set to 0, we know the card is currently moving upwards
-	int position;
+	int movementLocation;
 
 	//the ID of the card in the deck
 	long double id;
 
 	CardSprite()
 	{
-		
 
-		position = 0;
+		movementLocation = 0;
 		inMotion = 0;
 	}
 
@@ -39,8 +38,7 @@ public:
 
 
 	//the location before this motion was initiated
-	float previousXPos;
-	float previousYPos;
+	sf::Vector2f previousPos;
 
 private:
 

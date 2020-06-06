@@ -15,8 +15,7 @@ using namespace standaloneFunctions;
 void CardsInHand::newMotion(int index)
 {
 	cardsInHand[index].inMotion = true;
-	cardsInHand[index].previousXPos = cardsInHand[index].xPos;
-	cardsInHand[index].previousYPos = cardsInHand[index].yPos;
+	cardsInHand[index].previousPos = cardsInHand[index].position;
 }
 
 //print card info to console
@@ -80,7 +79,7 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//centred vertically
 		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
 
-		deckSprite.initialise("card2.png", initialX, initialY, 1, imageManager);
+		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), 1, imageManager);
 
 		//one tile to the right from the edge of the UI box
 		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
@@ -89,7 +88,7 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 
 		text.setPosition(initialX, initialY);
 
-		noOfCardsInHand.initialise(deckSprite.xPos, deckSprite.yPos, cardsRemaining.size());
+		noOfCardsInHand.initialise(deckSprite.position, cardsRemaining.size());
 	}
 
 	drawCard(cardsInDeck,cardsRemaining,identifier, imageManager);
@@ -122,20 +121,19 @@ void CardsInHand::resize(WindowInfo windowInfo)
 
 	text.setPosition(tempX, tempY);
 
-	deckSprite.xPos = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
+	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
 
 	//centred as it is moved up by 48 i.e. half the length of the card
-	deckSprite.yPos = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
 
-	noOfCardsInHand.xPos = deckSprite.xPos;
-	noOfCardsInHand.yPos = deckSprite.yPos;
+	noOfCardsInHand.position = deckSprite.position;
 
 	if (windowInfo.fullscreen == 1)
 	{
 		for (int i = 0; i < cardsInHand.size(); i++)
 		{
-			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-			cardsInHand[i].yPos = cardsInHand[i].yPos + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].position.y = cardsInHand[i].position.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
 		}
 	}
 	else
@@ -143,8 +141,8 @@ void CardsInHand::resize(WindowInfo windowInfo)
 
 		for (int i = 0; i < cardsInHand.size(); i++)
 		{
-			cardsInHand[i].previousYPos = cardsInHand[i].previousYPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-			cardsInHand[i].yPos = cardsInHand[i].yPos - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
+			cardsInHand[i].position.y = cardsInHand[i].position.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
 		}
 
 	}
@@ -215,7 +213,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 
 				for (int i = selected+2; i < cardsInHand.size(); i++)
 				{
-					cardsInHand[i].position = 3;
+					cardsInHand[i].movementLocation = 3;
 					newMotion(i);
 				}
 
@@ -228,7 +226,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 				}
 				else
 				{
-					cardsInHand[selected + 1].position = 4;
+					cardsInHand[selected + 1].movementLocation = 4;
 					newMotion(selected + 1);
 					cardsInHand.erase(cardsInHand.begin() + selected);
 				}

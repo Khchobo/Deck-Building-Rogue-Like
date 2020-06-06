@@ -63,8 +63,7 @@ void Game::initialiseBattleMode()
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 
-	player.cardPointsNumber.xPos = windowInfo.activeSceneWidthPixels + 4 * 32;
-	player.cardPointsNumber.yPos = windowInfo.getWindowHeight() - 32;
+	player.cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 32); 
 }
 
 void Game::resize()
@@ -177,7 +176,7 @@ void Game::action()
 	
 	for (auto& enemy : enemies)
 	{
-		enemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints, collisionMap);
+		enemy.action(player.currentTilePos, windowInfo, activePlayerActionPoints, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
 			tileMap.testDrawPath(enemy.currentPath);
@@ -217,38 +216,37 @@ void Game::draw()
 
 	//TODO - case when screen size is larger than map size
 
-		//positioning of the overall texture relative to the window
-	float xPosition, yPosition;
-
+	//positioning of the overall texture relative to the window
+	Point backgroundTexturePosition;
 
 	int desktopTileOffsetX = static_cast<int>(windowInfo.getWindowWidth()) % 32;
 	int desktopTileOffsetY = static_cast<int>(windowInfo.getWindowHeight()) % 32;
 
 	//determined by the players position as well as their distance from edge. however cant be further in either direction than the edge of the map
-	xPosition = max(static_cast<float>(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels-desktopTileOffsetX)),
-		min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
-	yPosition = max(static_cast<float>(-(mapHeight*windowInfo.tileSizeInPixels - windowInfo.activeSceneHeightPixels - desktopTileOffsetY)),
+	backgroundTexturePosition.x = max(static_cast<float>(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels-desktopTileOffsetX)),
+		min(static_cast<float>(0), playerDistanceFromEdgeX - player.position.x));
+	backgroundTexturePosition.y = max(static_cast<float>(-(mapHeight*windowInfo.tileSizeInPixels - windowInfo.activeSceneHeightPixels - desktopTileOffsetY)),
 		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPosNoOffset));
 	//if the fullscreen window is larger, centre it 
 	if (mapWidth*windowInfo.tileSizeInPixels < windowInfo.activeSceneWidthPixels)
 	{
-
-		xPosition = (windowInfo.getWindowWidth() / 2) - (((mapWidth + windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
+		backgroundTexturePosition.x = (windowInfo.getWindowWidth() / 2) - (((mapWidth + windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 	}
 	if (mapHeight*windowInfo.tileSizeInPixels < windowInfo.activeSceneHeightPixels)
 	{
-		yPosition = (windowInfo.getWindowHeight() / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
+		backgroundTexturePosition.y = (windowInfo.getWindowHeight() / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 	}
 
-	sprite.setPosition(xPosition, yPosition);
+
+	sprite.setPosition(backgroundTexturePosition.x, backgroundTexturePosition.y);
 
 	//draw the background
 	window.draw(sprite);
-	player.draw(window,xPosition,yPosition, imageManager);
+	player.draw(window, backgroundTexturePosition, imageManager);
 
 	for (auto& enemy : enemies)
 	{
-		enemy.draw(window, xPosition, yPosition,imageManager);
+		enemy.draw(window, backgroundTexturePosition,imageManager);
 	}
 
 	//draw cards if in battle mode

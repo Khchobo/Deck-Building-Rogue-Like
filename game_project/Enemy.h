@@ -7,9 +7,9 @@ class Enemy : public BattlingCharacter
 {
 public:
 
-	Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos, WindowInfo windowInfo, ImageManager& imageManager);
+	Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, WindowInfo windowInfo, ImageManager& imageManager);
 
-	void action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision);
+	void action(sf::Vector2i playerTilePos, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision);
 	AStar::CoordinateList currentPath;
 private:
 	float movementTimeout;

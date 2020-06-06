@@ -26,12 +26,9 @@ public:
 	{
 		texture.loadFromFile("assets/tic_tac.png");
 		
-		currentXTilePos = 2;
-		currentYTilePos = 2;
+		currentTilePos = sf::Vector2i(2, 2);
 
-		xPos = currentXTilePos * windowInfo.tileSizeInPixels;
-		yPos = currentYTilePos * windowInfo.tileSizeInPixels;
-
+		position = sf::Vector2f(currentTilePos.x * windowInfo.tileSizeInPixels, currentTilePos.y * windowInfo.tileSizeInPixels);
 	}
 
 	CardsInHand cardsInHand;

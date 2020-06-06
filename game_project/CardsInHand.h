@@ -20,7 +20,7 @@ public:
 	CardsInHand(int x) : cardsInHand(x)
 	{
 		selected = rand() % x;
-		cardsInHand[selected].position = 1;
+		cardsInHand[selected].movementLocation = 1;
 		cardsInHand[selected].offset = 1;
 	}
 

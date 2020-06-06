@@ -2,14 +2,14 @@
 #include <iostream>
 #include <assert.h>
 
-NumberEntity::NumberEntity() : digitTextures(10) { initialise(0, 0, 0); }
+NumberEntity::NumberEntity() : digitTextures(10) { initialise(sf::Vector2f(0,0), 0); }
 
-NumberEntity::NumberEntity(float xPos, float yPos, int initialValue) : digitTextures(10)
+NumberEntity::NumberEntity(sf::Vector2f incomingPosition, int initialValue) : digitTextures(10)
 {
-	initialise(xPos, yPos, initialValue);
+	initialise(incomingPosition, initialValue);
 }
 
-void NumberEntity::initialise(float x, float y, int initialValue)
+void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -21,8 +21,7 @@ void NumberEntity::initialise(float x, float y, int initialValue)
 
 	value = initialValue;
 
-	xPos = x;
-	yPos = y;
+	position = incomingPosition;
 }
 
 void NumberEntity::draw(sf::RenderWindow& window)
@@ -41,7 +40,7 @@ void NumberEntity::draw(sf::RenderWindow& window)
 	finalSprite.setTexture(finalTexture);
 
 	//TODO make this work with alignment modes
-	finalSprite.setPosition(xPos-finalTexture.getSize().x/2, yPos- finalTexture.getSize().y/2);
+	finalSprite.setPosition(position.x-finalTexture.getSize().x/2, position.y- finalTexture.getSize().y/2);
 	window.draw(finalSprite);
 
 

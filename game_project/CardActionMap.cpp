@@ -10,7 +10,7 @@ void CardActionMap::reset() {
 	//TODO
 }
 
-void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, int playerXPos, int playerYPos, std::vector<std::vector<int>> collision)
+void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>> collision)
 {
 	std::vector<std::vector<int>> directionMap = { {0,-1},{-1,0},{0,1},{1,0} };
 
@@ -23,8 +23,8 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			int xPos;
 			int yPos;
 
-			xPos = playerXPos+directionMap[direction][0]*(i+1);
-			yPos = playerYPos+directionMap[direction][1]*(i+1);
+			xPos = playerPos.x+directionMap[direction][0]*(i+1);
+			yPos = playerPos.y+directionMap[direction][1]*(i+1);
 
 			//check if it goes out of range of the map
 			if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
@@ -32,7 +32,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				continue;
 			}
 
-			if (lineOfSightObstructed(playerXPos, playerYPos, xPos, yPos, collision)) { continue; }
+			if (lineOfSightObstructed(playerPos.x, playerPos.y, xPos, yPos, collision)) { continue; }
 
 			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
@@ -57,8 +57,8 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			for (int j = 0; j < 4; j++)
 			{
 
-				xPos = playerXPos + (i + 1) * directionMap[j][0];
-				yPos = playerYPos + (i + 1) * directionMap[j][1];
+				xPos = playerPos.x + (i + 1) * directionMap[j][0];
+				yPos = playerPos.y + (i + 1) * directionMap[j][1];
 
 				//check if it goes out of range of the map
 				if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
@@ -66,7 +66,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 					continue;
 				}
 
-				if (lineOfSightObstructed(playerXPos, playerYPos, xPos, yPos, collision)) {
+				if (lineOfSightObstructed(playerPos.x, playerPos.y, xPos, yPos, collision)) {
 					continue;
 				}
 
@@ -84,9 +84,9 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 
 		float activationTime;
 
-		for (int i = playerXPos - tileRadius; i < playerXPos + tileRadius + 1; i++)
+		for (int i = playerPos.x - tileRadius; i < playerPos.x + tileRadius + 1; i++)
 		{
-			for (int j = playerYPos - tileRadius; j < playerYPos + tileRadius + 1; j++)
+			for (int j = playerPos.y - tileRadius; j < playerPos.y + tileRadius + 1; j++)
 			{
 				//check if it goes out of range of the map
 				if (i < 0 || i >= collision[0].size() || j < 0 || j >= collision.size())
@@ -94,11 +94,11 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 					continue;
 				}
 
-				float euclideanDistance = sqrt(pow((playerXPos - i), 2) + pow((playerYPos - j), 2));
+				float euclideanDistance = sqrt(pow((playerPos.x - i), 2) + pow((playerPos.y - j), 2));
 
 				if (euclideanDistance <= tileRadius)
 				{
-					if (lineOfSightObstructed(playerXPos, playerYPos, i, j, collision)) { continue; }
+					if (lineOfSightObstructed(playerPos.x, playerPos.y, i, j, collision)) { continue; }
 
 					activationTime= euclideanDistance * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 

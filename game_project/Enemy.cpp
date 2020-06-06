@@ -1,20 +1,19 @@
 #include "Enemy.h"
 
-Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager)
+Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition,WindowInfo windowInfo,ImageManager& imageManager)
+	: BattlingCharacter(type, identity, imageManager)
 {
 
 	texture.loadFromFile("assets/slime.png");
-	currentXTilePos = xPos;
-	currentYTilePos = yPos;
+	currentTilePos = tilePosition;
 
-	xPos = currentXTilePos * windowInfo.tileSizeInPixels;
-	yPos = currentYTilePos * windowInfo.tileSizeInPixels;
+	position = sf::Vector2f(currentTilePos.x * windowInfo.tileSizeInPixels,currentTilePos.y * windowInfo.tileSizeInPixels);
 	pathUpdateTimeout = 0;
 	movementTimeout = type->movementTimeoutIdle;
-	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0,imageManager);
+	directionalArrow.initialise("directionalArrow.png", position, 0,imageManager);
 }
 
-void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision)
+void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision)
 {
 	resetBehaviourTriggers();
 
@@ -23,7 +22,7 @@ void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<
 	if (pathUpdateTimeout <= 0)
 	{
 		pathUpdateTimeout = pathUpdateTimeoutInterval;
-		currentPath = pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
+		currentPath = pathfindNextSpace(playerTilePos.x, playerTilePos.y, windowInfo, walkableTiles);
 	}
 
 	//Movement
@@ -34,22 +33,22 @@ void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<
 
 		for (int i = 1; i < currentPath.size(); i++)
 		{
-			if (currentXTilePos > currentPath[1].x)
+			if (currentTilePos.x > currentPath[1].x)
 			{
 				direction = 1;
 				break;
 			}
-			else if (currentXTilePos < currentPath[1].x)
+			else if (currentTilePos.x < currentPath[1].x)
 			{
 				direction = 3;
 				break;
 			}
-			else if (currentYTilePos > currentPath[1].y)
+			else if (currentTilePos.y > currentPath[1].y)
 			{
 				direction = 0;
 
 			}
-			else if (currentYTilePos< currentPath[1].y)
+			else if (currentTilePos.y< currentPath[1].y)
 			{
 				direction = 2;
 			}
@@ -81,6 +80,6 @@ AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, WindowI
 			}
 		}
 	}
-	AStar::CoordinateList path = generator.findPath({ targetX, targetY }, { currentXTilePos, currentYTilePos });
+	AStar::CoordinateList path = generator.findPath({ targetX, targetY }, { currentTilePos.x, currentTilePos.y });
 	return path;
 }

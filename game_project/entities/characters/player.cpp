@@ -43,8 +43,7 @@ void Player::checkInputs(std::map<int, bool> keyboardArray)
 void Player::resize(WindowInfo windowInfo)
 {
 
-	cardPointsNumber.xPos = windowInfo.activeSceneWidthPixels + 4 * 32;
-	cardPointsNumber.yPos = windowInfo.getWindowHeight() - 32;
+	cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 32);
 
 	cardsInHand.resize(windowInfo);
 }
@@ -77,7 +76,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 		if (cardIndex != 10000)
 		{
-			cardActionMap.newAction(cardIndex, cardsInDeck, direction, currentXTilePos, currentYTilePos, collision);
+			cardActionMap.newAction(cardIndex, cardsInDeck, direction, currentTilePos, collision);
 		}
 
 

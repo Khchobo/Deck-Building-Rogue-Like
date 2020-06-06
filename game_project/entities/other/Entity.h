@@ -8,17 +8,17 @@
 #include "Animation.h"
 #include "globalVariables.h"
 #include <minmax.h>
-
+#include "Point.h"
 class Entity
 {
 public:
 
 	Entity(){}
 
-	float xPos;
-	float yPos;
+	sf::Vector2f position;
+
 	void draw(sf::RenderWindow &window, ImageManager& imageManager);
-	void initialise(std::string fileName,float xPos,float yPos,bool offset, ImageManager& imageManager);
+	void initialise(std::string fileName, sf::Vector2f position,bool offset, ImageManager& imageManager);
 
 	void animationUpdate(ImageManager imageManager);
 	void animationNew(std::string name);
@@ -31,9 +31,10 @@ public:
 
 	std::string currentAnimation;
 
-	std::string textureName;
 	float animationFrameTime;
 	int animationFrame;
+
+	sf::Vector2u textureSize;
 
 	int alignment;
 

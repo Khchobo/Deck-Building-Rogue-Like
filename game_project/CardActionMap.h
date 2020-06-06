@@ -13,7 +13,7 @@ public:
 
 	void reset();
 
-	void newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, int playerXPos, int playerYPos, std::vector<std::vector<int>> collision);
+	void newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>> collision);
 
 	void updateAllCardActions(float frameTime, std::vector<Point>& activationPoints, std::vector<Point>& destructionPoints);
 

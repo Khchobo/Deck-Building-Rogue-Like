@@ -19,11 +19,10 @@ public:
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
-	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager);
+	void draw(sf::RenderWindow& window, Point backgroundTexturePosition, ImageManager& imageManager);
 
 	//current tile alignment or tile alignment before current motion began
-	int currentXTilePos;
-	int currentYTilePos;
+	sf::Vector2i currentTilePos;
 
 	CardsInHand cardsInHand;
 	CardsInDeck cardsInDeck;
@@ -56,8 +55,7 @@ protected:
 	//card point cost to move 1 tile
 	float cardPointsStepCost;
 
-	int futureXTilePos;
-	int futureYTilePos;
+	sf::Vector2i futureTilePos;
 
 	float distanceMovedX;
 	float distanceMovedY;

@@ -5,8 +5,8 @@ class NumberEntity :
 {
 public:
 	NumberEntity();
-	NumberEntity(float xPos, float yPos, int initialValue);
-	void initialise(float xPos, float yPos,int initialValue);
+	NumberEntity(sf::Vector2f incomingPosition, int initialValue);
+	void initialise(sf::Vector2f incomingPosition,int initialValue);
 	void draw(sf::RenderWindow& window);
 
 	int value;

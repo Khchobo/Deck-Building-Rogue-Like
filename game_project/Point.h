@@ -4,9 +4,9 @@ struct Point
 {
 public:
 	Point();
-	Point(int x, int y);
+	Point(float x, float y);
 
-	int x;
-	int y;
+	float x;
+	float y;
 };
 

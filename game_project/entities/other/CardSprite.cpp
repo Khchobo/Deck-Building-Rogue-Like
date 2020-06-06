@@ -6,17 +6,16 @@ void CardSprite::initialise(Entity deckSprite,ImageManager& imageManager)
 {
 	sprite.setTexture(imageManager.getImage("card2.png"));
 	
-	position = 2;
+	movementLocation = 2;
 	inMotion = 1;
-	xPos = deckSprite.xPos-32;
-	yPos = deckSprite.yPos-48;
-	previousXPos = xPos;
-	previousYPos = yPos;
+	position.x = deckSprite.position.x-32;
+	position.y = deckSprite.position.y-48;
+	previousPos = position;
 }
 
 void CardSprite::draw(sf::RenderWindow& window)
 {
-	sprite.setPosition(xPos, yPos);
+	sprite.setPosition(position);
 	window.draw(sprite);
 }
 
@@ -29,30 +28,29 @@ void CardSprite::move(int i, WindowInfo windowInfo)
 			motionPercentage = 0;
 			inMotion = 0;
 
-			if (position==2 || position==3)
+			if (movementLocation ==2 || movementLocation ==3)
 			{
-				int formerPos = position;
-				position = 0;
+				int formerPos = movementLocation;
+				movementLocation = 0;
 				if (i==0 && formerPos==2)
 				{
-					previousXPos = xPos;
-					previousYPos = yPos;
+					previousPos = position;
 					inMotion = 1;
 				}
 			}
-			else if (position == 4)
+			else if (movementLocation == 4)
 			{
-				position = 1;
+				movementLocation = 1;
 			}
 			else {
-				position = (position + 1) % 2;
+				movementLocation = (movementLocation + 1) % 2;
 			}
 
 			//std::cout << position;
 			return;
 		}
 
-		if (position==2)
+		if (movementLocation ==2)
 		{
 			motionTime = 0.55;
 		}
@@ -66,37 +64,36 @@ void CardSprite::move(int i, WindowInfo windowInfo)
 			motionPercentage = 1;
 		}
 		//std::cout << motionPercentage << std::endl;
-		switch (position) {
+		switch (movementLocation) {
 		case(0):
 		{
 			
-
-			yPos = previousYPos - (standaloneFunctions::easeInOut(motionPercentage) * 32);
+			position.y = previousPos.y - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
 		case(1):
 		{
-			yPos = previousYPos + (standaloneFunctions::easeInOut(motionPercentage) * 32);
+			position.y = previousPos.y + (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
 		case(2):
 		//test	
-			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*( (standaloneFunctions::easeInOut(motionPercentage))));
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*( (standaloneFunctions::easeInOut(motionPercentage))));
 			//std::cout << xPos<<std::endl;
 			if (windowInfo.fullscreen == 0) 
 			{ 
-				yPos = previousYPos* (1- standaloneFunctions::easeInOut(motionPercentage)) + ((windowInfo.activeSceneHeightTiles + 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
+				position.y = previousPos.y * (1- standaloneFunctions::easeInOut(motionPercentage)) + ((windowInfo.activeSceneHeightTiles + 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
 			}
 			else { 
-				yPos = previousYPos* (1- standaloneFunctions::easeInOut(motionPercentage)) + (sf::VideoMode::getDesktopMode().height - (windowInfo.UIHeight - 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
+				position.y = previousPos.y*(1- standaloneFunctions::easeInOut(motionPercentage)) + (sf::VideoMode::getDesktopMode().height - (windowInfo.UIHeight - 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
 			}
 		case(3):
-			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
 			
 			break;
 		case(4):
-			xPos = (previousXPos* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
-			yPos = previousYPos - (standaloneFunctions::easeInOut(motionPercentage) * 32);
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
+			position.y = previousPos.y - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 		default:
 			break;
 		}
