@@ -11,6 +11,7 @@ public:
 	AStar::CoordinateList action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles);
 
 private:
+	float movementTimeout;
 	AStar::CoordinateList pathfindNextSpace(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles);
 };
 
