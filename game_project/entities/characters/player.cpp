@@ -50,7 +50,7 @@ void Player::resize(WindowInfo windowInfo)
 }
 
 void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-	std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap)
+	std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap, ImageManager& imageManager)
 {
 
 	type->identifier = "player";
@@ -73,7 +73,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 		int cardIndex = 10000;
 
 		cardPointsNumber.value = static_cast<int>(cardPoints);
-		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers);
+		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers, imageManager);
 
 		if (cardIndex != 10000)
 		{

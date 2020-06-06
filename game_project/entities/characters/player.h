@@ -22,7 +22,7 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity) : BattlingCharacter(type, identity), cardsInHand(1), cardsInDeck(50)
+	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager), cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
 		
@@ -38,7 +38,7 @@ public:
 	CardsInDeck cardsInDeck;
 
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-		std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap);
+		std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap, ImageManager& imageManager);
 
 	void checkInputs(std::map<int, bool> keyboardArray);
 

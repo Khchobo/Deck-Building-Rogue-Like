@@ -1,5 +1,7 @@
 #include "game.h"
 #include "ImageManager.h"
+#include <filesystem>
+
 using namespace std;
 
 class MapFromImage
@@ -57,7 +59,6 @@ public:
 	}
 };
 
-ImageManager imageManager;
 float frameTime;
 float runTime;
 
@@ -65,6 +66,7 @@ int main()
 {
 	srand(time(NULL));
 
+	ImageManager imageManager;
 	
 	Json::Value gameData = standaloneFunctions::loadJsonFile("assets/data/gameData.json");
 
@@ -89,7 +91,7 @@ int main()
 
 		}
 
-		Game game(windowedWidth, windowedHeight,battlingCharacterTypes,gameData);
+		Game game(windowedWidth, windowedHeight,battlingCharacterTypes,gameData, imageManager);
 
 		game.loop();
 	}

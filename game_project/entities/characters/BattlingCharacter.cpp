@@ -1,12 +1,13 @@
 #include "BattlingCharacter.h"
 
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity) : 
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
 	cardsInHand(1), cardsInDeck(50), type(type) 
 {
 	type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
+	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0, imageManager);
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -55,11 +56,12 @@ void BattlingCharacter::initialiseBattleMode()
 
 void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
 {
-	
+	directionalArrow.xPos = xPos;
+	directionalArrow.yPos = yPos+32;
+
 	//PLAYER MOTION
 	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
 	{
-		std::cout << direction << std::endl;
 		initiateNewMotion(direction, collision);
 	}
 
@@ -113,8 +115,11 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	}
 }
 
-void BattlingCharacter::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos)
+void BattlingCharacter::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager)
 {
+	directionalArrow.xPos = directionalArrow.xPos + backgroundXPos;
+	directionalArrow.yPos = directionalArrow.yPos + backgroundYPos;
+	directionalArrow.draw(window, imageManager);
 	sprite.setTexture(texture);
 	sprite.setPosition(xPos + backgroundXPos, yPos + backgroundYPos);
 	window.draw(sprite);

@@ -31,7 +31,7 @@ public:
 		inMotion = 0;
 	}
 
-	void initialise(Entity deckSprite);
+	void initialise(Entity deckSprite,ImageManager& imageManager);
 
 	void draw(sf::RenderWindow& window);
 

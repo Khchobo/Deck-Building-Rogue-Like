@@ -12,14 +12,14 @@ class BattlingCharacter : public Entity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType* type,std::string identity);
+	BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager);
 
 	float cardPoints;
 
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
-	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
+	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager);
 
 	//current tile alignment or tile alignment before current motion began
 	int currentXTilePos;
@@ -61,6 +61,8 @@ protected:
 
 	float distanceMovedX;
 	float distanceMovedY;
+
+	Entity directionalArrow;
 
 	//for discrete motion, determines whether a motion animation is already occurring
 	bool inMotion = false;

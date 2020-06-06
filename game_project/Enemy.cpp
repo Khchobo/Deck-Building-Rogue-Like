@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo) : BattlingCharacter(type, identity)
+Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager)
 {
 
 	texture.loadFromFile("assets/slime.png");
@@ -11,6 +11,7 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yP
 	yPos = currentYTilePos * windowInfo.tileSizeInPixels;
 	pathUpdateTimeout = 0;
 	movementTimeout = type->movementTimeoutIdle;
+	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0,imageManager);
 }
 
 void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision)
@@ -31,8 +32,6 @@ void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<
 	{
 		behaviourTriggers[initiateMotion] = true;
 
-		std::cout <<"nextpos: "<< currentPath[1].x <<" "<< currentPath[1].y << std::endl;
-		std::cout <<"currentpos: "<< currentXTilePos << " " << currentYTilePos << std::endl;
 		for (int i = 1; i < currentPath.size(); i++)
 		{
 			if (currentXTilePos > currentPath[1].x)

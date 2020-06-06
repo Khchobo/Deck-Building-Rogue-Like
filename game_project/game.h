@@ -30,9 +30,10 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
 
-		player(windowInfo, &battlingCharacterTypes["player"], "player"),
+		imageManager(imageManager),
+		player(windowInfo, &battlingCharacterTypes["player"], "player", imageManager),
 		battlingCharacterTypes(battlingCharacterTypes),
 		gameData(gameData)
 	{
@@ -57,7 +58,7 @@ public:
 	
 		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", 14, 14, windowInfo);
+			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", 14, 14, windowInfo,imageManager);
 			enemies.push_back(newEnemy);
 		}
 
@@ -107,6 +108,8 @@ private:
 	void resizeActiveScene();
 	void initialiseBattleMode();
 	void loadTestMap();
+
+	ImageManager imageManager;
 
 	std::vector<Enemy> enemies;
 

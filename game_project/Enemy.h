@@ -7,7 +7,7 @@ class Enemy : public BattlingCharacter
 {
 public:
 
-	Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos, WindowInfo windowInfo);
+	Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos, WindowInfo windowInfo, ImageManager& imageManager);
 
 	void action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision);
 	AStar::CoordinateList currentPath;
