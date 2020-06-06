@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 //alignmentMode is whether to position relative to the top right corner or the middle of the texture.
-void Entity::initialise(std::string fileName,sf::Vector2f position,bool alignmentMode,ImageManager& imageManager)
+void Entity::initialise(std::string fileName,sf::Vector2f incomingPosition,bool alignmentMode,ImageManager& imageManager)
 {
 	
 	alignment = alignmentMode;
@@ -9,7 +9,7 @@ void Entity::initialise(std::string fileName,sf::Vector2f position,bool alignmen
 	sprite.setTexture(imageManager.getImage(fileName)); 
 	
 	textureSize = (imageManager.getImage(fileName).getSize());
-	position = position;
+	position = incomingPosition;
 
 }
 

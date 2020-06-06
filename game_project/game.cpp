@@ -68,6 +68,7 @@ void Game::initialiseBattleMode()
 
 void Game::resize()
 {
+
 	if (windowInfo.fullscreen == 0)
 	{
 
@@ -79,17 +80,6 @@ void Game::resize()
 	}
 	else
 	{
-
-		if (playerDistanceFromEdgeY > windowInfo.windowedHeightPixels-windowInfo.tileSizeInPixels - 200)
-		{
-			playerDistanceFromEdgeY = windowInfo.windowedHeightPixels - windowInfo.tileSizeInPixels - 200;
-		}
-
-		if (playerDistanceFromEdgeX > windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 200)
-		{
-			playerDistanceFromEdgeX = windowInfo.windowedWidthPixels - windowInfo.tileSizeInPixels - 200;
-		}
-
 		
 		window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels),
 						"SFMLtest", sf::Style::Default);
@@ -102,6 +92,8 @@ void Game::resize()
 
 	resizeActiveScene();
 	player.resize(windowInfo);
+	playerDistanceFromEdgeX = min(max(static_cast<float>(200), playerDistanceFromEdgeX), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
+	playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
 }
 
 void Game::resizeActiveScene()

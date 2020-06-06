@@ -2,7 +2,7 @@
 
 
 BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
-	cardsInHand(1), cardsInDeck(50), type(type) 
+	cardsInHand(), cardsInDeck(), type(type) 
 {
 	type->identifier = identity;
 	cardPoints = type->cardPointsMax;
@@ -55,10 +55,10 @@ void BattlingCharacter::initialiseBattleMode()
 
 void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
 {
-	directionalArrow.position.x = position.x;
-	directionalArrow.position.y = position.y+32;
+	//////////
+	//MOTION//
+	//////////
 
-	//PLAYER MOTION
 	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
 	{
 		initiateNewMotion(direction, collision);
@@ -68,6 +68,8 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 	{
 		updateMotion(windowInfo);
 	}
+
+	directionalArrow.position =sf::Vector2f( position.x,position.y + 32);
 
 	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	
