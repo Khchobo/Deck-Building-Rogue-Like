@@ -178,9 +178,8 @@ void Game::action()
 	std::cout << gameData["debugSettings"]["drawAIPath"];
 	if (gameData["debugSettings"]["drawAIPath"].asBool())
 	{
-		std::cout << gameData["debugSettings"]["drawAIPath"];
-		AStar::CoordinateList path = testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
-		tileMap.testDrawPath(path);
+		testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
+		tileMap.testDrawPath(testEnemy.currentPath);
 	}
 
 	draw();

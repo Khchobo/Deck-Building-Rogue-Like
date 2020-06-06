@@ -8,12 +8,19 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yP
 
 	xPos = currentXTilePos * windowInfo.tileSizeInPixels;
 	yPos = currentYTilePos * windowInfo.tileSizeInPixels;
-
+	pathUpdateTimeout = pathUpdateTimeoutInterval;
 }
 
-AStar::CoordinateList Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles)
+void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles)
 {
-	return pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
+	
+	pathUpdateTimeout--;
+	if (pathUpdateTimeout <= 0)
+	{
+		pathUpdateTimeout = pathUpdateTimeoutInterval;
+		currentPath = pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
+	}
+
 }
 
 

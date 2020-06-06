@@ -29,7 +29,7 @@ public:
 	int attackVisionRadius;
 	float movementTimeoutRunning;
 	Dir targetDirection;
-	int tagetDistance;
+	int targetDistance;
 
 };
 
