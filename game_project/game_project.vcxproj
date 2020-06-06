@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\include;C:\Users\Matthew\source\repos\game_project\game_project</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\lib</AdditionalLibraryDirectories>
@@ -173,6 +173,7 @@
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\data\characters\basicSlimeData.json" />
     <None Include="assets\data\gameData.json" />
     <None Include="assets\data\levels\testMap.json" />
     <None Include="fixedColourShader.frag" />

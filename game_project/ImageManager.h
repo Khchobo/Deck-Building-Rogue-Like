@@ -2,14 +2,15 @@
 #include "SFML/Graphics.hpp"
 #include <string>
 #include <map>
-
+#include <iostream>
+#include <assert.h>
 class ImageManager
 {
 public:
 	ImageManager();
 	~ImageManager();
 
-	const sf::Texture& getImage(const std::string& filename);
+	 const sf::Texture& getImage(const std::string& filename);
 
 	void deleteImage(const std::string& filename);
 private:

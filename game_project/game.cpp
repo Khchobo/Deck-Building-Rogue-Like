@@ -56,7 +56,7 @@ void Game::initialiseBattleMode()
 	windowInfo.UIHeight = 4;
 	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier);
+	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier, imageManager);
 
 	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
 
@@ -154,7 +154,7 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, windowInfo, renderMode, cardActionMap);
+	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, windowInfo, renderMode, cardActionMap, imageManager);
 
 	std::vector<Point> activationPoints, destructionPoints;
 	cardActionMap.updateAllCardActions(frameTime, activationPoints, destructionPoints);
@@ -175,12 +175,13 @@ void Game::action()
 
 	//DEBUG testing pathfinding working correctly
 	
-	std::cout << gameData["debugSettings"]["drawAIPath"];
-	if (gameData["debugSettings"]["drawAIPath"].asBool())
+	for (auto& enemy : enemies)
 	{
-		std::cout << gameData["debugSettings"]["drawAIPath"];
-		AStar::CoordinateList path = testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
-		tileMap.testDrawPath(path);
+		enemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints, collisionMap);
+		if (gameData["debugSettings"]["drawAIPath"].asBool())
+		{
+			tileMap.testDrawPath(enemy.currentPath);
+		}
 	}
 
 	draw();
@@ -243,8 +244,12 @@ void Game::draw()
 
 	//draw the background
 	window.draw(sprite);
-	player.draw(window,xPosition,yPosition);
-	
+	player.draw(window,xPosition,yPosition, imageManager);
+
+	for (auto& enemy : enemies)
+	{
+		enemy.draw(window, xPosition, yPosition,imageManager);
+	}
 
 	//draw cards if in battle mode
 	if (renderMode == 1)
@@ -302,7 +307,7 @@ void Game::draw()
 		
 		player.cardPointsNumber.draw(window);
 
-		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck);
+		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck, imageManager);
 
 	}
 	

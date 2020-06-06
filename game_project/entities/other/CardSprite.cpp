@@ -2,8 +2,7 @@
 #include <iostream>
 #include "globalVariables.h"
 
-
-void CardSprite::initialise(Entity deckSprite)
+void CardSprite::initialise(Entity deckSprite,ImageManager& imageManager)
 {
 	sprite.setTexture(imageManager.getImage("card2.png"));
 	

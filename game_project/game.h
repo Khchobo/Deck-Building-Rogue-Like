@@ -30,16 +30,16 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
 
-		player(windowInfo, &battlingCharacterTypes["player"], "player"),
+		imageManager(imageManager),
+		player(windowInfo, &battlingCharacterTypes["player"], "player", imageManager),
 		battlingCharacterTypes(battlingCharacterTypes),
-		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo),gameData(gameData)
+		gameData(gameData)
 	{
 		/////////////
 		//LOAD DATA//
 		/////////////
-
 		
 		windowInfo.fullscreen = gameData["fullscreen"].asBool();
 
@@ -56,19 +56,10 @@ public:
 			//TODO GENERATING MAPS
 		}
 	
-
-		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
-		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
+		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			std::string fileName = p.path().u8string().erase(0, 23);
-			fileName.erase(fileName.end()-9, fileName.end());
-
-			std::cout << fileName << std::endl;
-
-			if (fileName == "player") continue;
-
-			battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>(fileName, BattlingCharacterType(fileName)));
-			
+			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", 14, 14, windowInfo,imageManager);
+			enemies.push_back(newEnemy);
 		}
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
@@ -116,10 +107,11 @@ private:
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();
-	Json::Value loadGameData();
 	void loadTestMap();
 
-	Enemy testEnemy;
+	ImageManager imageManager;
+
+	std::vector<Enemy> enemies;
 
 	std::vector<std::vector<int>> collisionMap;
 	std::vector<TileType> tileTypeMap;

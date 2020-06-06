@@ -1,10 +1,13 @@
 #include "BattlingCharacter.h"
 
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity) : 
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
 	cardsInHand(1), cardsInDeck(50), type(type) 
 {
 	type->identifier = identity;
+	cardPoints = type->cardPointsMax;
+	cardPointsStepCost = 5;
+	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0, imageManager);
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -51,6 +54,35 @@ void BattlingCharacter::initialiseBattleMode()
 {
 }
 
+void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
+{
+	directionalArrow.xPos = xPos;
+	directionalArrow.yPos = yPos+32;
+
+	//PLAYER MOTION
+	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
+	{
+		initiateNewMotion(direction, collision);
+	}
+
+	if (inMotion == 1)
+	{
+		updateMotion(windowInfo);
+	}
+
+	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
+	
+}
+
+void BattlingCharacter::resetBehaviourTriggers()
+{
+	std::map<BehaviourTrigger, bool>::iterator it;
+	for (it = behaviourTriggers.begin(); it != behaviourTriggers.end(); it++)
+	{
+		behaviourTriggers[it->first] = false;
+	}
+}
+
 void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision)
 {
 	switch (direction) {
@@ -81,4 +113,14 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 		inMotion = true;
 		motionPercentage = 0.0;
 	}
+}
+
+void BattlingCharacter::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager)
+{
+	directionalArrow.xPos = directionalArrow.xPos + backgroundXPos;
+	directionalArrow.yPos = directionalArrow.yPos + backgroundYPos;
+	directionalArrow.draw(window, imageManager);
+	sprite.setTexture(texture);
+	sprite.setPosition(xPos + backgroundXPos, yPos + backgroundYPos);
+	window.draw(sprite);
 }

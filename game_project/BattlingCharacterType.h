@@ -6,6 +6,9 @@
 #include "json\json.h"
 #include "standaloneFunctions.h"
 
+
+enum class Dir { Front, Left, Right, Back };
+
 class BattlingCharacterType
 {
 public:
@@ -18,5 +21,15 @@ public:
 	//how long tile motion takes for tile based motion
 	float motionTime;
 	std::string identifier;
+
+
+	// AI TRAITS
+	float movementTimeoutIdle;
+	float cardPointConservation;
+	int attackVisionRadius;
+	float movementTimeoutRunning;
+	Dir targetDirection;
+	int targetDistance;
+
 };
 

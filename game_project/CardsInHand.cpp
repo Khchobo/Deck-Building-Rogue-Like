@@ -62,7 +62,7 @@ void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& 
 	window.draw(text);
 }
 
-void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo,std::string identifier)
+void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo,std::string identifier, ImageManager& imageManager)
 {
 	
 	cardsInHand.clear();
@@ -80,7 +80,7 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//centred vertically
 		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
 
-		deckSprite.initialise("assets/card2.png", initialX, initialY, 1);
+		deckSprite.initialise("card2.png", initialX, initialY, 1, imageManager);
 
 		//one tile to the right from the edge of the UI box
 		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
@@ -92,16 +92,16 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		noOfCardsInHand.initialise(deckSprite.xPos, deckSprite.yPos, cardsRemaining.size());
 	}
 
-	drawCard(cardsInDeck,cardsRemaining,identifier);
-	drawCard(cardsInDeck, cardsRemaining, identifier);
-	drawCard(cardsInDeck, cardsRemaining,identifier);
+	drawCard(cardsInDeck,cardsRemaining,identifier, imageManager);
+	drawCard(cardsInDeck, cardsRemaining, identifier, imageManager);
+	drawCard(cardsInDeck, cardsRemaining,identifier, imageManager);
 	selected = 0;
 
 }
-void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
+void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck,ImageManager& imageManager)
 {
 
-	deckSprite.draw(window);
+	deckSprite.draw(window, imageManager);
 	for (int i = 0; i < cardsInHand.size(); i++)
 	{
 
@@ -151,7 +151,7 @@ void CardsInHand::resize(WindowInfo windowInfo)
 }
 
 void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
-						WindowInfo windowInfo, int& cardIndex,float& cardPoints,std::map<BehaviourTrigger,bool> behaviourTriggers)
+						WindowInfo windowInfo, int& cardIndex,float& cardPoints,std::map<BehaviourTrigger,bool> behaviourTriggers,ImageManager& imageManager)
 {
 
 	//MOTION
@@ -163,7 +163,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 		if (behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
 		{
 			drawCardCooldown = 0;
-			drawCard(cardsInDeck,cardsRemaining,identifier);
+			drawCard(cardsInDeck,cardsRemaining,identifier,imageManager);
 		}
 		
 		bool inMotion=false;
@@ -289,7 +289,7 @@ bool CardsInHand::anyCardsInMotion(std::vector<CardSprite> cardsInHand)
 	return false;
 }
 
-void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier)
+void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier,ImageManager& imageManager)
 {
 	if (cardsRemaining.size()>0)
 	{
@@ -305,7 +305,7 @@ void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long doub
 		newCard.id = cardsRemaining[index];
 		cardsRemaining.erase(cardsRemaining.begin() + index);
 		noOfCardsInHand.value--;
-		newCard.initialise(deckSprite);
+		newCard.initialise(deckSprite, imageManager);
 		
 		if (identifier == "player")
 		{

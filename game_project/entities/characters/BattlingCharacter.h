@@ -4,6 +4,7 @@
 #include "cardsInHand.h"
 #include "CardsInDeck.h"
 #include "BattlingCharacterType.h"
+#include "CardActionMap.h"
 
 using namespace standaloneFunctions;
 
@@ -11,13 +12,14 @@ class BattlingCharacter : public Entity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType* type,std::string identity);
+	BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager);
 
 	float cardPoints;
 
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
+	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos, ImageManager& imageManager);
 
 	//current tile alignment or tile alignment before current motion began
 	int currentXTilePos;
@@ -36,10 +38,19 @@ protected:
 															{initiateMotion, false}, {selectCardLeft, false},
 															{selectCardRight, false} };
 
+	//direction character is facing, 0 is up and then proceed counter clockwise
+	int direction;
+
 	float verticalHopOffset;
 
 	void updateMotion(WindowInfo windowInfo);
+
+	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();
+
+	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction);
+	void resetBehaviourTriggers();
+	
 
 	//TODO make data
 	//card point cost to move 1 tile
@@ -50,6 +61,8 @@ protected:
 
 	float distanceMovedX;
 	float distanceMovedY;
+
+	Entity directionalArrow;
 
 	//for discrete motion, determines whether a motion animation is already occurring
 	bool inMotion = false;

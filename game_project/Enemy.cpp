@@ -1,19 +1,62 @@
 #include "Enemy.h"
 
-
-Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo) : BattlingCharacter(type, identity)
+Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager)
 {
+
+	texture.loadFromFile("assets/slime.png");
 	currentXTilePos = xPos;
 	currentYTilePos = yPos;
 
 	xPos = currentXTilePos * windowInfo.tileSizeInPixels;
 	yPos = currentYTilePos * windowInfo.tileSizeInPixels;
-
+	pathUpdateTimeout = 0;
+	movementTimeout = type->movementTimeoutIdle;
+	directionalArrow.initialise("directionalArrow.png", xPos, yPos, 0,imageManager);
 }
 
-AStar::CoordinateList Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles)
+void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision)
 {
-	return pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
+	resetBehaviourTriggers();
+
+	//Update path
+	pathUpdateTimeout--;
+	if (pathUpdateTimeout <= 0)
+	{
+		pathUpdateTimeout = pathUpdateTimeoutInterval;
+		currentPath = pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
+	}
+
+	//Movement
+	movementTimeout -= frameTime;
+	if (movementTimeout <= 0)
+	{
+		behaviourTriggers[initiateMotion] = true;
+
+		for (int i = 1; i < currentPath.size(); i++)
+		{
+			if (currentXTilePos > currentPath[1].x)
+			{
+				direction = 1;
+				break;
+			}
+			else if (currentXTilePos < currentPath[1].x)
+			{
+				direction = 3;
+				break;
+			}
+			else if (currentYTilePos > currentPath[1].y)
+			{
+				direction = 0;
+
+			}
+			else if (currentYTilePos< currentPath[1].y)
+			{
+				direction = 2;
+			}
+		}
+		movementTimeout = type->movementTimeoutIdle;
+	}
+	BattlingCharacter::action(collision,windowInfo, 1, direction);
 }
 
 

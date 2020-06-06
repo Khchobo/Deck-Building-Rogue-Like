@@ -17,10 +17,10 @@ public:
 
 	float xPos;
 	float yPos;
-	void draw(sf::RenderWindow &window);
-	void initialise(std::string fileName,float xPos,float yPos,bool offset);
+	void draw(sf::RenderWindow &window, ImageManager& imageManager);
+	void initialise(std::string fileName,float xPos,float yPos,bool offset, ImageManager& imageManager);
 
-	void animationUpdate();
+	void animationUpdate(ImageManager imageManager);
 	void animationNew(std::string name);
 
 	sf::Sprite sprite;
@@ -30,6 +30,8 @@ public:
 	std::unordered_map<std::string,Animation> animationMap;
 
 	std::string currentAnimation;
+
+	std::string textureName;
 	float animationFrameTime;
 	int animationFrame;
 

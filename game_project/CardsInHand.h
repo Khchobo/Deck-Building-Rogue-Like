@@ -24,17 +24,17 @@ public:
 		cardsInHand[selected].offset = 1;
 	}
 
-	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo, std::string identifier);
+	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo, std::string identifier, ImageManager& imageManager);
 
-	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
+	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck, ImageManager& imageManager);
 
 	void resize(WindowInfo windowInfo);
 
 	void action(std::string identifier, std::vector<Card>& cardsInDeck,
 				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex,
-				float& cardPoints, std::map<BehaviourTrigger, bool> behaviourTriggers);
+				float& cardPoints, std::map<BehaviourTrigger, bool> behaviourTriggers, ImageManager& imageManager);
 
-	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier);
+	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier,ImageManager& imageManager);
 
 	void newMotion(int index);
 
