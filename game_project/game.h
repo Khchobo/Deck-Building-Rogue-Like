@@ -56,21 +56,6 @@ public:
 			//TODO GENERATING MAPS
 		}
 	
-
-		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
-		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
-		{
-			std::string fileName = p.path().u8string().erase(0, 23);
-			fileName.erase(fileName.end()-9, fileName.end());
-
-			std::cout << fileName << std::endl;
-
-			if (fileName == "player") continue;
-
-			battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>(fileName, BattlingCharacterType(fileName)));
-			
-		}
-
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 		
 		windowInfo.setWindowedWidth(windowedWidth);
@@ -116,7 +101,6 @@ private:
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();
-	Json::Value loadGameData();
 	void loadTestMap();
 
 	Enemy testEnemy;

@@ -175,10 +175,9 @@ void Game::action()
 
 	//DEBUG testing pathfinding working correctly
 	
-	std::cout << gameData["debugSettings"]["drawAIPath"];
 	if (gameData["debugSettings"]["drawAIPath"].asBool())
 	{
-		testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints);
+		testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints, collisionMap);
 		tileMap.testDrawPath(testEnemy.currentPath);
 	}
 

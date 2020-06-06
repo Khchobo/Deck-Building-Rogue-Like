@@ -173,6 +173,7 @@
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\data\characters\basicSlimeData.json" />
     <None Include="assets\data\gameData.json" />
     <None Include="assets\data\levels\testMap.json" />
     <None Include="fixedColourShader.frag" />

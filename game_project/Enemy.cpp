@@ -8,12 +8,15 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yP
 
 	xPos = currentXTilePos * windowInfo.tileSizeInPixels;
 	yPos = currentYTilePos * windowInfo.tileSizeInPixels;
-	pathUpdateTimeout = pathUpdateTimeoutInterval;
+	pathUpdateTimeout = 0;
+	movementTimeout = type->movementTimeoutIdle;
 }
 
-void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles)
+void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision)
 {
-	
+	resetBehaviourTriggers();
+
+	//Update path
 	pathUpdateTimeout--;
 	if (pathUpdateTimeout <= 0)
 	{
@@ -21,6 +24,34 @@ void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<
 		currentPath = pathfindNextSpace(targetX, targetY, windowInfo, walkableTiles);
 	}
 
+	//Movement
+	movementTimeout -= frameTime;
+	if (movementTimeout <= 0)
+	{
+		behaviourTriggers[initiateMotion] = true;
+
+		std::cout << currentPath[0].x <<" "<< currentPath[0].y << std::endl;
+		std::cout << currentXTilePos << " " << currentYTilePos << std::endl;
+		if (currentXTilePos > currentPath[1].x)
+		{
+			direction = 1;
+		}
+		else if (currentXTilePos < currentPath[1].x)
+		{
+			direction = 3;
+		}
+		else if (currentYTilePos > currentPath[1].y)
+		{
+			direction = 0;
+		}
+		else
+		{
+			direction = 2;
+		}
+		
+		movementTimeout = type->movementTimeoutIdle;
+	}
+	BattlingCharacter::action(collision,windowInfo, 1, direction);
 }
 
 

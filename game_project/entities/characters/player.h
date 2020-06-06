@@ -18,8 +18,6 @@
 #include "standaloneFunctions.h"
 #include "CardActionMap.h"
 
-using namespace std;
-
 class Player : public BattlingCharacter
 {
 public:
@@ -27,11 +25,6 @@ public:
 	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity) : BattlingCharacter(type, identity), cardsInHand(1), cardsInDeck(50)
 	{
 		texture.loadFromFile("assets/tic_tac.png");
-
-		
-
-		cardPoints = 50;
-		cardPointsStepCost = 5;
 		
 		currentXTilePos = 2;
 		currentYTilePos = 2;
@@ -52,9 +45,6 @@ public:
 	void resize(WindowInfo windowInfo);
 
 	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
-
-	//direction player is facing, 0 is up and then proceed counter clockwise
-	int direction;
 
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
 	NumberEntity cardPointsNumber;

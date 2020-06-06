@@ -4,6 +4,7 @@
 #include "cardsInHand.h"
 #include "CardsInDeck.h"
 #include "BattlingCharacterType.h"
+#include "CardActionMap.h"
 
 using namespace standaloneFunctions;
 
@@ -36,10 +37,18 @@ protected:
 															{initiateMotion, false}, {selectCardLeft, false},
 															{selectCardRight, false} };
 
+	//direction character is facing, 0 is up and then proceed counter clockwise
+	int direction;
+
 	float verticalHopOffset;
 
 	void updateMotion(WindowInfo windowInfo);
+
+	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();
+
+	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction);
+	void resetBehaviourTriggers();
 
 	//TODO make data
 	//card point cost to move 1 tile

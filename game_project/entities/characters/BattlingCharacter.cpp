@@ -5,6 +5,8 @@ BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string ide
 	cardsInHand(1), cardsInDeck(50), type(type) 
 {
 	type->identifier = identity;
+	cardPoints = type->cardPointsMax;
+	cardPointsStepCost = 5;
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -49,6 +51,34 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 
 void BattlingCharacter::initialiseBattleMode()
 {
+}
+
+void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
+{
+	
+	//PLAYER MOTION
+	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
+	{
+		std::cout << direction << std::endl;
+		initiateNewMotion(direction, collision);
+	}
+
+	if (inMotion == 1)
+	{
+		updateMotion(windowInfo);
+	}
+
+
+	
+}
+
+void BattlingCharacter::resetBehaviourTriggers()
+{
+	std::map<BehaviourTrigger, bool>::iterator it;
+	for (it = behaviourTriggers.begin(); it != behaviourTriggers.end(); it++)
+	{
+		behaviourTriggers[it->first] = false;
+	}
 }
 
 void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision)

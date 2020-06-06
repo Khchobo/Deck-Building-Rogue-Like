@@ -8,7 +8,7 @@ class Enemy : public BattlingCharacter
 public:
 	Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos, WindowInfo windowInfo);
 
-	void action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles);
+	void action(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles, std::vector<std::vector<int>>& collision);
 	AStar::CoordinateList currentPath;
 private:
 	float movementTimeout;

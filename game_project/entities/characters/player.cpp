@@ -54,28 +54,15 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 {
 
 	type->identifier = "player";
-
-	//reset behaviour triggers
-	map<BehaviourTrigger, bool>::iterator it;
-	for (it = behaviourTriggers.begin(); it != behaviourTriggers.end(); it++)
-	{
-		behaviourTriggers[it->first] = false;
-	}
-
+	resetBehaviourTriggers();
 	checkInputs(keyboardArray);
+	BattlingCharacter::action(collision,windowInfo, renderMode, direction);
 	
-	//PLAYER MOTION
-	if (behaviourTriggers[initiateMotion] && cardPoints>cardPointsStepCost && !(inMotion))
-	{
-		initiateNewMotion(direction, collision);
-	}
 
 	if (inMotion == 1)
 	{
-		updateMotion(windowInfo);
-
 		//ensures the player stays bounded within the screen scroll static region
-		playerDistanceFromEdgeX = min(max(static_cast<float>(200),playerDistanceFromEdgeX+distanceMovedX), static_cast<float>((windowInfo.activeSceneWidthPixels-windowInfo.tileSizeInPixels) - 200));
+		playerDistanceFromEdgeX = min(max(static_cast<float>(200), playerDistanceFromEdgeX + distanceMovedX), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
 		playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY + distanceMovedY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
 	}
 
@@ -86,10 +73,8 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 		int cardIndex = 10000;
 
 		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
-
 		cardPointsNumber.value = static_cast<int>(cardPoints);
-
-		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex,cardPoints,behaviourTriggers);
+		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers);
 
 		if (cardIndex != 10000)
 		{
@@ -97,7 +82,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 		}
 
 
-		
+
 	}
 
 }

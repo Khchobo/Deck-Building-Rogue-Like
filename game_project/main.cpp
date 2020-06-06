@@ -76,7 +76,18 @@ int main()
 	{
 		//TODO move this into an entity handler class
 		std::map<std::string, BattlingCharacterType> battlingCharacterTypes;
-		battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>("player", BattlingCharacterType("player")));
+
+		//iterate over each enemy and load its data from the folder into the BattlingCharacterType object
+		for (auto& p : std::filesystem::directory_iterator("assets/data/characters"))
+		{
+			std::string fileName = p.path().u8string().erase(0, 23);
+			fileName.erase(fileName.end() - 9, fileName.end());
+
+			std::cout << fileName << std::endl;
+
+			battlingCharacterTypes.insert(std::pair<std::string, BattlingCharacterType>(fileName, BattlingCharacterType(fileName)));
+
+		}
 
 		Game game(windowedWidth, windowedHeight,battlingCharacterTypes,gameData);
 
