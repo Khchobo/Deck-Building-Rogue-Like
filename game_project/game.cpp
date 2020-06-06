@@ -219,43 +219,26 @@ void Game::draw()
 		//positioning of the overall texture relative to the window
 	float xPosition, yPosition;
 
+
+	int desktopTileOffsetX = static_cast<int>(windowInfo.getWindowWidth()) % 32;
+	int desktopTileOffsetY = static_cast<int>(windowInfo.getWindowHeight()) % 32;
+
 	//determined by the players position as well as their distance from edge. however cant be further in either direction than the edge of the map
-	xPosition = max(static_cast<float>(-((mapWidth - windowInfo.activeSceneWidthTiles)*static_cast<int>(windowInfo.tileSizeInPixels))),
+	xPosition = max(static_cast<float>(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels-desktopTileOffsetX)),
 		min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
-	yPosition = max(static_cast<float>(-((mapHeight - windowInfo.activeSceneHeightTiles) * static_cast<int>(windowInfo.tileSizeInPixels))),
+	yPosition = max(static_cast<float>(-(mapHeight*windowInfo.tileSizeInPixels - windowInfo.activeSceneHeightPixels - desktopTileOffsetY)),
 		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPosNoOffset));
-
-	//TODO see if you can make the position definitions in this block more readable by using the new WindowInfo methods
-	if (windowInfo.fullscreen == 1)
+	//if the fullscreen window is larger, centre it 
+	if (mapWidth*windowInfo.tileSizeInPixels < windowInfo.activeSceneWidthPixels)
 	{
-		int desktopWidthPixels = sf::VideoMode::getDesktopMode().width;
-		int desktopHeightPixels = sf::VideoMode::getDesktopMode().height;
 
-		//width and height of the fullscreen window measured in tiles (rounded to nearest tile)
-		int desktopWidthTiles = desktopWidthPixels / (windowInfo.tileSize*windowInfo.pixelSize);
-		int desktopHeightTiles = desktopHeightPixels / (windowInfo.tileSize*windowInfo.pixelSize);
-
-		//if the fullscreen window is larger, centre it 
-		if (mapWidth < desktopWidthTiles)
-		{
-			xPosition = (sf::VideoMode::getDesktopMode().width / 2) - (((mapWidth+ windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
-		}
-		//otherwise, position as normal (using the exact desktop pixel size rather than rounded to the nearest tile)
-		else
-		{
-			xPosition = max(static_cast<float>(-(((mapWidth+ windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopWidthPixels)), min(static_cast<float>(0), playerDistanceFromEdgeX - player.xPos));
-		}
-
-
-		if (mapHeight < desktopHeightTiles)
-		{
-			yPosition = (sf::VideoMode::getDesktopMode().height / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
-		}
-		else
-		{
-			yPosition = max(static_cast<float>(-(((mapHeight+ windowInfo.UIHeight)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopHeightPixels)), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
-		}
+		xPosition = (windowInfo.getWindowWidth() / 2) - (((mapWidth + windowInfo.UIWidth)*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 	}
+	if (mapHeight*windowInfo.tileSizeInPixels < windowInfo.activeSceneHeightPixels)
+	{
+		yPosition = (windowInfo.getWindowHeight() / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
+	}
+
 	sprite.setPosition(xPosition, yPosition);
 
 	//draw the background
