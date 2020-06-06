@@ -34,12 +34,11 @@ public:
 
 		player(windowInfo, &battlingCharacterTypes["player"], "player"),
 		battlingCharacterTypes(battlingCharacterTypes),
-		testEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime",14,14, windowInfo),gameData(gameData)
+		gameData(gameData)
 	{
 		/////////////
 		//LOAD DATA//
 		/////////////
-
 		
 		windowInfo.fullscreen = gameData["fullscreen"].asBool();
 
@@ -56,6 +55,12 @@ public:
 			//TODO GENERATING MAPS
 		}
 	
+		if (gameData["debugSettings"]["testEnemy"].asBool())
+		{
+			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", 14, 14, windowInfo);
+			enemies.push_back(newEnemy);
+		}
+
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 		
 		windowInfo.setWindowedWidth(windowedWidth);
@@ -103,7 +108,7 @@ private:
 	void initialiseBattleMode();
 	void loadTestMap();
 
-	Enemy testEnemy;
+	std::vector<Enemy> enemies;
 
 	std::vector<std::vector<int>> collisionMap;
 	std::vector<TileType> tileTypeMap;

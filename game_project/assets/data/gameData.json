@@ -1,6 +1,7 @@
 {
   "debugSettings": {
-    "drawAIPath": true,
+    "drawAIPath": false,
+     "testEnemy":  true,
     "loadTestMap": true
   },
   "fullscreen": true,

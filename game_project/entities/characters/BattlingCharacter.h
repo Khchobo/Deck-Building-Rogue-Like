@@ -19,6 +19,7 @@ public:
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
+	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
 
 	//current tile alignment or tile alignment before current motion began
 	int currentXTilePos;
@@ -49,6 +50,7 @@ protected:
 
 	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction);
 	void resetBehaviourTriggers();
+	
 
 	//TODO make data
 	//card point cost to move 1 tile

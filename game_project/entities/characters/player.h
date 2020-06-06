@@ -44,8 +44,6 @@ public:
 
 	void resize(WindowInfo windowInfo);
 
-	void draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos);
-
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
 	NumberEntity cardPointsNumber;
 

@@ -68,7 +68,7 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		updateMotion(windowInfo);
 	}
 
-
+	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	
 }
 
@@ -111,4 +111,11 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 		inMotion = true;
 		motionPercentage = 0.0;
 	}
+}
+
+void BattlingCharacter::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos)
+{
+	sprite.setTexture(texture);
+	sprite.setPosition(xPos + backgroundXPos, yPos + backgroundYPos);
+	window.draw(sprite);
 }

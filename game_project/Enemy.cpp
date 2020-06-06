@@ -1,8 +1,9 @@
 #include "Enemy.h"
 
-
 Enemy::Enemy(BattlingCharacterType* type, std::string identity, int xPos, int yPos,WindowInfo windowInfo) : BattlingCharacter(type, identity)
 {
+
+	texture.loadFromFile("assets/slime.png");
 	currentXTilePos = xPos;
 	currentYTilePos = yPos;
 
@@ -30,25 +31,30 @@ void Enemy::action(int targetX, int targetY, WindowInfo windowInfo, std::vector<
 	{
 		behaviourTriggers[initiateMotion] = true;
 
-		std::cout << currentPath[0].x <<" "<< currentPath[0].y << std::endl;
-		std::cout << currentXTilePos << " " << currentYTilePos << std::endl;
-		if (currentXTilePos > currentPath[1].x)
+		std::cout <<"nextpos: "<< currentPath[1].x <<" "<< currentPath[1].y << std::endl;
+		std::cout <<"currentpos: "<< currentXTilePos << " " << currentYTilePos << std::endl;
+		for (int i = 1; i < currentPath.size(); i++)
 		{
-			direction = 1;
+			if (currentXTilePos > currentPath[1].x)
+			{
+				direction = 1;
+				break;
+			}
+			else if (currentXTilePos < currentPath[1].x)
+			{
+				direction = 3;
+				break;
+			}
+			else if (currentYTilePos > currentPath[1].y)
+			{
+				direction = 0;
+
+			}
+			else if (currentYTilePos< currentPath[1].y)
+			{
+				direction = 2;
+			}
 		}
-		else if (currentXTilePos < currentPath[1].x)
-		{
-			direction = 3;
-		}
-		else if (currentYTilePos > currentPath[1].y)
-		{
-			direction = 0;
-		}
-		else
-		{
-			direction = 2;
-		}
-		
 		movementTimeout = type->movementTimeoutIdle;
 	}
 	BattlingCharacter::action(collision,windowInfo, 1, direction);

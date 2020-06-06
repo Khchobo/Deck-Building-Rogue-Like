@@ -175,10 +175,13 @@ void Game::action()
 
 	//DEBUG testing pathfinding working correctly
 	
-	if (gameData["debugSettings"]["drawAIPath"].asBool())
+	for (auto& enemy : enemies)
 	{
-		testEnemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints, collisionMap);
-		tileMap.testDrawPath(testEnemy.currentPath);
+		enemy.action(player.currentXTilePos, player.currentYTilePos, windowInfo, activePlayerActionPoints, collisionMap);
+		if (gameData["debugSettings"]["drawAIPath"].asBool())
+		{
+			tileMap.testDrawPath(enemy.currentPath);
+		}
 	}
 
 	draw();
@@ -259,7 +262,11 @@ void Game::draw()
 	//draw the background
 	window.draw(sprite);
 	player.draw(window,xPosition,yPosition);
-	
+
+	for (auto& enemy : enemies)
+	{
+		enemy.draw(window, xPosition, yPosition);
+	}
 
 	//draw cards if in battle mode
 	if (renderMode == 1)

@@ -72,7 +72,6 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	{
 		int cardIndex = 10000;
 
-		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 		cardPointsNumber.value = static_cast<int>(cardPoints);
 		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers);
 
@@ -87,9 +86,3 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 }
 
-void Player::draw(sf::RenderWindow& window, float backgroundXPos, float backgroundYPos)
-{
-	sprite.setTexture(texture);
-	sprite.setPosition(xPos + backgroundXPos, yPos + backgroundYPos);
-	window.draw(sprite);
-}
