@@ -254,7 +254,7 @@ void Game::draw()
 		}
 		else
 		{
-			yPosition = max(static_cast<float>(-(((mapHeight+ windowInfo.UIHeight)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopHeightPixels)), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPos));
+			yPosition = max(static_cast<float>(-(((mapHeight+ windowInfo.UIHeight)*static_cast<int>(windowInfo.tileSizeInPixels)) - desktopHeightPixels)), min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPosNoOffset));
 		}
 	}
 	sprite.setPosition(xPosition, yPosition);
