@@ -15,6 +15,7 @@ public:
 	BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager);
 
 	float cardPoints;
+	float health;
 
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 

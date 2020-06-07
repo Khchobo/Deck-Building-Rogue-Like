@@ -7,6 +7,7 @@ BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string ide
 	type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
+	health = type->maxHealth;
 	directionalArrow.initialise("directionalArrow.png", position, 0, imageManager);
 };
 

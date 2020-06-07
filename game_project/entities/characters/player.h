@@ -43,5 +43,5 @@ public:
 
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
 	NumberEntity cardPointsNumber;
-
+	NumberEntity healthNumber;
 };

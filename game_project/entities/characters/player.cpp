@@ -44,6 +44,7 @@ void Player::resize(WindowInfo windowInfo)
 {
 
 	cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 32);
+	healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 64);
 
 	cardsInHand.resize(windowInfo);
 }
@@ -70,7 +71,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	if (renderMode == 1)
 	{
 		int cardIndex = 10000;
-
+		healthNumber.value = static_cast<int>(health);
 		cardPointsNumber.value = static_cast<int>(cardPoints);
 		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers, imageManager);
 

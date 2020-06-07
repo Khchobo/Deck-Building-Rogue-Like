@@ -64,6 +64,7 @@ void Game::initialiseBattleMode()
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 
 	player.cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 32); 
+	player.healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 64);
 }
 
 void Game::resize()
@@ -249,8 +250,11 @@ void Game::draw()
 		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, 1));
 		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight+1)*windowInfo.tileSizeInPixels));
 
-		sf::RectangleShape cardPoints(sf::Vector2f((player.cardPoints/player.type->cardPointsMax)*6*32,16));
-		cardPoints.setFillColor(sf::Color::White);
+		sf::RectangleShape cardPointsBar(sf::Vector2f((player.cardPoints/player.type->cardPointsMax)*6*32,16));
+		cardPointsBar.setFillColor(sf::Color::White);
+
+		sf::RectangleShape healthBar(sf::Vector2f((player.health / player.type->maxHealth) * 6 * 32, 16));
+		cardPointsBar.setFillColor(sf::Color::White);
 
 		blackoutRectBottom.setFillColor(sf::Color::Black);
 		blackoutRectRight.setFillColor(sf::Color::Black);
@@ -281,8 +285,9 @@ void Game::draw()
 			
 		}
 
-		cardPoints.setPosition(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 32);
-		
+		cardPointsBar.setPosition(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 32);
+		healthBar.setPosition(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 64);
+
 		//draw them to the window
 		window.draw(blackoutRectBottom);
 		window.draw(blackoutRectRight);
@@ -290,9 +295,11 @@ void Game::draw()
 		window.draw(delineatingLineBottom);
 		window.draw(delineatingLineRight);
 
-		window.draw(cardPoints);
+		window.draw(cardPointsBar);
+		window.draw(healthBar);
 		
 		player.cardPointsNumber.draw(window);
+		player.healthNumber.draw(window);
 
 		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck, imageManager);
 

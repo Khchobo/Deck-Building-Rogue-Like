@@ -1,6 +1,7 @@
 {
-  "identifier":  "player",
+  "identifier": "player",
   "cardPointsMax": 300, //200 default
-  "cardPointRecoveryRate": 50,  //12.5 default
-  "motionTime": 0.15 //0.15 default
+  "cardPointRecoveryRate": 50, //12.5 default
+  "motionTime": 0.15, //0.15 default
+  "maxHealth": 100
 }

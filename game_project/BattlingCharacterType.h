@@ -30,6 +30,7 @@ public:
 	float movementTimeoutRunning;
 	Dir targetDirection;
 	int targetDistance;
+	float maxHealth;
 
 };
 

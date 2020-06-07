@@ -175,5 +175,8 @@
     <None Include="assets\data\characters\basicSlimeData.json">
       <Filter>Resource Files\Data Files</Filter>
     </None>
+    <None Include="assets\data\characters\playerData.json">
+      <Filter>Resource Files\Data Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

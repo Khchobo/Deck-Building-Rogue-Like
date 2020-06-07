@@ -14,6 +14,7 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 	identifier = data["identifier"].asString();
 	cardPointRecoveryRate= data["cardPointRecoveryRate"].asFloat();
 	motionTime= data["motionTime"].asFloat();
+	maxHealth = data["maxHealth"].asFloat();
 
 	if (data["characterType"].asString() == "enemy")
 	{
