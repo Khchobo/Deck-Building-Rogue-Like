@@ -9,6 +9,8 @@ void Entity::initialise(std::string fileName,sf::Vector2f incomingPosition,bool 
 	sprite.setTexture(imageManager.getImage(fileName)); 
 	
 	textureSize = (imageManager.getImage(fileName).getSize());
+	sprite.setOrigin(sf::Vector2f(imageManager.getImage(fileName).getSize().x*static_cast<float>(0.5)
+								, imageManager.getImage(fileName).getSize().y*static_cast<float>(0.5)));
 	position = incomingPosition;
 
 }

@@ -69,7 +69,32 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		updateMotion(windowInfo);
 	}
 
-	directionalArrow.position =sf::Vector2f( position.x,position.y + 32);
+	sf::Vector2i directionalArrowOffset;
+	int directionalArrowRotation;
+	switch (direction)
+	{
+	case(0):
+		directionalArrowOffset = sf::Vector2i(0, -32);
+		directionalArrowRotation = 0;
+		break;
+	case(1):
+		directionalArrowOffset = sf::Vector2i(-32, 0);
+		directionalArrowRotation = 270;
+		break;
+	case(2):
+		directionalArrowOffset = sf::Vector2i(0, 32);
+		directionalArrowRotation = 180;
+		break;
+	case(3):
+		directionalArrowOffset = sf::Vector2i(32, 0);
+		directionalArrowRotation = 90;
+		break;
+	default:
+		throw std::invalid_argument("Direction cannot take value" + std::to_string(direction));
+	}
+
+	directionalArrow.position =sf::Vector2f( position.x+directionalArrowOffset.x+16,position.y + directionalArrowOffset.y + 16);
+	directionalArrow.sprite.setRotation(directionalArrowRotation);
 
 	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	
