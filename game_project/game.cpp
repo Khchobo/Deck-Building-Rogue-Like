@@ -147,19 +147,16 @@ void Game::action()
 	
 	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, windowInfo, renderMode, cardActionMap, imageManager);
 
-	std::vector<Point> activationPoints, destructionPoints;
-	cardActionMap.updateAllCardActions(frameTime, activationPoints, destructionPoints);
+	cardActionMap.updateAllCardActions(frameTime);
 
 	//update player action points map
-	for (int i = 0; i < activationPoints.size(); i++)
+	for (int i = 0; i < cardActionMap.cardActionMap.size(); i++)
 	{
-		activePlayerActionPoints[activationPoints[i].x][activationPoints[i].y] = 1;
+		if (cardActionMap.cardActionMap[i].active)
+		{
+			activePlayerActionPoints[cardActionMap.cardActionMap[i].yPos][cardActionMap.cardActionMap[i].xPos] = 1;
+		}
 	}
-	for (int i = 0; i < destructionPoints.size(); i++)
-	{
-		activePlayerActionPoints[activationPoints[i].x][activationPoints[i].y] = 0;
-	}
-	
 	
 
 	tileMap.cardActionUpdateMap(cardActionMap);

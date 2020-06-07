@@ -79,7 +79,7 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//centred vertically
 		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
 
-		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), 1, imageManager);
+		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), 0, imageManager);
 
 		//one tile to the right from the edge of the UI box
 		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
