@@ -74,19 +74,19 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 	switch (direction)
 	{
 	case(0):
-		directionalArrowOffset = sf::Vector2i(0, -32);
+		directionalArrowOffset = sf::Vector2i(0, -24);
 		directionalArrowRotation = 0;
 		break;
 	case(1):
-		directionalArrowOffset = sf::Vector2i(-32, 0);
+		directionalArrowOffset = sf::Vector2i(-24, 0);
 		directionalArrowRotation = 270;
 		break;
 	case(2):
-		directionalArrowOffset = sf::Vector2i(0, 32);
+		directionalArrowOffset = sf::Vector2i(0, 24);
 		directionalArrowRotation = 180;
 		break;
 	case(3):
-		directionalArrowOffset = sf::Vector2i(32, 0);
+		directionalArrowOffset = sf::Vector2i(24, 0);
 		directionalArrowRotation = 90;
 		break;
 	default:
