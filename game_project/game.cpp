@@ -1,6 +1,6 @@
 #include "game.h"
 
-const float INF = std::numeric_limits<float>::infinity();
+
 
 void Game::loop()
 {
@@ -150,23 +150,13 @@ void Game::action()
 
 	cardActionMap.updateAllCardActions(frameTime);
 
-	//update player action points map
-	for (int i = 0; i < cardActionMap.cardActionMap.size(); i++)
-	{
-		if (cardActionMap.cardActionMap[i].active)
-		{
-			activePlayerActionPoints[cardActionMap.cardActionMap[i].yPos][cardActionMap.cardActionMap[i].xPos] = 1;
-		}
-	}
-	
-
 	tileMap.cardActionUpdateMap(cardActionMap);
 
 	//DEBUG testing pathfinding working correctly
 	
 	for (auto& enemy : enemies)
 	{
-		enemy.action(player.currentTilePos, windowInfo, activePlayerActionPoints, collisionMap);
+		enemy.action(player.currentTilePos, windowInfo, cardActionMap, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
 			tileMap.testDrawPath(enemy.currentPath);
@@ -356,25 +346,8 @@ void Game::loadTestMap()
 	}
 
 	tileMap = TileMap(mapWidth, mapHeight, 16, tileTypeMap, collisionMap);
-	activePlayerActionPoints = std::vector<std::vector<int>>(mapHeight);
 
-	for (int i = 0; i < collisionMap.size(); i++)
-	{
-		activePlayerActionPoints[i] = std::vector<int>(mapWidth);
-	}
 
-	for (int i = 0; i < collisionMap.size(); i++)
-	{
-		for (int j = 0; j < collisionMap[0].size(); j++)
-		{
-			activePlayerActionPoints[i][j]=0;
-
-			if (collisionMap[i][j] == 0)
-			{
-				activePlayerActionPoints[i][j] = 1;
-			}
-		}
-	}
 
 }
 ;

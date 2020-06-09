@@ -24,10 +24,10 @@ public:
 
 
 	// AI TRAITS
-	float movementTimeoutIdle;
+	float movementTimeoutChase;
 	float cardPointConservation;
 	int attackVisionRadius;
-	float movementTimeoutRunning;
+	float movementTimeoutFlee;
 	Dir targetDirection;
 	int targetDistance;
 	float maxHealth;

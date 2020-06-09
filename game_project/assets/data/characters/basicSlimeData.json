@@ -1,15 +1,15 @@
 {
   "identifier": "basic_slime",
-  "characterType" :  "enemy",
+  "characterType": "enemy",
   "cardPointsMax": 50,
   "cardPointRecoveryRate": 10,
   "motionTime": 0.15,
-  "maxHealth":  50,
+  "maxHealth": 50,
 
-  "movementTimeoutIdle": 1, //how long the enemy waits between moving in seconds
+  "movementTimeoutChase": 1, //how long the enemy waits between moving in seconds
   "cardPointConservation": 0.25, //the proportion of maximum card points the enemy will try to save
   "attackVisionRadius": 3, //the radius beyond which the create wont react to attacks
-  "movementTimeoutRunning": 0.2, //the timeout when the enemy is running away from an attack
+  "movementTimeoutFlee": 0.2, //the timeout when the enemy is running away from an attack
   "targetDirection": "front",
   "targetDistance": 2
 }

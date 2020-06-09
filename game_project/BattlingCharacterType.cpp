@@ -18,10 +18,10 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 
 	if (data["characterType"].asString() == "enemy")
 	{
-		movementTimeoutIdle = data["movementTimeoutIdle"].asFloat();
+		movementTimeoutChase = data["movementTimeoutChase"].asFloat();
 		cardPointConservation = data["cardPointConservation"].asFloat();
 		attackVisionRadius = data["attackVisionRadius"].asInt();
-		movementTimeoutRunning = data["movementTimeoutRunning"].asFloat();
+		movementTimeoutFlee = data["movementTimeoutFlee"].asFloat();
 		targetDirection = directionMap[data["targetDirection"].asString()];
 		targetDistance = data["targetDistance"].asInt();
 

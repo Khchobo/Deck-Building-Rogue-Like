@@ -8,6 +8,9 @@
 
 using namespace standaloneFunctions;
 
+enum class actionState { idle,move,attack };
+enum class iFrameState {invincible, vunerable};
+
 class BattlingCharacter : public Entity
 {
 public:
@@ -36,12 +39,17 @@ protected:
 
 	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
 															{initiateMotion, false}, {selectCardLeft, false},
-															{selectCardRight, false} };
+															{selectCardRight, false},{directionChange,false} };
+	actionState state=actionState::idle;
+
 
 	//direction character is facing, 0 is up and then proceed counter clockwise
 	int direction;
-
 	float verticalHopOffset;
+	sf::Vector2i futureTilePos;
+	//Todo switch this to a sf::vector2f
+	float distanceMovedX;
+	float distanceMovedY;
 
 	void updateMotion(WindowInfo windowInfo);
 
@@ -49,19 +57,16 @@ protected:
 	virtual void checkForMotion();
 
 	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction);
+	//set all behaviour triggers to false each frame
 	void resetBehaviourTriggers();
-	
 
 	//TODO make data
 	//card point cost to move 1 tile
 	float cardPointsStepCost;
 
-	sf::Vector2i futureTilePos;
-
-	float distanceMovedX;
-	float distanceMovedY;
-
 	Entity directionalArrow;
+	void arrowDirectionUpdate();
+	sf::Vector2i directionalArrowOffset;
 
 	//for discrete motion, determines whether a motion animation is already occurring
 	bool inMotion = false;

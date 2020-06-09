@@ -9,7 +9,7 @@
 #include "globalVariables.h"
 #include <string>
 
-enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight };
+enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange};
 
 static class CardsInHand: public Entity
 {

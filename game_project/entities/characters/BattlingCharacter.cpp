@@ -9,6 +9,7 @@ BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string ide
 	cardPointsStepCost = 5;
 	health = type->maxHealth;
 	directionalArrow.initialise("directionalArrow.png", position, 0, imageManager);
+	arrowDirectionUpdate();
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -18,7 +19,7 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	//once motion is completed, end in motion state and change tile alignement 
 	if (motionPercentage == 1)
 	{
-		inMotion = 0;
+		state = actionState::idle;
 		currentTilePos = futureTilePos;
 	}
 
@@ -56,22 +57,35 @@ void BattlingCharacter::initialiseBattleMode()
 
 void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
 {
-	//////////
-	//MOTION//
-	//////////
-
-	if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
+	switch (state)
 	{
-		initiateNewMotion(direction, collision);
-	}
-
-	if (inMotion == 1)
-	{
+	case actionState::idle:
+		if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
+		{
+			initiateNewMotion(direction, collision);
+		}
+		break;
+	case actionState::move:
 		updateMotion(windowInfo);
+		
+		break;
+	default:
+		throw std::invalid_argument("This should never happen");
+		break;
 	}
 
-	sf::Vector2i directionalArrowOffset;
-	int directionalArrowRotation;
+	if (behaviourTriggers[directionChange])
+	{
+		arrowDirectionUpdate();
+	}
+	directionalArrow.position =sf::Vector2f( position.x+directionalArrowOffset.x+16,position.y + directionalArrowOffset.y + 16);
+	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
+	
+}
+
+void BattlingCharacter::arrowDirectionUpdate()
+{
+	float directionalArrowRotation;
 	switch (direction)
 	{
 	case(0):
@@ -93,12 +107,7 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 	default:
 		throw std::invalid_argument("Direction cannot take value" + std::to_string(direction));
 	}
-
-	directionalArrow.position =sf::Vector2f( position.x+directionalArrowOffset.x+16,position.y + directionalArrowOffset.y + 16);
 	directionalArrow.sprite.setRotation(directionalArrowRotation);
-
-	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
-	
 }
 
 void BattlingCharacter::resetBehaviourTriggers()
@@ -133,7 +142,7 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	if (collision[futureTilePos.y][futureTilePos.x] == 0)
 	{
 		cardPoints -= cardPointsStepCost;
-		inMotion = true;
+		state = actionState::move;
 		motionPercentage = 0.0;
 	}
 }

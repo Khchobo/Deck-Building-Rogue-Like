@@ -58,7 +58,7 @@ public:
 	
 		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(14, 14), windowInfo,imageManager);
+			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13, 13), windowInfo,imageManager);
 			enemies.push_back(newEnemy);
 		}
 
@@ -115,7 +115,5 @@ private:
 
 	std::vector<std::vector<int>> collisionMap;
 	std::vector<TileType> tileTypeMap;
-	std::vector<std::vector<int>> activePlayerActionPoints;
 
-	
 };

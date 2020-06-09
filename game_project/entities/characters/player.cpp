@@ -2,33 +2,42 @@
 
 void Player::checkInputs(std::map<int, bool> keyboardArray)
 {
-	if (keyboardArray[sf::Keyboard::W])
+	//TODO could slightly refactor this to avoid the repetition
+	if (state == actionState::idle)
 	{
-		direction = 0;
-		behaviourTriggers[initiateMotion] = true;
+		if (keyboardArray[sf::Keyboard::W])
+		{
+			if (direction != 0) behaviourTriggers[directionChange] = true;
+			direction = 0;
+			behaviourTriggers[initiateMotion] = true;
+		}
+		else if (keyboardArray[sf::Keyboard::A])
+		{
+			if (direction != 1) behaviourTriggers[directionChange] = true;
+			direction = 1;
+			behaviourTriggers[initiateMotion] = true;
+		}
+		else if (keyboardArray[sf::Keyboard::S])
+		{
+			if (direction != 2) behaviourTriggers[directionChange] = true;
+			direction = 2;
+			behaviourTriggers[initiateMotion] = true;
+		}
+		else if (keyboardArray[sf::Keyboard::D])
+		{
+			if (direction != 3) behaviourTriggers[directionChange] = true;
+			direction = 3;
+			behaviourTriggers[initiateMotion] = true;
+		}
+		else if (keyboardArray[sf::Keyboard::Enter])
+		{
+			behaviourTriggers[useCard] = true;
+		}
 	}
-	else if (keyboardArray[sf::Keyboard::A])
-	{
-		direction = 1;
-		behaviourTriggers[initiateMotion] = true;
-	}
-	else if (keyboardArray[sf::Keyboard::S])
-	{
-		direction = 2;
-		behaviourTriggers[initiateMotion] = true;
-	}
-	else if (keyboardArray[sf::Keyboard::D])
-	{
-		direction = 3;
-		behaviourTriggers[initiateMotion] = true;
-	}
+	
 	if (keyboardArray[sf::Keyboard::LControl])
 	{
 		behaviourTriggers[drawCardFromDeck] = true;
-	}
-	else if (keyboardArray[sf::Keyboard::Enter])
-	{
-		behaviourTriggers[useCard] = true;
 	}
 	if (keyboardArray[sf::Keyboard::Left])
 	{
@@ -52,8 +61,9 @@ void Player::resize(WindowInfo windowInfo)
 void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
 	std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, CardActionMap& cardActionMap, ImageManager& imageManager)
 {
-
+	//TODO see if you can remove this line
 	type->identifier = "player";
+
 	resetBehaviourTriggers();
 	checkInputs(keyboardArray);
 	BattlingCharacter::action(collision,windowInfo, renderMode, direction);
