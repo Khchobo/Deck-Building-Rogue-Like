@@ -30,7 +30,7 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType> battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
 
 		imageManager(imageManager),
 		player(windowInfo, &battlingCharacterTypes["player"], "player", imageManager),

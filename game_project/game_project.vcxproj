@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\include;C:\Users\Matthew\source\repos\game_project\game_project</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\Matthew\Desktop\SFML-2.5.1\lib</AdditionalLibraryDirectories>
