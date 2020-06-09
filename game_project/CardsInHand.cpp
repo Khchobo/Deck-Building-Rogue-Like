@@ -311,11 +311,11 @@ void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long doub
 
 
 			//for some reason this breaks the textures so we now have to reload them
-			for (int i = 0; i < cardsInHand.size(); i++)
-			{
-				texture.loadFromFile("assets/card2.png");
-				cardsInHand[i].sprite.setTexture(texture);
-			}
+			//for (int i = 0; i < cardsInHand.size(); i++)
+			//{
+				//texture.loadFromFile("assets/card2.png");
+			//	cardsInHand[i].sprite.setTexture(texture);
+			//}
 		}
 	}
 	else

@@ -28,7 +28,7 @@ const sf::Texture& ImageManager::getImage(const std::string& filename)
 	if (image.loadFromFile("assets/" + filename))
 		{
 			std::cout << "a" <<filename<<" "<< image.getSize().x << std::endl;
-			images[filename] = image;
+			images[filename].loadFromFile("assets/" + filename);
 
 			return images[filename];
 	}
