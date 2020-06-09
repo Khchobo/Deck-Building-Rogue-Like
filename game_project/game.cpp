@@ -185,7 +185,7 @@ void Game::action()
 
 	//pass texture and runtime to shader
 	fixedColourShader.setUniform("texture", finalImage);
-	fixedColourShader.setUniform("runTime", runTime);
+	//fixedColourShader.setUniform("runTime", runTime);
 
 	window.draw(sprite,&fixedColourShader);
 	window.display();

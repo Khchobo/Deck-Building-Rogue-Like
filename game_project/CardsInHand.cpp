@@ -248,7 +248,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,
 									std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck)
 {
-	std::cout << selected;
+	//std::cout << selected;
 	if (identifier == "player")
 	{
 		newMotion(selected);

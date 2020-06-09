@@ -163,9 +163,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fixedColourShader.frag">
-      <Filter>Resource Files\Source Files</Filter>
-    </None>
     <None Include="assets\data\levels\testMap.json">
       <Filter>Resource Files\Data Files</Filter>
     </None>
@@ -177,6 +174,9 @@
     </None>
     <None Include="assets\data\characters\playerData.json">
       <Filter>Resource Files\Data Files</Filter>
+    </None>
+    <None Include="assets\fixedColourShader.frag">
+      <Filter>Resource Files\Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>
