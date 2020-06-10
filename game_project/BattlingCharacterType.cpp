@@ -4,10 +4,14 @@ BattlingCharacterType::BattlingCharacterType() {};
 
 BattlingCharacterType::BattlingCharacterType(std::string typeName)
 {
+
+	std::string filePath = "assets/data/characters/" + typeName + "/animations/state.json";
+	animationStateMachine = standaloneFunctions::loadJsonFile(filePath.c_str());
+
 	std::map<std::string, Dir> directionMap = { {"front",Dir::Front},{"left",Dir::Left}
 											,{"right",Dir::Right} ,{"back",Dir::Back} };
 
-	std::string filePath = "assets/data/characters/" + typeName + "Data.json";
+	filePath = "assets/data/characters/" + typeName + "Data.json";
 	Json::Value data = standaloneFunctions::loadJsonFile(filePath.c_str());
 
 	cardPointsMax = data["cardPointsMax"].asFloat();

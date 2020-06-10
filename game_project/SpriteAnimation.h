@@ -6,18 +6,8 @@
 *The name of the animation is directly used to access the animation from the relevant folder directory.
 *TODO eventually these will be initiliased from data files.
 */
-class Animation
+class SpriteAnimation
 {
-public:
-	Animation();
-	Animation(std::string name, unsigned int length, std::vector<int> frameLengthArray);
-
-	std::string name;
-	unsigned int length;
-
-	int operator[](int i) { return frameLengthArray[i];}
-
-	//vector which stores how many frames each sprite in the animation lasts
-	std::vector<int> frameLengthArray;
+	
 };
 

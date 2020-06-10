@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <string>
 #include <assert.h>
-#include "Animation.h"
 #include "globalVariables.h"
 #include <minmax.h>
 
@@ -25,9 +24,6 @@ public:
 
 	sf::Sprite sprite;
 	sf::Texture texture;
-    
-	//maps the title of each animation onto its animation class instance
-	std::unordered_map<std::string,Animation> animationMap;
 
 	std::string currentAnimation;
 

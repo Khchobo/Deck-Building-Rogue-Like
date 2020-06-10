@@ -5,7 +5,8 @@
 #include <assert.h>
 #include "json\json.h"
 #include "standaloneFunctions.h"
-
+#include "StateAnimation.h"
+#include <unordered_map>
 
 enum class Dir { Front, Left, Right, Back };
 
@@ -22,7 +23,9 @@ public:
 	float motionTime;
 	std::string identifier;
 
-
+	//maps the title of each animation onto its animation class instance
+	std::unordered_map<std::string, StateAnimation*> animationMap;
+	Json::Value animationStateMachine;
 	// AI TRAITS
 	float movementTimeoutChase;
 	float cardPointConservation;
