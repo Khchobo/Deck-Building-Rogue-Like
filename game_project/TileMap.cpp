@@ -2,31 +2,53 @@
 
 void TileMap::initialise()
 {
-		spriteImages[0].loadFromFile("assets/air_0.png");
-		spriteImages[1].loadFromFile("assets/flowers_0.png");
-		spriteImages[2].loadFromFile("assets/flowers_1.png");
-		spriteImages[3].loadFromFile("assets/rock_0.png");
-		spriteImages[4].loadFromFile("assets/rock_1.png");
-		spriteImages[5].loadFromFile("assets/rock_2.png");
-		spriteImages[6].loadFromFile("assets/rock_3.png");
-		spriteImages[7].loadFromFile("assets/rock_4.png");
-		spriteImages[8].loadFromFile("assets/cardAction.png");
-		spriteImages[9].loadFromFile("assets/crystal.png");
+	tileSet.loadFromFile("assets/tileset.png");
+	vertexMap.setPrimitiveType(sf::Quads);
+	vertexMap.resize(mapHeight*mapWidth * 4);
 }
 
-void TileMap::draw(sf::Texture& texture) const
+void TileMap::updateVertexMap(WindowInfo& windowInfo)
 {
-	for (unsigned int xPos = 0; xPos < mapWidth; xPos++)
+	for (unsigned int i = 0; i < mapHeight; i++)
 	{
-		for (unsigned int yPos = 0; yPos < mapHeight; yPos++)
+		for (unsigned int j = 0; j < mapWidth; j++)
 		{
-			//std::cout << mapTileType[yPos*mapWidth + xPos];
-			texture.update(spriteImages[mapTilesWCardActions[yPos*mapWidth + xPos]], xPos*tileSize*pixelSize, yPos*tileSize*pixelSize);
+			int currentTileID = mapTilesWCardActions[i*mapWidth + j];
+
+			int tu = currentTileID % (tileSet.getSize().x / windowInfo.tileSizeInPixels);
+			int tv = currentTileID / (tileSet.getSize().x / windowInfo.tileSizeInPixels);
+
+			sf::Vertex* quad =& vertexMap[(i*mapWidth + j) * 4];
+
+			// define its 4 corners
+			quad[0].position = sf::Vector2f(j *windowInfo.tileSizeInPixels, i * windowInfo.tileSizeInPixels);
+			quad[1].position = sf::Vector2f(j * windowInfo.tileSizeInPixels, (i+1) *windowInfo.tileSizeInPixels);
+			quad[2].position = sf::Vector2f((j + 1) * windowInfo.tileSizeInPixels, (i + 1) * windowInfo.tileSizeInPixels);
+			quad[3].position = sf::Vector2f((j+1) * windowInfo.tileSizeInPixels, i  * windowInfo.tileSizeInPixels);
+
+			// define its 4 texture coordinates
+			quad[0].texCoords = sf::Vector2f(tu * windowInfo.tileSizeInPixels, tv * windowInfo.tileSizeInPixels);
+			quad[1].texCoords = sf::Vector2f(tu* windowInfo.tileSizeInPixels, (tv+1) * windowInfo.tileSizeInPixels);
+			quad[2].texCoords = sf::Vector2f((tu + 1) * windowInfo.tileSizeInPixels, (tv + 1) * windowInfo.tileSizeInPixels);
+			quad[3].texCoords = sf::Vector2f((tu+1) * windowInfo.tileSizeInPixels, tv * windowInfo.tileSizeInPixels);
+
 		}
 	}
 }
 
-void TileMap::initiateMap()
+void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	
+	states.transform *= getTransform();
+
+	// apply the tileset texture
+	states.texture = &tileSet;
+
+	// draw the vertex array
+	target.draw(vertexMap, states);
+}
+
+void TileMap::defineMapLayout()
 {
 	int temp;
 	srand(layoutSeed);
@@ -34,46 +56,36 @@ void TileMap::initiateMap()
 	{
 		for (unsigned int yPos = 0; yPos < mapHeight; yPos++)
 		{
-
-			//set flowers mode
-			if (setFlowers)
+			switch (mapInfo[yPos*mapWidth + xPos])
 			{
-				//TODO
-			}
-			else
-			{
+			case TileType::air:
 				temp = rand() % 25;
-				switch (mapInfo[yPos*mapWidth + xPos])
+				if (temp == 0)
 				{
-				case TileType::air:
-					if (temp == 0)
-					{
-						temp = rand() % 2;
-						mapTileType[yPos*mapWidth + xPos] = 1 + temp;
-					}
-					else
-					{
-						mapTileType[yPos*mapWidth + xPos] = 0;
-					}
-					break;
-				case TileType::flowers:
-					if (temp == 0)
-					{
-						temp = rand() % 2;
-						mapTileType[yPos*mapWidth + xPos] = 1 + temp;
-					}
-					else
-					{
-						mapTileType[yPos*mapWidth + xPos] = 0;
-					}
-					break;
-				case TileType::wall:
-					temp = rand() % 5;
-					mapTileType[yPos*mapWidth + xPos] = temp + 3;
-					break;
+					temp = rand() % 2;
+					mapTileType[yPos*mapWidth + xPos] = 1 + temp;
 				}
+				else
+				{
+					mapTileType[yPos*mapWidth + xPos] = 0;
+				}
+				break;
+			case TileType::flowers:
+				if (temp == 0)
+				{
+					temp = rand() % 2;
+					mapTileType[yPos*mapWidth + xPos] = 1 + temp;
+				}
+				else
+				{
+					mapTileType[yPos*mapWidth + xPos] = 0;
+				}
+				break;
+			case TileType::wall:
+				temp = rand() % 5;
+				mapTileType[yPos*mapWidth + xPos] = temp + 3;
+				break;
 			}
-			//random flowers mode
 		}
 	}
 	srand(time(NULL));

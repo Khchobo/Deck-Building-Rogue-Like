@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Source Files\Entity">
       <UniqueIdentifier>{8a1e8cdf-d961-46fd-97f8-51969329bb31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Data Files\basicSlime">
+      <UniqueIdentifier>{a92f6571-1616-451f-97d1-f5232c93f09b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -169,14 +172,17 @@
     <None Include="assets\data\gameData.json">
       <Filter>Resource Files\Data Files</Filter>
     </None>
-    <None Include="assets\data\characters\basicSlimeData.json">
-      <Filter>Resource Files\Data Files</Filter>
-    </None>
     <None Include="assets\data\characters\playerData.json">
       <Filter>Resource Files\Data Files</Filter>
     </None>
     <None Include="assets\fixedColourShader.frag">
       <Filter>Resource Files\Source Files</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlimeData.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlimeAnimation\states.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
     </None>
   </ItemGroup>
 </Project>

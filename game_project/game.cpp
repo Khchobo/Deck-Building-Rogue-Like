@@ -185,19 +185,13 @@ void Game::action()
 void Game::draw()
 {
 
-	sf::Texture texture;
-	texture.create(mapWidth*windowInfo.tileSize*windowInfo.pixelSize, mapHeight*windowInfo.tileSize*windowInfo.pixelSize);
-
-	tileMap.draw(texture);
-	//player.draw(texture);
-
-	sf::Sprite sprite;
-	sprite.setTexture(texture);
+	//THIS SECTION DETERMINES THE BACKGROUND POSITIONING BASED ON THE PLAYERS POSITION
+	//TODO move into tilemap class?
 
 	//TODO - case when screen size is larger than map size
 
-	//positioning of the overall texture relative to the window
-	Point backgroundTexturePosition;
+	//positioning of the overall texture relativeto the window
+	sf::Vector2f backgroundTexturePosition;
 
 	int desktopTileOffsetX = static_cast<int>(windowInfo.getWindowWidth()) % 32;
 	int desktopTileOffsetY = static_cast<int>(windowInfo.getWindowHeight()) % 32;
@@ -217,11 +211,11 @@ void Game::draw()
 		backgroundTexturePosition.y = (windowInfo.getWindowHeight() / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 	}
 
-
-	sprite.setPosition(backgroundTexturePosition.x, backgroundTexturePosition.y);
-
+	tileMap.updateVertexMap(windowInfo);
+	tileMap.setPosition(backgroundTexturePosition);
 	//draw the background
-	window.draw(sprite);
+	window.draw(tileMap);
+
 	player.draw(window, backgroundTexturePosition, imageManager);
 
 	for (auto& enemy : enemies)

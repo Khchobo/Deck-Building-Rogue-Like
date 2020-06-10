@@ -147,7 +147,7 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	}
 }
 
-void BattlingCharacter::draw(sf::RenderWindow& window, Point backgroundTexturePosition, ImageManager& imageManager)
+void BattlingCharacter::draw(sf::RenderWindow& window, sf::Vector2f backgroundTexturePosition, ImageManager& imageManager)
 {
 	directionalArrow.position.x += backgroundTexturePosition.x;
 	directionalArrow.position.y += backgroundTexturePosition.y;

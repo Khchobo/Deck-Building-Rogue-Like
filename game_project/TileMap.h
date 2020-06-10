@@ -14,20 +14,14 @@
 #include "CardActionMap.h"
 #include "AStar.hpp"
 
-class TileMap
+class TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
 	TileMap() {
 	}
 	unsigned int pixelSize = 2;
 
-	//use predefined flower positions or random
-	bool setFlowers = false;
 	int layoutSeed;
-	std::vector<sf::Image> spriteImages;
-	std::vector<sf::Uint8> pixels;
-	unsigned int mapWidth, mapHeight, tileSize;
-	sf::VertexArray quads;
 	//constructor for the tile map
 	//mapWidth - number of tiles in horizontal direction
 	//mapHeight - number of tiles in vertical direction
@@ -37,26 +31,32 @@ public:
 	TileMap(unsigned int mapWidth, unsigned int mapHeight, unsigned int tileSize, std::vector<TileType> mapInfo, std::vector<std::vector<int>> collision) :
 
 		mapInfo(mapInfo), mapWidth(mapWidth), mapHeight(mapHeight),
-		tileSize(tileSize), spriteImages(10),mapTileType(mapInfo.size())
+		tileSize(tileSize),mapTileType(mapInfo.size())
 	{
 		srand(time(NULL));
 		layoutSeed = rand();
-		initiateMap();
+		defineMapLayout();
 	}
 
+	sf::Texture tileSet;
+	sf::VertexArray vertexMap;
 
-	
 	void initialise();
 
 	//Creates the map of the room including the tile variations to be drawn by draw()
-	void initiateMap();
+	void defineMapLayout();
 
 	void cardActionUpdateMap(CardActionMap cardActionMap);
 
 	void testDrawPath(AStar::CoordinateList path);
 
-	virtual void draw(sf::Texture& texture) const;
+	void updateVertexMap(WindowInfo& windowInfo);
+
 private:
+
+	unsigned int mapWidth, mapHeight, tileSize;
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	std::vector<TileType> mapInfo;
 	std::vector<int> mapTilesWCardActions;
 	std::vector<int> mapTileType;
