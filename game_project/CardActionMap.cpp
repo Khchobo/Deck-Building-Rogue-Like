@@ -37,7 +37,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
 			CardAction newCardAction(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-				cardsInDeck.cardsInDeck[cardIndex].attackElement);
+				cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
 			cardActionMap.push_back(newCardAction);
 
 		line_finish:;
@@ -71,7 +71,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 				}
 
 				CardAction newCardAction(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-					cardsInDeck.cardsInDeck[cardIndex].attackElement);
+					cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
 				cardActionMap.push_back(newCardAction);
 			}
 
@@ -103,7 +103,7 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 					activationTime= euclideanDistance * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
 					CardAction newCardAction(i, j, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-												cardsInDeck.cardsInDeck[cardIndex].attackElement);
+												cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
 					cardActionMap.push_back(newCardAction);
 				}
 

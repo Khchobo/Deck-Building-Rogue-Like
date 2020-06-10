@@ -8,7 +8,8 @@
 
 using namespace standaloneFunctions;
 
-enum class actionState { idle,move,attack };
+enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange ,destroySelf, takeDamage};
+enum class actionState { idle,move,attack,death };
 enum class iFrameState {invincible, vunerable};
 
 class BattlingCharacter : public Entity
@@ -35,13 +36,15 @@ public:
 	
 	float yPosNoOffset;
 
+	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
+														{initiateMotion, false}, {selectCardLeft, false},
+														{selectCardRight, false},{directionChange,false},
+														{destroySelf,false},{takeDamage,false} };
+
 protected:
 
-	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
-															{initiateMotion, false}, {selectCardLeft, false},
-															{selectCardRight, false},{directionChange,false} };
-	actionState state=actionState::idle;
-
+	actionState actionstate=actionState::idle;
+	iFrameState iFrameState = iFrameState::vunerable;
 
 	//direction character is facing, 0 is up and then proceed counter clockwise
 	int direction;
@@ -53,10 +56,12 @@ protected:
 
 	void updateMotion(WindowInfo windowInfo);
 
+	void updateDamageAndHealth(CardActionMap cardActionMap);
+
 	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();
 
-	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction);
+	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction, CardActionMap cardActionMap);
 	//set all behaviour triggers to false each frame
 	void resetBehaviourTriggers();
 

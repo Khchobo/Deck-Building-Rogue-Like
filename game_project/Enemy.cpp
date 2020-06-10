@@ -18,12 +18,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 {
 	resetBehaviourTriggers();
 
-	pathUpdateTimeout--;
-	if (pathUpdateTimeout <= 0)
-	{
-		updatePath(collisionMap, cardActionMap, windowInfo);
-	}
-	
+
 	
 	switch (aiMoveState)
 	{
@@ -51,48 +46,58 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 		break;
 	}
 	
-	//Movement
-	movementTimeout -= frameTime;
-	if (movementTimeout <= 0)
+	if (actionstate != actionState::death)
 	{
-		behaviourTriggers[initiateMotion] = true;
-
-		for (int i = 1; i < currentPath.size(); i++)
+		pathUpdateTimeout--;
+		if (pathUpdateTimeout <= 0)
 		{
-			if (currentTilePos.x > currentPath[1].x)
-			{
-				if (direction != 1) behaviourTriggers[directionChange] = true;
-				direction = 1;
-				break;
-			}
-			else if (currentTilePos.x < currentPath[1].x)
-			{
-				if (direction != 3) behaviourTriggers[directionChange] = true;
-				direction = 3;
-				break;
-			}
-			else if (currentTilePos.y > currentPath[1].y)
-			{
-				if (direction != 0) behaviourTriggers[directionChange] = true;
-				direction = 0;
-
-			}
-			else if (currentTilePos.y< currentPath[1].y)
-			{
-				if (direction != 2) behaviourTriggers[directionChange] = true;
-				direction = 2;
-			}
+			updatePath(collisionMap, cardActionMap, windowInfo);
 		}
 
-		switch (aiMoveState)
+
+		//Movement
+		movementTimeout -= frameTime;
+		if (movementTimeout <= 0)
 		{
-		case aiMoveState::chase:
-			movementTimeout = type->movementTimeoutChase;
-			break;
-		case aiMoveState::flee:
-			movementTimeout = type->movementTimeoutFlee;
+			behaviourTriggers[initiateMotion] = true;
+
+			for (int i = 1; i < currentPath.size(); i++)
+			{
+				if (currentTilePos.x > currentPath[1].x)
+				{
+					if (direction != 1) behaviourTriggers[directionChange] = true;
+					direction = 1;
+					break;
+				}
+				else if (currentTilePos.x < currentPath[1].x)
+				{
+					if (direction != 3) behaviourTriggers[directionChange] = true;
+					direction = 3;
+					break;
+				}
+				else if (currentTilePos.y > currentPath[1].y)
+				{
+					if (direction != 0) behaviourTriggers[directionChange] = true;
+					direction = 0;
+
+				}
+				else if (currentTilePos.y < currentPath[1].y)
+				{
+					if (direction != 2) behaviourTriggers[directionChange] = true;
+					direction = 2;
+				}
+			}
+
+			switch (aiMoveState)
+			{
+			case aiMoveState::chase:
+				movementTimeout = type->movementTimeoutChase;
+				break;
+			case aiMoveState::flee:
+				movementTimeout = type->movementTimeoutFlee;
+			}
+
 		}
-		
 	}
 	BattlingCharacter::action(collisionMap,windowInfo, 1, direction);
 }
@@ -170,7 +175,6 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 			break;
 		}
 
-		//TODO likely will crash if going out of range of map
 		std::vector<sf::Vector2i> path = lineOfSight(currentTilePos.x, currentTilePos.y, round(workingLocation.x), round(workingLocation.y));
 
 		for (sf::Vector2i point : path)

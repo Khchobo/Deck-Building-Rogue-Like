@@ -7,9 +7,8 @@
 #include "entities\other\NumberEntity.h"
 #include "WindowInfo.h"
 #include "globalVariables.h"
+#include "entities\characters\BattlingCharacter.h"
 #include <string>
-
-enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange};
 
 static class CardsInHand: public Entity
 {

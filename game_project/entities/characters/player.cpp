@@ -66,7 +66,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 	resetBehaviourTriggers();
 	checkInputs(keyboardArray);
-	BattlingCharacter::action(collision,windowInfo, renderMode, direction);
+	BattlingCharacter::action(collision,windowInfo, renderMode, direction, cardActionMap);
 	
 
 	if (inMotion == 1)

@@ -8,13 +8,12 @@
 *generated. Each of these action points becomes active after a preset time depending
 *on the distance from the attack user (exact implementation in CardActionMap and the attack speed.
 *The action point also has a destructionTime, once it reaches this time while it is active it will
-*self destruct. TODO currently there is no implementation for BattlingCharacters to take damage
-*when touching an active action point
+*self destruct.
 */
 class CardAction
 {
 public:
-	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement);
+	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement,float attackDamage);
 	//test
 	//map position in tiles
 	int xPos;
@@ -31,6 +30,7 @@ public:
 	bool active;
 
 	AttackElement attackElement;
+	float attackDamage;
 
 	//TODO damage info, attack type, etc?
 };

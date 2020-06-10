@@ -21,7 +21,7 @@ public:
 	float attackEmanationSpeed;
 	//How long the action points exist after being activated
 	float persistence;
-
+	float attackDamage;
 	int cardPointCost;
 
 private:

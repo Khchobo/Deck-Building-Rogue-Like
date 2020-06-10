@@ -71,6 +71,9 @@ Card::Card()
 	attackEmanationSpeed = e(gen)/10.0;
 	persistence = f(gen) / 60.0;
 
+	//TODO temporary, eventually generate this
+	attackDamage = 5;
+
 	//assigns a cost
 	//random percentage change in cost. defaults at +-10%. TODO implement ability to change this with luck and mutation chance stats
 	rando = rand() % 200 + 900;

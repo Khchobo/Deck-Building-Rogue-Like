@@ -19,7 +19,7 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	//once motion is completed, end in motion state and change tile alignement 
 	if (motionPercentage == 1)
 	{
-		state = actionState::idle;
+		actionstate = actionState::idle;
 		currentTilePos = futureTilePos;
 	}
 
@@ -55,9 +55,9 @@ void BattlingCharacter::initialiseBattleMode()
 {
 }
 
-void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction)
+void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction, CardActionMap cardActionMap)
 {
-	switch (state)
+	switch (actionstate)
 	{
 	case actionState::idle:
 		if (behaviourTriggers[initiateMotion] && cardPoints > cardPointsStepCost && !(inMotion))
@@ -70,17 +70,36 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		
 		break;
 	default:
-		throw std::invalid_argument("This should never happen");
 		break;
 	}
 
-	if (behaviourTriggers[directionChange])
+	if (actionstate != actionState::death)
 	{
-		arrowDirectionUpdate();
+		if (iFrameState == iFrameState::vunerable)
+		{
+			updateDamageAndHealth(cardActionMap);
+		}
+
+		if (behaviourTriggers[directionChange])
+		{
+			arrowDirectionUpdate();
+		}
+		directionalArrow.position = sf::Vector2f(position.x + directionalArrowOffset.x + 16, position.y + directionalArrowOffset.y + 16);
+		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	}
-	directionalArrow.position =sf::Vector2f( position.x+directionalArrowOffset.x+16,position.y + directionalArrowOffset.y + 16);
-	cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
-	
+}
+
+void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)
+{
+	for (CardAction cardAction : cardActionMap.cardActionMap)
+	{
+		if (cardAction.active && sf::Vector2i(cardAction.xPos, cardAction.yPos) == currentTilePos)
+		{
+			health -= cardAction.attackDamage;
+			behaviourTriggers[takeDamage] = true;
+			iFrameState = iFrameState::invincible;
+		}
+	}
 }
 
 void BattlingCharacter::arrowDirectionUpdate()
@@ -142,7 +161,7 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	if (collision[futureTilePos.y][futureTilePos.x] == 0)
 	{
 		cardPoints -= cardPointsStepCost;
-		state = actionState::move;
+		actionstate = actionState::move;
 		motionPercentage = 0.0;
 	}
 }
