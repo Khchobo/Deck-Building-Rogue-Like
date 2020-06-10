@@ -125,9 +125,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="CardAction.cpp" />
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="BattlingCharacterType.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardActionMap.cpp" />
@@ -142,16 +142,19 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
+    <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
+    <ClCompile Include="StateAnimation.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileType.cpp" />
     <ClCompile Include="WindowInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="AStar.hpp" />
     <ClInclude Include="CardAction.h" />
-    <ClInclude Include="Animation.h" />
     <ClInclude Include="BattlingCharacterType.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardActionMap.h" />
@@ -166,7 +169,10 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="globalVariables.h" />
     <ClInclude Include="ImageManager.h" />
+    <ClInclude Include="Keyframe.h" />
+    <ClInclude Include="SpriteAnimation.h" />
     <ClInclude Include="standaloneFunctions.h" />
+    <ClInclude Include="StateAnimation.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileType.h" />
     <ClInclude Include="WindowInfo.h" />

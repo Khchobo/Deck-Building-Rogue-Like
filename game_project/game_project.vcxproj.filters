@@ -25,6 +25,12 @@
     <Filter Include="Resource Files\Data Files\basicSlime">
       <UniqueIdentifier>{a92f6571-1616-451f-97d1-f5232c93f09b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Animation">
+      <UniqueIdentifier>{fd9ffa70-5f9a-4fcb-95aa-71e8e2acce8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Source Files\Animation">
+      <UniqueIdentifier>{663dc2f4-31b9-4215-a434-e77aefe8996d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,9 +58,6 @@
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowInfo.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
@@ -93,6 +96,18 @@
     <ClCompile Include="AStar.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationManager.cpp">
+      <Filter>Resource Files\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyframe.cpp">
+      <Filter>Resource Files\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteAnimation.cpp">
+      <Filter>Resource Files\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="StateAnimation.cpp">
+      <Filter>Resource Files\Source Files\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TileType.h">
@@ -117,9 +132,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImageManager.h">
@@ -157,6 +169,18 @@
     </ClInclude>
     <ClInclude Include="AStar.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationManager.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyframe.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteAnimation.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="StateAnimation.h">
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
