@@ -20,8 +20,8 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 	{
 		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
 		{
-			int xPos;
-			int yPos;
+			unsigned int xPos;
+			unsigned int yPos;
 
 			xPos = playerPos.x+directionMap[direction][0]*(i+1);
 			yPos = playerPos.y+directionMap[direction][1]*(i+1);
@@ -34,26 +34,24 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 
 			if (lineOfSightObstructed(playerPos.x, playerPos.y, xPos, yPos, collision)) { continue; }
 
-			float activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
+			float activationTime = i * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
 			CardAction newCardAction(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
 				cardsInDeck.cardsInDeck[cardIndex].attackElement);
 			cardActionMap.push_back(newCardAction);
-
-		line_finish:;
 		}
 		break;
 	}
 	case(AttackType::cross):
 	{
 		float activationTime;
-		int xPos;
-		int yPos;
+		unsigned int xPos;
+		unsigned int yPos;
 
 		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
 		{
 
-			activationTime = i * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
+			activationTime = i * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 			for (int j = 0; j < 4; j++)
 			{
 
@@ -89,18 +87,18 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			for (int j = playerPos.y - tileRadius; j < playerPos.y + tileRadius + 1; j++)
 			{
 				//check if it goes out of range of the map
-				if (i < 0 || i >= collision[0].size() || j < 0 || j >= collision.size())
+				if (i < 0 || i >= static_cast<signed int>(collision[0].size()) || j < 0 || j >= static_cast<signed int>(collision.size()))
 				{
 					continue;
 				}
 
-				float euclideanDistance = sqrt(pow((playerPos.x - i), 2) + pow((playerPos.y - j), 2));
+				float euclideanDistance = sqrtf(powf(static_cast<float>(playerPos.x - i), 2) + powf(static_cast<float>(playerPos.y - j), 2));
 
 				if (euclideanDistance <= tileRadius)
 				{
 					if (lineOfSightObstructed(playerPos.x, playerPos.y, i, j, collision)) { continue; }
 
-					activationTime= euclideanDistance * (0.1 / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
+					activationTime= euclideanDistance * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 
 					CardAction newCardAction(i, j, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
 												cardsInDeck.cardsInDeck[cardIndex].attackElement);
@@ -159,7 +157,7 @@ bool CardActionMap::lineOfSightObstructed(int xPos1,int yPos1,int xPos2,int yPos
 	std::vector<sf::Vector2i> v;
 	v = standaloneFunctions::lineOfSight(xPos1, yPos1, xPos2, yPos2);
 
-	for (int k = 0; k < v.size(); k++)
+	for (unsigned int k = 0; k < v.size(); k++)
 	{
 		if (collision[v[k].y][v[k].x] == 1)
 		{
