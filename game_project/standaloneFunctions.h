@@ -1,5 +1,4 @@
 #include <algorithm>
-#include "Point.h"
 #include "globalVariables.h"
 #include <vector>
 #include <string>
@@ -19,7 +18,7 @@ namespace standaloneFunctions {
 	enum class Axis {x,y};
 
 	float easeInOut(float x);
-	std::vector<Point> lineOfSight(int x, int y, int x2, int y2);
+	std::vector<sf::Vector2i> lineOfSight(int x, int y, int x2, int y2);
 
 	Json::Value loadJsonFile(const char* filename);
 

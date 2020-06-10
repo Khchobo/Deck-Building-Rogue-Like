@@ -171,9 +171,9 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 		}
 
 		//TODO likely will crash if going out of range of map
-		std::vector<Point> path = lineOfSight(currentTilePos.x, currentTilePos.y, round(workingLocation.x), round(workingLocation.y));
+		std::vector<sf::Vector2i> path = lineOfSight(currentTilePos.x, currentTilePos.y, round(workingLocation.x), round(workingLocation.y));
 
-		for (Point point : path)
+		for (sf::Vector2i point : path)
 		{
 			if (point.y<0 || point.y>collisionMap.size() || point.x<0 || point.x>collisionMap[0].size())
 			{

@@ -143,7 +143,6 @@
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Point.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileType.cpp" />
@@ -167,7 +166,6 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="globalVariables.h" />
     <ClInclude Include="ImageManager.h" />
-    <ClInclude Include="Point.h" />
     <ClInclude Include="standaloneFunctions.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileType.h" />

@@ -156,7 +156,7 @@ void CardActionMap::updateAllCardActions(float frameTime)
 */
 bool CardActionMap::lineOfSightObstructed(int xPos1,int yPos1,int xPos2,int yPos2, std::vector<std::vector<int>> collision)
 {
-	std::vector<Point> v;
+	std::vector<sf::Vector2i> v;
 	v = standaloneFunctions::lineOfSight(xPos1, yPos1, xPos2, yPos2);
 
 	for (int k = 0; k < v.size(); k++)

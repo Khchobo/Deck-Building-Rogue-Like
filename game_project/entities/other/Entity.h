@@ -8,7 +8,7 @@
 #include "Animation.h"
 #include "globalVariables.h"
 #include <minmax.h>
-#include "Point.h"
+
 class Entity
 {
 public:

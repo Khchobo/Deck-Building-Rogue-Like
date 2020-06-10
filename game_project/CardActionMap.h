@@ -1,7 +1,6 @@
 #pragma once
 #include "CardsInDeck.h"
 #include "CardAction.h"
-#include "Point.h"
 #include "standaloneFunctions.h"
 
 //Class that stores information about all the card actions occuring on the map and can pass

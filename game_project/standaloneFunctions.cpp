@@ -32,9 +32,9 @@ float standaloneFunctions::easeInOut(float x)
 	return -(cos(PI*x) - 1) / 2;
 }
 
-std::vector<Point> standaloneFunctions::lineOfSight(int x1, int y1, int x2, int y2)
+std::vector<sf::Vector2i> standaloneFunctions::lineOfSight(int x1, int y1, int x2, int y2)
 {
-	std::vector<Point> v;
+	std::vector<sf::Vector2i> v;
 
 	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 	dx = x2 - x1;
@@ -43,7 +43,7 @@ std::vector<Point> standaloneFunctions::lineOfSight(int x1, int y1, int x2, int 
 	dy1 = fabs(dy);
 	px = 2 * dy1 - dx1;
 	py = 2 * dx1 - dy1;
-	Point point;
+	sf::Vector2i point;
 	if (dy1 <= dx1)
 	{
 		if (dx >= 0)
