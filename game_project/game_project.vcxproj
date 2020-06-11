@@ -142,18 +142,17 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
-    <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SquashAnimation.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileType.cpp" />
-    <ClCompile Include="TransitionMap.cpp" />
     <ClCompile Include="WindowInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="AStar.hpp" />
+    <ClInclude Include="BehaviourTrigger.h" />
     <ClInclude Include="CardAction.h" />
     <ClInclude Include="BattlingCharacterType.h" />
     <ClInclude Include="Card.h" />
@@ -179,8 +178,9 @@
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\data\characters\basicSlimeData.json" />
-    <None Include="assets\data\characters\playerData.json" />
+    <None Include="assets\data\characters\basicSlime\animations\slimeJumpSquash.json" />
+    <None Include="assets\data\characters\basicSlime\basicSlimeData.json" />
+    <None Include="assets\data\characters\player\playerData.json" />
     <None Include="assets\data\gameData.json" />
     <None Include="assets\data\levels\testMap.json" />
     <None Include="assets\fixedColourShader.frag" />

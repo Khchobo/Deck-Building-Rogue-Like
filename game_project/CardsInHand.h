@@ -7,7 +7,7 @@
 #include "entities\other\NumberEntity.h"
 #include "WindowInfo.h"
 #include "globalVariables.h"
-#include "entities\characters\BattlingCharacter.h"
+#include "BehaviourTrigger.h"
 #include <string>
 
 static class CardsInHand: public Entity

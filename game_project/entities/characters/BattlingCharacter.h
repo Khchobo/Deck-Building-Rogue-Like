@@ -8,7 +8,6 @@
 
 using namespace standaloneFunctions;
 
-enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange ,destroySelf, takeDamage,endMotion, triggerDeath};
 enum class actionState { idle,move,attack,death };
 enum class iFrameState {invincible, vunerable};
 

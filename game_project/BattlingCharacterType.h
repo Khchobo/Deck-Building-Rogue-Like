@@ -5,7 +5,8 @@
 #include <assert.h>
 #include "json\json.h"
 #include "standaloneFunctions.h"
-#include "AnimationManager.h"
+#include "StateAnimation.h"
+#include "SquashAnimation.h"
 #include <unordered_map>
 #include "TransitionMap.h"
 
@@ -37,6 +38,7 @@ public:
 	float maxHealth;
 
 private:
-	void assignDataToMap(Json::Value data);
+	void assignTransitionDataToMap(Json::Value data);
+	void loadAnimationData(std::string typeName);
 };
 

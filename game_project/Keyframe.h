@@ -3,6 +3,7 @@
 #include <string>
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
+#include "BehaviourTrigger.h"
 
 //Largely an abstract class representing some keyframe data. Identifier, vector and colour may be interpreted differently depending on
 //what type of keyframeableState the keyframe is a part of. However timePoint will be used in all keyframes and denotes how much time 
@@ -19,6 +20,8 @@ public:
 	std::string identifier;
 	sf::Vector2f vector;
 	sf::Color colour;
-	BehaviourTrigger trigger;
+
+	BehaviourTrigger behaviourTrigger=null;
+	float repeatTrigger=NAN;
 };
 

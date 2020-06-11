@@ -1,8 +1,9 @@
 #pragma once
 
-#include "entities\characters\BattlingCharacter.h"
+#include "TransitionMap.h"
 #include "StateAnimation.h"
 #include "SquashAnimation.h"
+#include "BattlingCharacterType.h"
 
 struct PlayingAnimation
 {

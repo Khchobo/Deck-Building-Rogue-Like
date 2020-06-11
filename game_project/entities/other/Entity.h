@@ -19,9 +19,6 @@ public:
 	void draw(sf::RenderWindow &window, ImageManager& imageManager);
 	void initialise(std::string fileName, sf::Vector2f incomingPosition,bool offset, ImageManager& imageManager);
 
-	void animationUpdate(ImageManager imageManager);
-	void animationNew(std::string name);
-
 	sf::Sprite sprite;
 	sf::Texture texture;
 

@@ -32,28 +32,3 @@ void Entity::draw(sf::RenderWindow& window,ImageManager& imageManager)
 
 	window.draw(sprite);
 }
-
-void Entity::animationUpdate(ImageManager imageManager)
-	{
-		if (animationFrame == 0)
-		{
-			sprite.setTexture(imageManager.getImage(currentAnimation + "0"));
-		}
-
-		else if (animationFrameTime >= animationMap[currentAnimation][animationFrame])
-		{
-			animationFrame=max(animationFrame+1, animationMap[currentAnimation].frameLengthArray.size());
-			animationFrameTime = 0;
-			sprite.setTexture(imageManager.getImage(currentAnimation + std::to_string(animationFrame)));
-		}
-		animationFrameTime += frameTime;
-	}
-
-
-void Entity::animationNew(std::string name)
-{
-	assert(animationMap.find(name) != animationMap.end());
-	currentAnimation = name;
-	animationFrameTime= 0;
-	animationFrame = 0;
-};

@@ -31,6 +31,9 @@
     <Filter Include="Resource Files\Source Files\Animation">
       <UniqueIdentifier>{663dc2f4-31b9-4215-a434-e77aefe8996d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Data Files\player">
+      <UniqueIdentifier>{3b7282c4-88bf-49b5-8c56-78615643836d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,14 +102,8 @@
     <ClCompile Include="AnimationManager.cpp">
       <Filter>Resource Files\Source Files\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Keyframe.cpp">
-      <Filter>Resource Files\Source Files\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="TransitionMap.cpp">
-      <Filter>Resource Files\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SquashAnimation.cpp">
-      <Filter>Resource Files\Source Files</Filter>
+      <Filter>Resource Files\Source Files\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,11 +176,14 @@
     <ClInclude Include="StateAnimation.h">
       <Filter>Header Files\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="TransitionMap.h">
+    <ClInclude Include="BehaviourTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TransitionMap.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="SquashAnimation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,17 +193,20 @@
     <None Include="assets\data\gameData.json">
       <Filter>Resource Files\Data Files</Filter>
     </None>
-    <None Include="assets\data\characters\playerData.json">
-      <Filter>Resource Files\Data Files</Filter>
-    </None>
     <None Include="assets\fixedColourShader.frag">
       <Filter>Resource Files\Source Files</Filter>
     </None>
-    <None Include="assets\data\characters\basicSlimeData.json">
-      <Filter>Resource Files\Data Files\basicSlime</Filter>
-    </None>
     <None Include="states.json">
       <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlime\animations\slimeJumpSquash.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlime\basicSlimeData.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
+    <None Include="assets\data\characters\player\playerData.json">
+      <Filter>Resource Files\Data Files\player</Filter>
     </None>
   </ItemGroup>
 </Project>

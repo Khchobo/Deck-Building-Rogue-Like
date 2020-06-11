@@ -3,7 +3,7 @@
 void Player::checkInputs(std::map<int, bool> keyboardArray)
 {
 	//TODO could slightly refactor this to avoid the repetition
-	if (state == actionState::idle)
+	if (actionstate == actionState::idle)
 	{
 		if (keyboardArray[sf::Keyboard::W])
 		{

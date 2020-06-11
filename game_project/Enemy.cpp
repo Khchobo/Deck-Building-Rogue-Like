@@ -99,7 +99,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 
 		}
 	}
-	BattlingCharacter::action(collisionMap,windowInfo, 1, direction);
+	BattlingCharacter::action(collisionMap,windowInfo, 1, direction, cardActionMap);
 }
 
 

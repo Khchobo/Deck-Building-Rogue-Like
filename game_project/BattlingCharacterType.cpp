@@ -1,19 +1,17 @@
 #include "BattlingCharacterType.h"
+#include <filesystem>
 
 BattlingCharacterType::BattlingCharacterType() {};
 
 BattlingCharacterType::BattlingCharacterType(std::string typeName)
 {
 
-	std::string filePath = "assets/data/characters/" + typeName + "/animations/state.json";
-	Json::Value transitionData = standaloneFunctions::loadJsonFile(filePath.c_str());
-
-	assignDataToMap(transitionData);
+	loadAnimationData(typeName);
 
 	std::map<std::string, Dir> directionMap = { {"front",Dir::Front},{"left",Dir::Left}
 											,{"right",Dir::Right} ,{"back",Dir::Back} };
 
-	filePath = "assets/data/characters/" + typeName + "Data.json";
+	std::string filePath = "assets/data/characters/" + typeName + "/"+typeName+"Data.json";
 	Json::Value data = standaloneFunctions::loadJsonFile(filePath.c_str());
 
 	cardPointsMax = data["cardPointsMax"].asFloat();
@@ -35,21 +33,69 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 
 }
 
-void BattlingCharacterType::assignDataToMap(Json::Value data)
+void BattlingCharacterType::loadAnimationData(std::string typeName)
 {
+	std::string filePath = "assets/data/characters/" + typeName + "/animations/states.json";
+	Json::Value transitionData = standaloneFunctions::loadJsonFile(filePath.c_str());
 
-	int animType = data["type"].asInt();
+	assignTransitionDataToMap(transitionData);
 
-	std::shared_ptr<StateAnimation> anim;
-
-	switch (animType)
+	for (auto& p : std::filesystem::directory_iterator("assets/data/characters/" + typeName + "/animations") )
 	{
-	case 0:
-		//anim.reset(new SpriteAnimation);
-		break;
-	case 1:
-		anim.reset(new SquashAnimation);
+		if (p.path().u8string() == ("assets/data/characters" + typeName + "/animations/states.json"))
+		{
+			continue;
+		}
+
+		Json::Value animData = standaloneFunctions::loadJsonFile(p.path().u8string().c_str());
+
+		int animType = animData["type"].asInt();
+		std::shared_ptr<StateAnimation> anim;
+
+		switch (animType)
+		{
+		case 0:
+			//anim.reset(new SpriteAnimation); TODO
+			break;
+		case 1:
+			anim.reset(new SquashAnimation);
+
+			for (Json::Value::ArrayIndex index = 0; index < animData["keyframes"].size(); index++)
+			{
+				anim->keyframes.push_back(Keyframe(
+					animData["keyframes"][index][0].asFloat(),
+					sf::Vector2f(animData["keyframes"][index][1].asFloat(),
+						animData["keyframes"][index][2].asFloat())
+				)
+				);
+
+				if (animData["keyframes"][index][3].isMember("repeat"))
+				{
+					anim->keyframes[index].repeatTrigger = animData["keyframes"][index][3]["repeat"].asFloat();
+				}
+
+				if (animData["keyframes"][index][3].isMember("trigger"))
+				{
+					//TODO
+				}
+
+
+			}
+		}
+
+		
+
 	}
+
+
+
+
+
+
+}
+
+void BattlingCharacterType::assignTransitionDataToMap(Json::Value data)
+{
 
 	std::unordered_map<std::string, BehaviourTrigger> triggerMap =
 	{ {"useCard",useCard}, {"drawCardFromDeck",drawCardFromDeck}, {"initiateMotion",initiateMotion},
@@ -59,10 +105,14 @@ void BattlingCharacterType::assignDataToMap(Json::Value data)
 
 	for (Json::ValueIterator itr = data["transitions"].begin(); itr != data["transitions"].end(); itr++)
 	{
-		animationTransitions.map.insert(std::pair<std::string, std::unordered_map<BehaviourTrigger, std::string>>(itr.key.asString(), std::unordered_map<BehaviourTrigger, std::string>()));
+
+		animationTransitions.map[itr.name()] = std::map<BehaviourTrigger, std::string>();
 		for (Json::Value::ArrayIndex index = 0; index < itr->size(); index++)
 		{
-			animationTransitions[itr.key.asString()].insert(std::pair< BehaviourTrigger, std::string>(triggerMap[itr->operator[](index)[0].asString()], itr->operator[](index)[1].asString()));
+			animationTransitions[itr.name()].insert(std::pair< BehaviourTrigger, std::string>
+														(triggerMap[itr->operator[](index)[0].asString()],
+														 itr->operator[](index)[1].asString())
+												   );
 		}
 	}
 
