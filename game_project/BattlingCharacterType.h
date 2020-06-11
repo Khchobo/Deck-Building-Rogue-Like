@@ -38,7 +38,7 @@ public:
 	float maxHealth;
 
 private:
-	void assignTransitionDataToMap(Json::Value data);
+	void assignTransitionDataToMap(Json::Value data, std::unordered_map<std::string, BehaviourTrigger>& triggerMap);
 	void loadAnimationData(std::string typeName);
 };
 

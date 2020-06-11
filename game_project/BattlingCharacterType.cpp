@@ -35,10 +35,16 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 
 void BattlingCharacterType::loadAnimationData(std::string typeName)
 {
+	std::unordered_map<std::string, BehaviourTrigger> triggerMap =
+
+	{ {"useCard",useCard}, {"drawCardFromDeck",drawCardFromDeck}, {"initiateMotion",initiateMotion},
+	{"directionChange",directionChange }, {"destroySelf",destroySelf}, {"takeDamage",takeDamage},
+	{"endMotion",endMotion}, {"triggerDeath",triggerDeath} };
+
 	std::string filePath = "assets/data/characters/" + typeName + "/animations/states.json";
 	Json::Value transitionData = standaloneFunctions::loadJsonFile(filePath.c_str());
 
-	assignTransitionDataToMap(transitionData);
+	assignTransitionDataToMap(transitionData,triggerMap);
 
 	for (auto& p : std::filesystem::directory_iterator("assets/data/characters/" + typeName + "/animations") )
 	{
@@ -76,7 +82,8 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 
 				if (animData["keyframes"][index][3].isMember("trigger"))
 				{
-					//TODO
+					std::string behaviourTriggerName = animData["keyframes"][index][3]["trigger"].asString();
+					anim->keyframes[index].behaviourTrigger = triggerMap[behaviourTriggerName];
 				}
 			}
 		}
@@ -85,21 +92,10 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 
 	}
 
-
-
-
-
-
 }
 
-void BattlingCharacterType::assignTransitionDataToMap(Json::Value data)
+void BattlingCharacterType::assignTransitionDataToMap(Json::Value data, std::unordered_map<std::string, BehaviourTrigger>& triggerMap)
 {
-
-	std::unordered_map<std::string, BehaviourTrigger> triggerMap =
-	{ {"useCard",useCard}, {"drawCardFromDeck",drawCardFromDeck}, {"initiateMotion",initiateMotion},
-	{"directionChange",directionChange }, {"destroySelf",destroySelf}, {"takeDamage",takeDamage},
-	{"endMotion",endMotion}, {"triggerDeath",triggerDeath} };
-
 
 	for (Json::ValueIterator itr = data["transitions"].begin(); itr != data["transitions"].end(); itr++)
 	{
