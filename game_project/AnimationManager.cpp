@@ -8,12 +8,14 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 
 		Keyframe currentKeyframe = playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation];
 
+		//check if we have moved to the next keyframe
 		if (playingAnimations[i].timeActive >= currentKeyframe.timePoint)
 		{
 			playingAnimations[i].keyframeLocation++;
 			currentKeyframe = playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation];
 		}
 
+		//trigger repeats and behaviours if applicable
 		if (currentKeyframe.repeatTrigger != NAN)
 		{
 			playingAnimations[i].timeActive = currentKeyframe.repeatTrigger;
@@ -24,8 +26,21 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 			behaviourTriggers[currentKeyframe.behaviourTrigger] = true;
 		}
 
-		//TODO at this point handle animation transitions
+		//the transitions possible from the current animation
+		std::map<BehaviourTrigger, std::string> currentAnimationTransistions = transitions->operator[](playingAnimations[i].animation->name);
 
+		//for each possible transition from the current animation
+		for (std::map<BehaviourTrigger, std::string>::iterator iter = currentAnimationTransistions.begin(); iter != currentAnimationTransistions.end(); ++iter)
+		{
+			//if the trigger is active
+			if (behaviourTriggers[iter->first])
+			{
+				//trigger the animation
+				playingAnimations[i] = PlayingAnimation(iter->second, type);
+			}
+		}
+
+		//update the animation
 		playingAnimations[i].animation->update(playingAnimations[i].timeActive, playingAnimations[i].keyframeLocation, sprite);
 
 	}

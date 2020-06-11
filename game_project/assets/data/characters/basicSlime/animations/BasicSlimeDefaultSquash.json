@@ -1,0 +1,13 @@
+{
+  "name": "defaultSquash",
+  "type": 1,
+  "keyframes": [
+    [ 0, 1, 1 ],
+    [
+      1,
+      1,
+      1,
+      { "repeat": 0.0 }
+    ]
+  ]
+}

@@ -59,7 +59,7 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 			break;
 		case 1:
 			anim.reset(new SquashAnimation);
-
+			anim->name = animData["name"].asString();
 			for (Json::Value::ArrayIndex index = 0; index < animData["keyframes"].size(); index++)
 			{
 				anim->keyframes.push_back(Keyframe(
@@ -78,12 +78,10 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 				{
 					//TODO
 				}
-
-
 			}
 		}
 
-		
+		animationMap[anim->name] = anim;
 
 	}
 

@@ -1,9 +1,15 @@
 {
   "transitions": {
-    "slimeLandSquash": [
-      [ "initiateMotion", "slimeJumpSquash" ],
-      [ "triggerDeath", "SlimeDeathSquash" ]
+    "defaultSquash": [
+      ["initiateMotion", "JumpSquash"]
     ],
-    "slimeJumpSquash": [ [ "endMotion" , "slimeLandSquash" ] ]
+    "landSquash": [
+      [ "initiateMotion", "JumpSquash" ],
+      [ "triggerDeath", "DeathSquash" ]
+    ],
+    "jumpSquash": [
+      //[ "endMotion", "LandSquash" ] 
+
+    ]
   }
 }
