@@ -42,7 +42,7 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 
 	for (auto& p : std::filesystem::directory_iterator("assets/data/characters/" + typeName + "/animations") )
 	{
-		if (p.path().u8string() == ("assets/data/characters" + typeName + "/animations/states.json"))
+		if (p.path().filename().u8string() == "states.json")
 		{
 			continue;
 		}

@@ -208,5 +208,11 @@
     <None Include="assets\data\characters\player\playerData.json">
       <Filter>Resource Files\Data Files\player</Filter>
     </None>
+    <None Include="assets\data\characters\player\animations\states.json">
+      <Filter>Resource Files\Data Files\player</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlime\animations\BasicSlimeDefaultSquash.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
   </ItemGroup>
 </Project>

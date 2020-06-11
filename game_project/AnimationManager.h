@@ -8,6 +8,7 @@
 
 struct PlayingAnimation
 {
+	PlayingAnimation() {}
 	PlayingAnimation(std::string name, BattlingCharacterType* type) {
 		animation = type->animationMap[name];
 	}
