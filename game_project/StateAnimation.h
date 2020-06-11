@@ -10,8 +10,6 @@ struct StateAnimation
 {
 public:
 	std::vector<Keyframe> keyframes;
-	virtual void update(float& timeActive, int& keyframeLocation,sf::Sprite& sprite) = 0; //TODO also need to add some kind of struct to hold shader data
-
-	
+	virtual void update(float& timeActive, int& keyframeLocation, sf::Sprite& sprite) = 0; //TODO also need to add some kind of struct to hold shader data	
 };
 
