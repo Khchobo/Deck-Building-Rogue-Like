@@ -11,7 +11,7 @@
 class Keyframe
 {
 public:
-
+	Keyframe (){}
 	Keyframe(float timePoint, std::string identifier) : timePoint(timePoint), identifier(identifier){}
 	Keyframe(float timePoint, sf::Vector2f vector) : timePoint(timePoint), vector(vector) {}
 	Keyframe(float timePoint, sf::Color colour) : timePoint(timePoint), colour(colour) {}
@@ -22,6 +22,7 @@ public:
 	sf::Color colour;
 
 	BehaviourTrigger behaviourTrigger=null;
-	float repeatTrigger=NAN;
+	//sentinel value
+	float repeatTrigger=-1.0f;
 };
 

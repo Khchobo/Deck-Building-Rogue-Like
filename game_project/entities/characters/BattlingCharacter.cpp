@@ -2,7 +2,7 @@
 
 
 BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
-	cardsInHand(), cardsInDeck(), type(type) 
+	cardsInHand(), cardsInDeck(), type(type) , animationManager(&type->animationTransitions,type)
 {
 	type->identifier = identity;
 	cardPoints = type->cardPointsMax;
@@ -88,6 +88,8 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		directionalArrow.position = sf::Vector2f(position.x + directionalArrowOffset.x + 16, position.y + directionalArrowOffset.y + 16);
 		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	}
+
+	animationManager.updateAnimations(behaviourTriggers, type, sprite);
 }
 
 void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)

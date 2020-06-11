@@ -180,13 +180,13 @@
   <ItemGroup>
     <None Include="assets\data\characters\basicSlime\animations\BasicSlimeDefaultSquash.json" />
     <None Include="assets\data\characters\basicSlime\animations\slimeJumpSquash.json" />
+    <None Include="assets\data\characters\basicSlime\animations\states.json" />
     <None Include="assets\data\characters\basicSlime\basicSlimeData.json" />
     <None Include="assets\data\characters\player\animations\states.json" />
     <None Include="assets\data\characters\player\playerData.json" />
     <None Include="assets\data\gameData.json" />
     <None Include="assets\data\levels\testMap.json" />
     <None Include="assets\fixedColourShader.frag" />
-    <None Include="states.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

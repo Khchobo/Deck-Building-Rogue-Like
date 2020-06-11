@@ -196,9 +196,6 @@
     <None Include="assets\fixedColourShader.frag">
       <Filter>Resource Files\Source Files</Filter>
     </None>
-    <None Include="states.json">
-      <Filter>Resource Files\Data Files\basicSlime</Filter>
-    </None>
     <None Include="assets\data\characters\basicSlime\animations\slimeJumpSquash.json">
       <Filter>Resource Files\Data Files\basicSlime</Filter>
     </None>
@@ -212,6 +209,9 @@
       <Filter>Resource Files\Data Files\player</Filter>
     </None>
     <None Include="assets\data\characters\basicSlime\animations\BasicSlimeDefaultSquash.json">
+      <Filter>Resource Files\Data Files\basicSlime</Filter>
+    </None>
+    <None Include="assets\data\characters\basicSlime\animations\states.json">
       <Filter>Resource Files\Data Files\basicSlime</Filter>
     </None>
   </ItemGroup>

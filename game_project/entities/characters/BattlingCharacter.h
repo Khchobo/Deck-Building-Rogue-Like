@@ -5,6 +5,7 @@
 #include "CardsInDeck.h"
 #include "BattlingCharacterType.h"
 #include "CardActionMap.h"
+#include "AnimationManager.h"
 
 using namespace standaloneFunctions;
 
@@ -57,6 +58,8 @@ protected:
 	void updateMotion(WindowInfo windowInfo);
 
 	void updateDamageAndHealth(CardActionMap cardActionMap);
+
+	AnimationManager animationManager;
 
 	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();

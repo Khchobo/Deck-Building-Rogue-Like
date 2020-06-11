@@ -2,11 +2,14 @@
 
 void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, sf::Sprite& sprite)
 {
-	for (unsigned int i = 0; i < sizeof(playingAnimations); i++)
+	for (unsigned int i = 0; i < playingAnimations.size(); i++)
 	{
-		playingAnimations[i].timeActive += frameTime;
+		if (runTime > 0)
+		{
+			playingAnimations[i].timeActive += frameTime;
+		}
 
-		Keyframe currentKeyframe = playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation];
+		Keyframe currentKeyframe;
 
 		//check if we have moved to the next keyframe
 		if (playingAnimations[i].timeActive >= currentKeyframe.timePoint)
@@ -16,15 +19,24 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 		}
 
 		//trigger repeats and behaviours if applicable
-		if (currentKeyframe.repeatTrigger != NAN)
-		{
-			playingAnimations[i].timeActive = currentKeyframe.repeatTrigger;
-		}
-
 		if (currentKeyframe.behaviourTrigger != null)
 		{
 			behaviourTriggers[currentKeyframe.behaviourTrigger] = true;
 		}
+
+		if (currentKeyframe.repeatTrigger != -1.0f)
+		{
+			playingAnimations[i].timeActive = currentKeyframe.repeatTrigger;
+			for (int j=0; j<playingAnimations[i].animation->keyframes.size();j++)
+			{
+				if (playingAnimations[i].animation->keyframes[j].timePoint > currentKeyframe.repeatTrigger)
+				{
+					playingAnimations[i].keyframeLocation = j - 1;
+					break;
+				}
+			}
+		}
+
 
 		//the transitions possible from the current animation
 		std::map<BehaviourTrigger, std::string> currentAnimationTransistions = transitions->operator[](playingAnimations[i].animation->name);

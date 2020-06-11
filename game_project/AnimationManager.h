@@ -13,7 +13,7 @@ struct PlayingAnimation
 		animation = type->animationMap[name];
 	}
 
-	int keyframeLocation=-1;
+	int keyframeLocation=0;
 	float timeActive = 0;
 	std::shared_ptr<StateAnimation> animation;
 };
@@ -23,7 +23,7 @@ class AnimationManager
 public:
 	AnimationManager(TransitionMap* transitions, BattlingCharacterType* type) : transitions(transitions)
 	{
-		playingAnimations[0] = PlayingAnimation(type->identifier + "defaultSquash", type);
+		playingAnimations[0] = PlayingAnimation("defaultSquash", type);
 	}
 
 	void updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, sf::Sprite& sprite);

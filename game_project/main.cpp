@@ -60,7 +60,7 @@ public:
 };
 
 float frameTime;
-float runTime;
+float runTime=0;
 
 int main()
 {
