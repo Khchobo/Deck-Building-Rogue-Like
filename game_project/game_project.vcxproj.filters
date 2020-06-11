@@ -102,11 +102,11 @@
     <ClCompile Include="Keyframe.cpp">
       <Filter>Resource Files\Source Files\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteAnimation.cpp">
-      <Filter>Resource Files\Source Files\Animation</Filter>
+    <ClCompile Include="TransitionMap.cpp">
+      <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StateAnimation.cpp">
-      <Filter>Resource Files\Source Files\Animation</Filter>
+    <ClCompile Include="SquashAnimation.cpp">
+      <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -176,11 +176,14 @@
     <ClInclude Include="Keyframe.h">
       <Filter>Header Files\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteAnimation.h">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="StateAnimation.h">
       <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TransitionMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SquashAnimation.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +202,7 @@
     <None Include="assets\data\characters\basicSlimeData.json">
       <Filter>Resource Files\Data Files\basicSlime</Filter>
     </None>
-    <None Include="assets\data\characters\basicSlimeAnimation\states.json">
+    <None Include="states.json">
       <Filter>Resource Files\Data Files\basicSlime</Filter>
     </None>
   </ItemGroup>

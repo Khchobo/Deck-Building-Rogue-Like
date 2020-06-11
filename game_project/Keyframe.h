@@ -6,7 +6,7 @@
 
 //Largely an abstract class representing some keyframe data. Identifier, vector and colour may be interpreted differently depending on
 //what type of keyframeableState the keyframe is a part of. However timePoint will be used in all keyframes and denotes how much time 
-//in seconds has passed between the beginning of the animation state and this keyframe
+//in seconds has passed between the beginning of the animation state and this keyframe. Trigger is used to set off a behaviour trigger.
 class Keyframe
 {
 public:
@@ -19,5 +19,6 @@ public:
 	std::string identifier;
 	sf::Vector2f vector;
 	sf::Color colour;
+	BehaviourTrigger trigger;
 };
 

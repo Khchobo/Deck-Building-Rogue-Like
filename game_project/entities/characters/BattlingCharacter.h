@@ -8,7 +8,7 @@
 
 using namespace standaloneFunctions;
 
-enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange ,destroySelf, takeDamage};
+enum  BehaviourTrigger { useCard, drawCardFromDeck, initiateMotion, selectCardLeft, selectCardRight, directionChange ,destroySelf, takeDamage,endMotion, triggerDeath};
 enum class actionState { idle,move,attack,death };
 enum class iFrameState {invincible, vunerable};
 
@@ -39,7 +39,8 @@ public:
 	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
 														{initiateMotion, false}, {selectCardLeft, false},
 														{selectCardRight, false},{directionChange,false},
-														{destroySelf,false},{takeDamage,false} };
+														{destroySelf,false},{takeDamage,false},{endMotion,false},
+														{triggerDeath,false} };
 
 protected:
 

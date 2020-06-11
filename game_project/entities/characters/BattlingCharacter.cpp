@@ -19,6 +19,7 @@ void BattlingCharacter::updateMotion(WindowInfo windowInfo)
 	//once motion is completed, end in motion state and change tile alignement 
 	if (motionPercentage == 1)
 	{
+		behaviourTriggers[endMotion] = true;
 		actionstate = actionState::idle;
 		currentTilePos = futureTilePos;
 	}
@@ -57,6 +58,8 @@ void BattlingCharacter::initialiseBattleMode()
 
 void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction, CardActionMap cardActionMap)
 {
+
+
 	switch (actionstate)
 	{
 	case actionState::idle:
@@ -75,10 +78,8 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 
 	if (actionstate != actionState::death)
 	{
-		if (iFrameState == iFrameState::vunerable)
-		{
-			updateDamageAndHealth(cardActionMap);
-		}
+
+		updateDamageAndHealth(cardActionMap);
 
 		if (behaviourTriggers[directionChange])
 		{
@@ -91,14 +92,22 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 
 void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)
 {
-	for (CardAction cardAction : cardActionMap.cardActionMap)
+	if (iFrameState == iFrameState::vunerable)
 	{
-		if (cardAction.active && sf::Vector2i(cardAction.xPos, cardAction.yPos) == currentTilePos)
+		for (CardAction cardAction : cardActionMap.cardActionMap)
 		{
-			health -= cardAction.attackDamage;
-			behaviourTriggers[takeDamage] = true;
-			iFrameState = iFrameState::invincible;
+			if (cardAction.active && sf::Vector2i(cardAction.xPos, cardAction.yPos) == currentTilePos)
+			{
+				health -= cardAction.attackDamage;
+				behaviourTriggers[takeDamage] = true;
+				iFrameState = iFrameState::invincible;
+			}
 		}
+	}
+	if (health <= 0)
+	{
+		behaviourTriggers[triggerDeath] = true;
+		actionstate = actionState::death;
 	}
 }
 

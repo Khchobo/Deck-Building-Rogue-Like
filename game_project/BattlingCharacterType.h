@@ -5,8 +5,9 @@
 #include <assert.h>
 #include "json\json.h"
 #include "standaloneFunctions.h"
-#include "StateAnimation.h"
+#include "AnimationManager.h"
 #include <unordered_map>
+#include "TransitionMap.h"
 
 enum class Dir { Front, Left, Right, Back };
 
@@ -24,8 +25,8 @@ public:
 	std::string identifier;
 
 	//maps the title of each animation onto its animation class instance
-	std::unordered_map<std::string, StateAnimation*> animationMap;
-	Json::Value animationStateMachine;
+	std::unordered_map<std::string, std::shared_ptr<StateAnimation>> animationMap;
+	TransitionMap animationTransitions;
 	// AI TRAITS
 	float movementTimeoutChase;
 	float cardPointConservation;
@@ -35,5 +36,7 @@ public:
 	int targetDistance;
 	float maxHealth;
 
+private:
+	void assignDataToMap(Json::Value data);
 };
 

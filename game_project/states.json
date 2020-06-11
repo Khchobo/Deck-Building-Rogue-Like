@@ -1,0 +1,10 @@
+{
+  "type": 1, //0 for sprite, 1 for squash
+  "transitions": {
+    "slimeLandSquash": [
+      [ "initiateMotion", "slimeJumpSquash" ],
+      [ "triggerDeath", "SlimeDeathSquash" ]
+    ],
+    "slimeJumpSquash": [ [ "endMotion" , "slimeLandSquash" ] ]
+  }
+}

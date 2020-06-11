@@ -144,11 +144,11 @@
     <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="Keyframe.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SpriteAnimation.cpp" />
+    <ClCompile Include="SquashAnimation.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
-    <ClCompile Include="StateAnimation.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileType.cpp" />
+    <ClCompile Include="TransitionMap.cpp" />
     <ClCompile Include="WindowInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,20 +170,21 @@
     <ClInclude Include="globalVariables.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Keyframe.h" />
-    <ClInclude Include="SpriteAnimation.h" />
+    <ClInclude Include="SquashAnimation.h" />
     <ClInclude Include="standaloneFunctions.h" />
     <ClInclude Include="StateAnimation.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileType.h" />
+    <ClInclude Include="TransitionMap.h" />
     <ClInclude Include="WindowInfo.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\data\characters\basicSlimeAnimation\states.json" />
     <None Include="assets\data\characters\basicSlimeData.json" />
     <None Include="assets\data\characters\playerData.json" />
     <None Include="assets\data\gameData.json" />
     <None Include="assets\data\levels\testMap.json" />
     <None Include="assets\fixedColourShader.frag" />
+    <None Include="states.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
