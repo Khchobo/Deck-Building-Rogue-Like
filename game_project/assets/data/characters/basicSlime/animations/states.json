@@ -5,7 +5,11 @@
     ],
     "landSquash": [
       [ "initiateMotion", "jumpSquash" ],
-      [ "triggerDeath", "deathSquash" ]
+      [ "triggerDeath", "deathSquash" ],
+      ["defaultAnimation","defaultSquash"]
+    ],
+    "jumpSquash": [
+      [ "endMotion", "landSquash" ]
     ]
   }
 }

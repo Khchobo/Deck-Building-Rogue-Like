@@ -39,7 +39,7 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 
 	{ {"useCard",useCard}, {"drawCardFromDeck",drawCardFromDeck}, {"initiateMotion",initiateMotion},
 	{"directionChange",directionChange }, {"destroySelf",destroySelf}, {"takeDamage",takeDamage},
-	{"endMotion",endMotion}, {"triggerDeath",triggerDeath} };
+	{"endMotion",endMotion}, {"triggerDeath",triggerDeath},{"defaultAnimation",defaultAnimation } };
 
 	std::string filePath = "assets/data/characters/" + typeName + "/animations/states.json";
 	Json::Value transitionData = standaloneFunctions::loadJsonFile(filePath.c_str());

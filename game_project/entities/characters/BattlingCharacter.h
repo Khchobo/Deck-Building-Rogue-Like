@@ -40,7 +40,7 @@ public:
 														{initiateMotion, false}, {selectCardLeft, false},
 														{selectCardRight, false},{directionChange,false},
 														{destroySelf,false},{takeDamage,false},{endMotion,false},
-														{triggerDeath,false} };
+														{triggerDeath,false},{defaultAnimation,false} }; //TODO really need to write a script to do this
 
 protected:
 
