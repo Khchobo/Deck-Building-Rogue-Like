@@ -9,10 +9,10 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 			playingAnimations[i].timeActive += frameTime;
 		}
 
-		Keyframe currentKeyframe;
+		Keyframe currentKeyframe= playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation];
 
 		//check if we have moved to the next keyframe
-		if (playingAnimations[i].timeActive >= currentKeyframe.timePoint)
+		if (playingAnimations[i].timeActive >= playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation+1].timePoint)
 		{
 			playingAnimations[i].keyframeLocation++;
 			currentKeyframe = playingAnimations[i].animation->keyframes[playingAnimations[i].keyframeLocation];
