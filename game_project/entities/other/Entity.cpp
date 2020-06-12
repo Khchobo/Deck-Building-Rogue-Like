@@ -12,7 +12,7 @@ void Entity::initialise(std::string fileName,sf::Vector2f incomingPosition,Image
 
 }
 
-void Entity::draw(sf::RenderWindow& window,ImageManager& imageManager)
+void Entity::draw(sf::RenderWindow& window)
 {
 	sprite.setPosition(position.x + textureSize.x / 2, position.y + textureSize.y / 2);
 	window.draw(sprite);

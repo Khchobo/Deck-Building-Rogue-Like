@@ -16,7 +16,7 @@ public:
 
 	sf::Vector2f position;
 
-	void draw(sf::RenderWindow &window, ImageManager& imageManager);
+	void draw(sf::RenderWindow &window);
 	void initialise(std::string fileName, sf::Vector2f incomingPosition, ImageManager& imageManager);
 
 	sf::Sprite sprite;

@@ -25,7 +25,7 @@ public:
 
 	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo, std::string identifier, ImageManager& imageManager);
 
-	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck, ImageManager& imageManager);
+	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
 
 	void resize(WindowInfo windowInfo);
 

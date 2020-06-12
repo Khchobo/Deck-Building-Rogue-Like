@@ -24,7 +24,7 @@ public:
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
-	void draw(sf::RenderWindow& window, sf::Vector2f backgroundTexturePosition, ImageManager& imageManager);
+	void draw(sf::RenderWindow& window, sf::Vector2f backgroundTexturePosition);
 
 	//current tile alignment or tile alignment before current motion began
 	sf::Vector2i currentTilePos;

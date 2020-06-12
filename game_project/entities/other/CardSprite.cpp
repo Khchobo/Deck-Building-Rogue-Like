@@ -8,15 +8,8 @@ void CardSprite::initialise(Entity deckSprite,ImageManager& imageManager)
 	
 	movementLocation = 2;
 	inMotion = 1;
-	position.x = deckSprite.position.x-32;
-	position.y = deckSprite.position.y-48;
+	position = deckSprite.position;
 	previousPos = position;
-}
-
-void CardSprite::draw(sf::RenderWindow& window)
-{
-	sprite.setPosition(position);
-	window.draw(sprite);
 }
 
 void CardSprite::move(int i, WindowInfo windowInfo)

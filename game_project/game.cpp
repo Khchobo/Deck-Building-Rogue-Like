@@ -216,11 +216,11 @@ void Game::draw()
 	//draw the background
 	window.draw(tileMap);
 
-	player.draw(window, backgroundTexturePosition, imageManager);
+	player.draw(window, backgroundTexturePosition);
 
 	for (auto& enemy : enemies)
 	{
-		enemy.draw(window, backgroundTexturePosition,imageManager);
+		enemy.draw(window, backgroundTexturePosition);
 	}
 
 	//draw cards if in battle mode
@@ -285,7 +285,7 @@ void Game::draw()
 		player.cardPointsNumber.draw(window);
 		player.healthNumber.draw(window);
 
-		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck, imageManager);
+		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck);
 
 	}
 	

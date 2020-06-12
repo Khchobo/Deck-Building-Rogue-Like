@@ -32,8 +32,6 @@ public:
 
 	void initialise(Entity deckSprite,ImageManager& imageManager);
 
-	void draw(sf::RenderWindow& window);
-
 	void move(int i, WindowInfo windowInfo);
 
 

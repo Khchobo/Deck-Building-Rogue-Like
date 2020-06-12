@@ -75,9 +75,9 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//temporary values for x & y for readability
 
 		//offset from right of screen by half the width of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
+		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2+32), windowInfo);
 		//centred vertically
-		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+		float initialY = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
 
 		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), imageManager);
 
@@ -88,7 +88,7 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 
 		text.setPosition(initialX, initialY);
 
-		noOfCardsInHand.initialise(deckSprite.position, cardsRemaining.size());
+		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x+32, deckSprite.position.y+48), cardsRemaining.size());
 	}
 
 	drawCard(cardsInDeck,cardsRemaining,identifier, imageManager);
@@ -97,10 +97,10 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 	selected = 0;
 
 }
-void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck,ImageManager& imageManager)
+void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 {
 
-	deckSprite.draw(window, imageManager);
+	deckSprite.draw(window);
 	for (int i = 0; i < cardsInHand.size(); i++)
 	{
 
@@ -121,10 +121,10 @@ void CardsInHand::resize(WindowInfo windowInfo)
 
 	text.setPosition(tempX, tempY);
 
-	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2), windowInfo);
+	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2 + 32), windowInfo);
 
 	//centred as it is moved up by 48 i.e. half the length of the card
-	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
 
 	noOfCardsInHand.position = deckSprite.position;
 
