@@ -24,7 +24,7 @@ void CardsInHand::cardInfoPrint(std::vector<Card>& cardsInDeck)
 	std::cout << std::setprecision(40);
 	std::cout << "ID of selected card: " << cardsInHand[selected].id << std::endl;
 	std::cout << std::setprecision(3);
-	for(int i=0;i<cardsInDeck.size();i++)
+	for(unsigned int i=0;i<cardsInDeck.size();i++)
 	{
 		if (cardsInHand[selected].id == cardsInDeck[i].id)
 		{
@@ -42,7 +42,7 @@ void CardsInHand::cardInfoPrint(std::vector<Card>& cardsInDeck)
 void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& window)
 {
 	
-	for (int i = 0; i < cardsInDeck.size(); i++)
+	for (unsigned int i = 0; i < cardsInDeck.size(); i++)
 	{
 		if (cardsInHand[selected].id == cardsInDeck[i].id)
 		{
@@ -75,16 +75,16 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//temporary values for x & y for readability
 
 		//offset from right of screen by half the width of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2+32), windowInfo);
+		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f+32.0f), windowInfo);
 		//centred vertically
 		float initialY = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
 
 		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), imageManager);
 
 		//one tile to the right from the edge of the UI box
-		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
+		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels, windowInfo);
 		//3 tiles lower than centre
-		initialY = setPosition(ALIGN::centre, Axis::y, 3 * windowInfo.tileSizeInPixels, windowInfo);
+		initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels, windowInfo);
 
 		text.setPosition(initialX, initialY);
 
@@ -101,7 +101,7 @@ void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 {
 
 	deckSprite.draw(window);
-	for (int i = 0; i < cardsInHand.size(); i++)
+	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
 
 		cardsInHand[i].draw(window);
@@ -116,12 +116,12 @@ void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
 void CardsInHand::resize(WindowInfo windowInfo)
 {
 
-	float tempX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1)*windowInfo.tileSizeInPixels, windowInfo);
-	float tempY = setPosition(ALIGN::centre, Axis::y, 3 * windowInfo.tileSizeInPixels, windowInfo);
+	float tempX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels, windowInfo);
+	float tempY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels, windowInfo);
 
 	text.setPosition(tempX, tempY);
 
-	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2 + 32), windowInfo);
+	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f + 32.0f), windowInfo);
 
 	//centred as it is moved up by 48 i.e. half the length of the card
 	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
@@ -130,7 +130,7 @@ void CardsInHand::resize(WindowInfo windowInfo)
 
 	if (windowInfo.fullscreen == 1)
 	{
-		for (int i = 0; i < cardsInHand.size(); i++)
+		for (unsigned int i = 0; i < cardsInHand.size(); i++)
 		{
 			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
 			cardsInHand[i].position.y = cardsInHand[i].position.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
@@ -139,7 +139,7 @@ void CardsInHand::resize(WindowInfo windowInfo)
 	else
 	{
 
-		for (int i = 0; i < cardsInHand.size(); i++)
+		for (unsigned int i = 0; i < cardsInHand.size(); i++)
 		{
 			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
 			cardsInHand[i].position.y = cardsInHand[i].position.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
@@ -194,7 +194,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 
 				//Firstly, find and save the index of the selected card in the deck
 
-				for (int i = 0; i <cardsInDeck.size(); i++)
+				for (unsigned int i = 0; i <cardsInDeck.size(); i++)
 				{
 					if (cardSelected == cardsInDeck[i].id)
 					{
@@ -211,7 +211,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 				}
 				else { cardIndex = 10000; return; }
 
-				for (int i = selected+2; i < cardsInHand.size(); i++)
+				for (unsigned int i = selected+2; i < cardsInHand.size(); i++)
 				{
 					cardsInHand[i].movementLocation = 3;
 					newMotion(i);
@@ -236,7 +236,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 	}
 
 	//move all the cards currently in motion
-	for (int i = 0; i < cardsInHand.size(); i++)
+	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
 		if (cardsInHand[i].inMotion==true)
 		{
@@ -277,7 +277,7 @@ void CardsInHand::changeSelection(unsigned int& selected, std::string identifier
 
 bool CardsInHand::anyCardsInMotion(std::vector<CardSprite> cardsInHand)
 {
-	for (int i = 0; i < cardsInHand.size(); i++)
+	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
 		if (cardsInHand[i].inMotion == true)
 		{

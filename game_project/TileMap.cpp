@@ -108,7 +108,7 @@ void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 	mapTilesWCardActions = mapTileType;
 
 	//Iterate over each action point
-	for (int i = 0; i < cardActionMap.cardActionMap.size(); i++)
+	for (unsigned int i = 0; i < cardActionMap.cardActionMap.size(); i++)
 	{
 		//If its active
 		if (cardActionMap.cardActionMap[i].active)

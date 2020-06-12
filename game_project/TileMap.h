@@ -33,7 +33,7 @@ public:
 		mapInfo(mapInfo), mapWidth(mapWidth), mapHeight(mapHeight),
 		tileSize(tileSize),mapTileType(mapInfo.size())
 	{
-		srand(time(NULL));
+		srand(static_cast<unsigned int>(time(NULL)));
 		layoutSeed = rand();
 		defineMapLayout();
 	}

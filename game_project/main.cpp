@@ -19,10 +19,10 @@ public:
 		map << "[";
 		collision << "[";
 
-		for (int i = 0; i < image.getSize().y; i++)
+		for (unsigned int i = 0; i < image.getSize().y; i++)
 		{
 			collision << "[";
-			for (int j = 0; j < image.getSize().x; j++)
+			for (unsigned int j = 0; j < image.getSize().x; j++)
 			{
 				if (image.getPixel(j, i) == sf::Color(255, 255, 255))
 				{

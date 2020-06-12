@@ -63,8 +63,8 @@ void Game::initialiseBattleMode()
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 
-	player.cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 32); 
-	player.healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4 * 32, windowInfo.getWindowHeight() - 64);
+	player.cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 32.0f); 
+	player.healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
 }
 
 void Game::resize()
@@ -227,17 +227,26 @@ void Game::draw()
 	if (renderMode == 1)
 	{
 		//occludes the bottom and right part of the screen
-		sf::RectangleShape blackoutRectBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, windowInfo.tileSizeInPixels*windowInfo.UIHeight));
-		sf::RectangleShape blackoutRectRight(sf::Vector2f(windowInfo.tileSizeInPixels*windowInfo.UIWidth, (windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight)*windowInfo.tileSizeInPixels));
+		sf::RectangleShape blackoutRectBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels),
+														   static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIHeight)
+														  )
+											 );
+		sf::RectangleShape blackoutRectRight(sf::Vector2f(static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIWidth),
+													      windowInfo.getWindowWidth()
+		                                                  )
+			                                 );
 
 		//creates a line white line to delineate the bottom and right parts of screen
-		sf::RectangleShape delineatingLineBottom(sf::Vector2f(windowInfo.activeSceneWidthPixels, 1));
-		sf::RectangleShape delineatingLineRight(sf::Vector2f(1,(windowInfo.activeSceneHeightTiles+ windowInfo.UIHeight+1)*windowInfo.tileSizeInPixels));
+		sf::RectangleShape delineatingLineBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels), 1.0f));
+		sf::RectangleShape delineatingLineRight(sf::Vector2f(1.0f, windowInfo.getWindowWidth() ));
 
-		sf::RectangleShape cardPointsBar(sf::Vector2f((player.cardPoints/player.type->cardPointsMax)*6*32,16));
+		float cardPointsPercent = player.cardPoints / player.type->cardPointsMax;
+		float healthPointsPercent = player.health / player.type->maxHealth;
+
+		sf::RectangleShape cardPointsBar(sf::Vector2f(cardPointsPercent *6.0f* windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels/2.0f));
 		cardPointsBar.setFillColor(sf::Color::White);
 
-		sf::RectangleShape healthBar(sf::Vector2f((player.health / player.type->maxHealth) * 6 * 32, 16));
+		sf::RectangleShape healthBar(sf::Vector2f(healthPointsPercent * 6.0f * windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels/2.0f));
 		cardPointsBar.setFillColor(sf::Color::White);
 
 		blackoutRectBottom.setFillColor(sf::Color::Black);
@@ -249,28 +258,28 @@ void Game::draw()
 		//if fullscreen, set position according to exact distance frm edge of screen (not tile aligned)
 		if (windowInfo.fullscreen == 1)
 		{
-			blackoutRectBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height)- windowInfo.UIHeight*windowInfo.tileSizeInPixels);
-			blackoutRectRight.setPosition(sf::VideoMode::getDesktopMode().width - (windowInfo.UIWidth * windowInfo.tileSizeInPixels), 0);
+			blackoutRectBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height)- windowInfo.UIHeight*windowInfo.tileSizeInPixels));
+			blackoutRectRight.setPosition(static_cast<float>(sf::VideoMode::getDesktopMode().width - (windowInfo.UIWidth * windowInfo.tileSizeInPixels)), 0.0f);
 
-			delineatingLineBottom.setPosition(0, (sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight * windowInfo.tileSizeInPixels);
-			delineatingLineRight.setPosition((sf::VideoMode::getDesktopMode().width) - windowInfo.UIWidth * windowInfo.tileSizeInPixels,0);
+			delineatingLineBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight * windowInfo.tileSizeInPixels));
+			delineatingLineRight.setPosition(static_cast<float>((sf::VideoMode::getDesktopMode().width) - windowInfo.UIWidth * windowInfo.tileSizeInPixels),0.0f);
 
 		}
 
 		//if windowed, use tile alignment
 		else
 		{
-			blackoutRectBottom.setPosition(0, windowInfo.activeSceneHeightPixels);
-			blackoutRectRight.setPosition(windowInfo.activeSceneWidthPixels, 0);
+			blackoutRectBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
+			blackoutRectRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels), 0.0f);
 
-			delineatingLineBottom.setPosition(0, windowInfo.activeSceneHeightPixels);
-			delineatingLineRight.setPosition(windowInfo.activeSceneWidthPixels,0);
+			delineatingLineBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
+			delineatingLineRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels),0.0f);
 
 			
 		}
 
-		cardPointsBar.setPosition(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 32);
-		healthBar.setPosition(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels, windowInfo.getWindowHeight() - 64);
+		cardPointsBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 32.0f);
+		healthBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 64.0f);
 
 		//draw them to the window
 		window.draw(blackoutRectBottom);
@@ -308,7 +317,7 @@ void Game::loadTestMap()
 	tileTypeMap= std::vector<TileType>(mapDataJson["tileTypeMap"].size());
 	collisionMap= std::vector<std::vector<int>>(mapHeight);
 
-	for (int i = 0; i < mapDataJson["tileTypeMap"].size(); i++)
+	for (unsigned int i = 0; i < mapDataJson["tileTypeMap"].size(); i++)
 	{
 		int tileTypeID= mapDataJson["tileTypeMap"][i].asInt();
 		switch (tileTypeID)

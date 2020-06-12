@@ -27,7 +27,7 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 		if (currentKeyframe.repeatTrigger != -1.0f)
 		{
 			playingAnimations[i].timeActive = currentKeyframe.repeatTrigger;
-			for (int j=0; j<playingAnimations[i].animation->keyframes.size();j++)
+			for (unsigned int j=0; j<playingAnimations[i].animation->keyframes.size();j++)
 			{
 				if (playingAnimations[i].animation->keyframes[j].timePoint > currentKeyframe.repeatTrigger)
 				{

@@ -15,7 +15,7 @@ struct LocationWithDistance
 	LocationWithDistance(sf::Vector2i selfLocation, sf::Vector2i parentLocation) : location(selfLocation)
 	{
 		//euclidean distance
-		distance = sqrt(pow((selfLocation.x - parentLocation.x), 2) + pow((selfLocation.y - parentLocation.y), 2));
+		distance = sqrtf(powf(static_cast<float>(selfLocation.x - parentLocation.x), 2.0f) + powf(static_cast<float>(selfLocation.y - parentLocation.y), 2.0f));
 	}
 
 	sf::Vector2i location;

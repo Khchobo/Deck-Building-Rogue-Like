@@ -8,7 +8,7 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i til
 	//texture.loadFromFile("assets/basic_slime.png");
 	currentTilePos = tilePosition;
 
-	position = sf::Vector2f(currentTilePos.x * windowInfo.tileSizeInPixels,currentTilePos.y * windowInfo.tileSizeInPixels);
+	position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels),static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
 	initialise((type->identifier)+".png", position, imageManager);
 	pathUpdateTimeout = 0;
 	movementTimeout = type->movementTimeoutChase;
@@ -61,7 +61,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 		{
 			behaviourTriggers[initiateMotion] = true;
 
-			for (int i = 1; i < currentPath.size(); i++)
+			for (unsigned int i = 1; i < currentPath.size(); i++)
 			{
 				if (currentTilePos.x > currentPath[1].x)
 				{
@@ -116,12 +116,12 @@ AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, WindowI
 	generator.setHeuristic(AStar::Heuristic::euclidean);
 	generator.setDiagonalMovement(false);
 
-	for (int i = 0; i < walkableTiles.size(); i++)
+	for (unsigned int i = 0; i < walkableTiles.size(); i++)
 	{
-		for (int j = 0; j < walkableTiles[0].size(); j++) {
+		for (unsigned int j = 0; j < walkableTiles[0].size(); j++) {
 			if (walkableTiles[i][j] == 0)
 			{
-				generator.addCollision({ j,i });
+				generator.addCollision({ static_cast<signed int>(j),static_cast<signed int>(i) });
 			}
 		}
 	}
@@ -159,7 +159,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 {
 	sf::Vector2i directionVector = sf::Vector2i(currentTilePos.x - playerTilePos.x, currentTilePos.y - playerTilePos.y);
 	std::cout << directionVector.x << " " << directionVector.y<<"  ";
-	float magnitude = sqrt(pow(directionVector.x, 2) + pow(directionVector.y, 2));
+	float magnitude = sqrtf(powf(static_cast<float>(directionVector.x), 2) + powf(static_cast<float>(directionVector.y), 2));
 	//multiply the normalised vector as with a magnitude of one it is too small to produce accurate results when rounded
 	sf::Vector2f normalisedVector = sf::Vector2f((directionVector.x / magnitude), (directionVector.y / magnitude));
 	//the line of sight algorithm checks between the enemy location and the working location. start off at the enemy location
@@ -198,9 +198,9 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 
 void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap, WindowInfo windowInfo)
 {
-	for (int i = 0; i < collisionMap.size(); i++)
+	for (unsigned int i = 0; i < collisionMap.size(); i++)
 	{
-		for (int j = 0; j < collisionMap[0].size(); j++)
+		for (unsigned int j = 0; j < collisionMap[0].size(); j++)
 		{
 			//format for the collision map in the a star algorithm has 1's and 0's inverted from the format used elsewhere
 			//ie 1 indicates a walkable time, 0 a solid tile
