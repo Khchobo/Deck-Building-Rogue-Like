@@ -15,7 +15,7 @@ public:
 	CardsInDeck(int n): cardsInDeck(n), cardsRemaining(n)
 	{
 		std::cout << std::setprecision(60);
-		for (int i=0;i<cardsInDeck.size();i++)
+		for (unsigned int i=0;i<cardsInDeck.size();i++)
 		{
 			//add the ID to cards remaining
 			cardsRemaining[i] = cardsInDeck[i].id;
