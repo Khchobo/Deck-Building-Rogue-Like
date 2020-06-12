@@ -5,13 +5,13 @@
 Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition,WindowInfo windowInfo,ImageManager& imageManager)
 	: BattlingCharacter(type, identity, imageManager)
 {
-	texture.loadFromFile("assets/slime.png");
+	//texture.loadFromFile("assets/basic_slime.png");
 	currentTilePos = tilePosition;
 
 	position = sf::Vector2f(currentTilePos.x * windowInfo.tileSizeInPixels,currentTilePos.y * windowInfo.tileSizeInPixels);
+	initialise((type->identifier)+".png", position, imageManager);
 	pathUpdateTimeout = 0;
 	movementTimeout = type->movementTimeoutChase;
-	directionalArrow.initialise("directionalArrow.png", position, 0,imageManager);
 }
 
 void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardActionMap cardActionMap, std::vector<std::vector<int>> collisionMap)
@@ -53,7 +53,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 		{
 			updatePath(collisionMap, cardActionMap, windowInfo);
 		}
-
+		
 
 		//Movement
 		movementTimeout -= frameTime;

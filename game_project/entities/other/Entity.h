@@ -17,7 +17,7 @@ public:
 	sf::Vector2f position;
 
 	void draw(sf::RenderWindow &window, ImageManager& imageManager);
-	void initialise(std::string fileName, sf::Vector2f incomingPosition,bool offset, ImageManager& imageManager);
+	void initialise(std::string fileName, sf::Vector2f incomingPosition, ImageManager& imageManager);
 
 	sf::Sprite sprite;
 	sf::Texture texture;
@@ -28,7 +28,5 @@ public:
 	int animationFrame;
 
 	sf::Vector2u textureSize;
-
-	int alignment;
 
 };

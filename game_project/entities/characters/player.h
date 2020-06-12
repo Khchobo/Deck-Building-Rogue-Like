@@ -24,11 +24,9 @@ public:
 
 	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager), cardsInHand(1), cardsInDeck(50)
 	{
-		texture.loadFromFile("assets/tic_tac.png");
-		
 		currentTilePos = sf::Vector2i(2, 2);
-
 		position = sf::Vector2f(currentTilePos.x * windowInfo.tileSizeInPixels, currentTilePos.y * windowInfo.tileSizeInPixels);
+		initialise("tic_tac.png", position, imageManager);
 	}
 
 	CardsInHand cardsInHand;

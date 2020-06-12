@@ -1,5 +1,5 @@
 {
-  "identifier": "basic_slime",
+  "identifier": "basicSlime",
   "characterType": "enemy",
   "cardPointsMax": 50,
   "cardPointRecoveryRate": 10,

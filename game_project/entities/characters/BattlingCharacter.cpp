@@ -4,11 +4,11 @@
 BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
 	cardsInHand(), cardsInDeck(), type(type) , animationManager(&type->animationTransitions,type)
 {
-	type->identifier = identity;
+	//type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
 	health = type->maxHealth;
-	directionalArrow.initialise("directionalArrow.png", position, 0, imageManager);
+	directionalArrow.initialise("directionalArrow.png", position, imageManager);
 	arrowDirectionUpdate();
 };
 
@@ -85,7 +85,7 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		{
 			arrowDirectionUpdate();
 		}
-		directionalArrow.position = sf::Vector2f(position.x + directionalArrowOffset.x + 16, position.y + directionalArrowOffset.y + 16);
+		directionalArrow.position = sf::Vector2f(position.x + directionalArrowOffset.x, position.y + directionalArrowOffset.y);
 		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	}
 
@@ -182,7 +182,6 @@ void BattlingCharacter::draw(sf::RenderWindow& window, sf::Vector2f backgroundTe
 	directionalArrow.position.x += backgroundTexturePosition.x;
 	directionalArrow.position.y += backgroundTexturePosition.y;
 	directionalArrow.draw(window, imageManager);
-	sprite.setTexture(texture);
-	sprite.setPosition(position.x + backgroundTexturePosition.x, position.y + backgroundTexturePosition.y);
+	sprite.setPosition(position.x + backgroundTexturePosition.x + textureSize.x / 2, position.y + backgroundTexturePosition.y + textureSize.x / 2);
 	window.draw(sprite);
 }
