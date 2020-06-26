@@ -1,5 +1,8 @@
 #pragma once
 #include "Card.h"
+#include "standaloneFunctions.h"
+
+using namespace standaloneFunctions;
 
 /**
 *A point on the TileMap where an attack can appear at some point after being constructed
@@ -13,7 +16,7 @@
 class CardAction
 {
 public:
-	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement,float attackDamage);
+	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement,float attackDamage, CharType characterTypek);
 	//test
 	//map position in tiles
 	int xPos;
@@ -25,6 +28,8 @@ public:
 	//time at which this action point switches on, and then destructs
 	float activationTime;
 	float destructionTime;
+
+	CharType characterType;
 
 	//whether the point is switched on
 	bool active;

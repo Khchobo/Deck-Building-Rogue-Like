@@ -10,7 +10,8 @@ void CardActionMap::reset() {
 	//TODO
 }
 
-void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>>& collision)
+void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
+								CharType characterType, std::vector<std::vector<int>>& collision)
 {
 	std::vector<std::vector<int>> directionMap = { {0,-1},{-1,0},{0,1},{1,0} };
 
@@ -26,7 +27,7 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 			xPos = playerPos.x+directionMap[direction][0]*(i+1);
 			yPos = playerPos.y+directionMap[direction][1]*(i+1);
 
-			pushBackActionMap(sf::Vector2i(xPos,yPos), playerPos, collision, i, card);
+			pushBackActionMap(sf::Vector2i(xPos,yPos), playerPos, characterType, collision, i, card);
 		}
 		
 	case(AttackType::cross):
@@ -43,7 +44,7 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 				xPos = playerPos.x + (i + 1) * directionMap[j][0];
 				yPos = playerPos.y + (i + 1) * directionMap[j][1];
 
-				pushBackActionMap(sf::Vector2i(xPos, yPos), playerPos, collision, i, card);
+				pushBackActionMap(sf::Vector2i(xPos, yPos), playerPos, characterType, collision, i, card);
 			}
 
 		}
@@ -62,7 +63,7 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 
 				if (euclideanDistance <= tileRadius)
 				{
-					pushBackActionMap(sf::Vector2i(i, j), playerPos, collision, euclideanDistance, card);
+					pushBackActionMap(sf::Vector2i(i, j), playerPos, characterType, collision, euclideanDistance, card);
 				}
 
 			}
@@ -81,8 +82,8 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 * @param pointDistance The distance of the proposed point
 * @param card The card whose parameters are passed to the card action point
 */
-void CardActionMap::pushBackActionMap(sf::Vector2i pos,sf::Vector2i playerPos,std::vector<std::vector<int>> collision,
-									  float pointDistance, Card card)
+void CardActionMap::pushBackActionMap(sf::Vector2i pos,sf::Vector2i playerPos,CharType characterType,
+										std::vector<std::vector<int>> collision, float pointDistance, Card card)
 {
 	//check if it goes out of range of the map
 	if (pos.x < 0 || pos.x >= static_cast<signed int>(collision[0].size()) || pos.y < 0 || pos.y >= static_cast<signed int>(collision.size()))
@@ -97,7 +98,8 @@ void CardActionMap::pushBackActionMap(sf::Vector2i pos,sf::Vector2i playerPos,st
 
 	CardAction newCardAction(pos.x, pos.y, activationTime,
 							activationTime + card.persistence,
-							card.attackElement, card.attackDamage);
+							card.attackElement, card.attackDamage,
+							characterType);
 
 	cardActionMap.push_back(newCardAction);
 }

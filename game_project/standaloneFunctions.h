@@ -12,7 +12,7 @@
 
 namespace standaloneFunctions {
 
-
+	enum class CharType {player,enemy};
 	
 	enum class Alignment {left, right, centre, top, bottom};
 	enum class Axis {x,y};

@@ -87,7 +87,7 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 		if (cardIndex != 10000)
 		{
-			cardActionMap.newAction(cardsInDeck.cardsInDeck[cardIndex], direction, currentTilePos, collision);
+			cardActionMap.newAction(cardsInDeck.cardsInDeck[cardIndex], direction, currentTilePos,CharType::player, collision);
 		}
 
 
