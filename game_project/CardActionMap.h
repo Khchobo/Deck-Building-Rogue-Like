@@ -12,13 +12,17 @@ public:
 
 	void reset();
 
-	void newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>> collision);
+	void newAction(Card& card, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>>& collision);
 
 	void updateAllCardActions(float frameTime);
 
 	std::vector<CardAction> cardActionMap;
 
 private:
+
+	void pushBackActionMap(sf::Vector2i location, sf::Vector2i playerPos, std::vector<std::vector<int>> collision,
+		float pointDistance, Card card);
+
 	bool lineOfSightObstructed(int playerXPos, int playerYPos, int xPos, int yPos, std::vector<std::vector<int>> collision);
 };
 

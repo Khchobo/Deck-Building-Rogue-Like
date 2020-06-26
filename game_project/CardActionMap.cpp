@@ -10,15 +10,15 @@ void CardActionMap::reset() {
 	//TODO
 }
 
-void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>> collision)
+void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos, std::vector<std::vector<int>>& collision)
 {
 	std::vector<std::vector<int>> directionMap = { {0,-1},{-1,0},{0,1},{1,0} };
 
-	switch (cardsInDeck.cardsInDeck[cardIndex].attackType)
+	switch (card.attackType)
 	{
 	case(AttackType::line):
-	{
-		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
+	
+		for (int i = 0; i < card.attackRadius; i++)
 		{
 			unsigned int xPos;
 			unsigned int yPos;
@@ -26,59 +26,33 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 			xPos = playerPos.x+directionMap[direction][0]*(i+1);
 			yPos = playerPos.y+directionMap[direction][1]*(i+1);
 
-			//check if it goes out of range of the map
-			if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
-			{
-				continue;
-			}
-
-			if (lineOfSightObstructed(playerPos.x, playerPos.y, xPos, yPos, collision)) { continue; }
-
-			float activationTime = i * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
-
-			CardAction newCardAction(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-				cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
-			cardActionMap.push_back(newCardAction);
+			pushBackActionMap(sf::Vector2i(xPos,yPos), playerPos, collision, i, card);
 		}
-		break;
-	}
+		
 	case(AttackType::cross):
-	{
+	
 		float activationTime;
 		unsigned int xPos;
 		unsigned int yPos;
 
-		for (int i = 0; i < cardsInDeck.cardsInDeck[cardIndex].attackRadius; i++)
+		for (int i = 0; i < card.attackRadius; i++)
 		{
 
-			activationTime = i * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
 			for (int j = 0; j < 4; j++)
 			{
 
 				xPos = playerPos.x + (i + 1) * directionMap[j][0];
 				yPos = playerPos.y + (i + 1) * directionMap[j][1];
 
-				//check if it goes out of range of the map
-				if (xPos < 0 || xPos >= collision[0].size() || yPos < 0 || yPos >= collision.size())
-				{
-					continue;
-				}
-
-				if (lineOfSightObstructed(playerPos.x, playerPos.y, xPos, yPos, collision)) {
-					continue;
-				}
-
-				CardAction newCardAction(xPos, yPos, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-					cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
-				cardActionMap.push_back(newCardAction);
+				pushBackActionMap(sf::Vector2i(xPos, yPos), playerPos, collision, i, card);
 			}
 
 		}
 		break;
-	}
+	
 	case(AttackType::circle):
-	{
-		int tileRadius = cardsInDeck.cardsInDeck[cardIndex].attackRadius;
+	
+		int tileRadius = card.attackRadius;
 
 		float activationTime;
 
@@ -86,37 +60,49 @@ void CardActionMap::newAction(int cardIndex, CardsInDeck cardsInDeck, int direct
 		{
 			for (int j = playerPos.y - tileRadius; j < playerPos.y + tileRadius + 1; j++)
 			{
-				//check if it goes out of range of the map
-				if (i < 0 || i >= static_cast<signed int>(collision[0].size()) || j < 0 || j >= static_cast<signed int>(collision.size()))
-				{
-					continue;
-				}
 
 				float euclideanDistance = sqrtf(powf(static_cast<float>(playerPos.x - i), 2) + powf(static_cast<float>(playerPos.y - j), 2));
 
 				if (euclideanDistance <= tileRadius)
 				{
-					if (lineOfSightObstructed(playerPos.x, playerPos.y, i, j, collision)) { continue; }
-
-					activationTime= euclideanDistance * (0.1f / cardsInDeck.cardsInDeck[cardIndex].attackEmanationSpeed);
-
-					CardAction newCardAction(i, j, activationTime, activationTime + cardsInDeck.cardsInDeck[cardIndex].persistence,
-												cardsInDeck.cardsInDeck[cardIndex].attackElement, cardsInDeck.cardsInDeck[cardIndex].attackDamage);
-					cardActionMap.push_back(newCardAction);
+					pushBackActionMap(sf::Vector2i(i, j), playerPos, collision, euclideanDistance, card);
 				}
 
 			}
-
 		}
-
 		break;
 	}
+}
 
 
-
-
-
+/**
+* Ensures the proposed card action point is within range of the map and within line
+* of sight of the player. If so it pushes back an action point at the location specified
+* @param pos The position of the proposed action point
+* @param playerPos location of the player
+* @param collision The collision map for line of sight calculation
+* @param pointDistance The distance of the proposed point
+* @param card The card whose parameters are passed to the card action point
+*/
+void CardActionMap::pushBackActionMap(sf::Vector2i pos,sf::Vector2i playerPos,std::vector<std::vector<int>> collision,
+									  float pointDistance, Card card)
+{
+	//check if it goes out of range of the map
+	if (pos.x < 0 || pos.x >= static_cast<signed int>(collision[0].size()) || pos.y < 0 || pos.y >= static_cast<signed int>(collision.size()))
+	{
+		return;
 	}
+
+	//check whether there is line of sight
+	if (lineOfSightObstructed(playerPos.x, playerPos.y, pos.x, pos.y, collision)) { return; }
+
+	float activationTime = pointDistance * (0.1f / card.attackEmanationSpeed);
+
+	CardAction newCardAction(pos.x, pos.y, activationTime,
+							activationTime + card.persistence,
+							card.attackElement, card.attackDamage);
+
+	cardActionMap.push_back(newCardAction);
 }
 
 void CardActionMap::updateAllCardActions(float frameTime)
