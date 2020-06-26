@@ -31,7 +31,6 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 		
 	case(AttackType::cross):
 	
-		float activationTime;
 		unsigned int xPos;
 		unsigned int yPos;
 
@@ -53,8 +52,6 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 	case(AttackType::circle):
 	
 		int tileRadius = card.attackRadius;
-
-		float activationTime;
 
 		for (int i = playerPos.x - tileRadius; i < playerPos.x + tileRadius + 1; i++)
 		{
