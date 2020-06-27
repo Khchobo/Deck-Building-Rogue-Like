@@ -50,8 +50,10 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 
 void BattlingCharacterType::loadAnimationData(std::string typeName)
 {
-	std::unordered_map<std::string, BehaviourTrigger> triggerMap =
 
+	//a map of the behaviour triggers as strings to their enums
+	//(used to convert the strings from the json files into the enums)
+	std::unordered_map<std::string, BehaviourTrigger> triggerMap =
 	{ {"useCard",useCard}, {"drawCardFromDeck",drawCardFromDeck}, {"initiateMotion",initiateMotion},
 	{"directionChange",directionChange }, {"destroySelf",destroySelf}, {"takeDamage",takeDamage},
 	{"endMotion",endMotion}, {"triggerDeath",triggerDeath},{"defaultAnimation",defaultAnimation } };
@@ -75,14 +77,18 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 
 		switch (animType)
 		{
+		//sprite animation
 		case 0:
-			//anim.reset(new SpriteAnimation); TODO
+			//TODO
 			break;
+		//squash animation
 		case 1:
 			anim.reset(new SquashAnimation);
 			anim->name = animData["name"].asString();
+			//for each keyframe
 			for (Json::Value::ArrayIndex index = 0; index < animData["keyframes"].size(); index++)
 			{
+				//parse the keyframe from the json format into the Keyframe class format
 				anim->keyframes.push_back(Keyframe(
 					animData["keyframes"][index][0].asFloat(),
 					sf::Vector2f(animData["keyframes"][index][1].asFloat(),
@@ -90,11 +96,13 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 				)
 				);
 
+				//if there is a repeat, store the repeat time into the keyframe repeatTrigger variable
 				if (animData["keyframes"][index][3].isMember("repeat"))
 				{
 					anim->keyframes[index].repeatTrigger = animData["keyframes"][index][3]["repeat"].asFloat();
 				}
 
+				//if there is a behaviour trigger, store it in the keyframe behaviourTrigger variable
 				if (animData["keyframes"][index][3].isMember("trigger"))
 				{
 					std::string behaviourTriggerName = animData["keyframes"][index][3]["trigger"].asString();
@@ -103,6 +111,7 @@ void BattlingCharacterType::loadAnimationData(std::string typeName)
 			}
 		}
 
+		//store the animation into the animation map
 		animationMap[anim->name] = anim;
 
 	}

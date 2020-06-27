@@ -43,6 +43,11 @@ public:
 	CharType characterType;
 
 private:
+	/**
+	*Parses the transistion data stored in 'data' and stores in in animationTransitions
+	*@param data animation transistion data to store in animationTransitions
+	*@param triggerMap the map that associates the behaviour triggers stored as strings in the json file with their equivalent enums
+	*/
 	void assignTransitionDataToMap(Json::Value data, std::unordered_map<std::string, BehaviourTrigger>& triggerMap);
 	void loadAnimationData(std::string typeName);
 };
