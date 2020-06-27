@@ -20,6 +20,21 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 	motionTime= data["motionTime"].asFloat();
 	maxHealth = data["maxHealth"].asFloat();
 
+	//ensures the characterType field is a valid value
+	if (data["characterType"].asString() == "enemy")
+	{
+		characterType = CharType::enemy;
+	}
+	else if (data["characterType"].asString() == "player")
+	{
+		characterType = CharType::player;
+	}
+	else {
+		std::cout << ("character type " + data["characterType"].asString() + " in " + identifier + "is invalid");
+		throw std::invalid_argument("");
+	}
+
+	//data for enemy ai only
 	if (data["characterType"].asString() == "enemy")
 	{
 		movementTimeoutChase = data["movementTimeoutChase"].asFloat();

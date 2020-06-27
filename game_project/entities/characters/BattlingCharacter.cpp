@@ -98,7 +98,7 @@ void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)
 	{
 		for (CardAction cardAction : cardActionMap.cardActionMap)
 		{
-			if (cardAction.active && sf::Vector2i(cardAction.xPos, cardAction.yPos) == currentTilePos)
+			if (cardAction.active && sf::Vector2i(cardAction.xPos, cardAction.yPos) == currentTilePos && cardAction.characterType!=type->characterType)
 			{
 				health -= cardAction.attackDamage;
 				behaviourTriggers[takeDamage] = true;

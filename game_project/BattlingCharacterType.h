@@ -10,6 +10,10 @@
 #include <unordered_map>
 #include "TransitionMap.h"
 
+#include "standaloneFunctions.h"
+
+using namespace standaloneFunctions;
+
 enum class Dir { Front, Left, Right, Back };
 
 class BattlingCharacterType
@@ -36,6 +40,7 @@ public:
 	Dir targetDirection;
 	int targetDistance;
 	float maxHealth;
+	CharType characterType;
 
 private:
 	void assignTransitionDataToMap(Json::Value data, std::unordered_map<std::string, BehaviourTrigger>& triggerMap);

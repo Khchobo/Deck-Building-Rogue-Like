@@ -1,4 +1,5 @@
 {
+  "characterType": "player",
   "identifier": "player",
   "cardPointsMax": 300, //200 default
   "cardPointRecoveryRate": 50, //12.5 default
