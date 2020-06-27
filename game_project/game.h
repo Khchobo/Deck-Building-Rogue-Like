@@ -104,6 +104,9 @@ private:
 	void draw();	
 	void action();	
 	void initialise();
+	/**
+	*Create a new window at the new size and move objects in window accordingly. Currently is only used to toggle windowed and fullscreen
+	*/
 	void resize();
 	void resizeActiveScene();
 	void initialiseBattleMode();

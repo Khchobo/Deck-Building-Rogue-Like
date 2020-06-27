@@ -72,10 +72,7 @@ void Game::resize()
 
 	if (windowInfo.fullscreen == 0)
 	{
-
 		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
-
-		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 		windowInfo.fullscreen = 1;
 	}
@@ -84,8 +81,6 @@ void Game::resize()
 		
 		window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels),
 						"SFMLtest", sf::Style::Default);
-
-		//window.setFramerateLimit(60);
 		window.setVerticalSyncEnabled(true);
 		windowInfo.fullscreen = 0;
 
@@ -118,7 +113,6 @@ void Game::action()
 {
 
 	window.clear(sf::Color::Black);
-	//tileMap.initiateMap();
 
 	//toggles between fullscreen and windowed mode. the function resize executes any code on the graphics to resize them accordingly
 	if (keyboardArray[sf::Keyboard::F11] && renderModeTimeout > 10)
@@ -236,9 +230,17 @@ void Game::draw()
 		                                                  )
 			                                 );
 
+		blackoutRectBottom.setFillColor(sf::Color::Black);
+		blackoutRectRight.setFillColor(sf::Color::Black);
+
 		//creates a line white line to delineate the bottom and right parts of screen
 		sf::RectangleShape delineatingLineBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels), 1.0f));
 		sf::RectangleShape delineatingLineRight(sf::Vector2f(1.0f, windowInfo.getWindowWidth() ));
+
+		delineatingLineBottom.setFillColor(sf::Color::White);
+		delineatingLineRight.setFillColor(sf::Color::White);
+
+		//Create rectangles for the health and card points (TODO move within battling character class)
 
 		float cardPointsPercent = player.cardPoints / player.type->cardPointsMax;
 		float healthPointsPercent = player.health / player.type->maxHealth;
@@ -248,12 +250,6 @@ void Game::draw()
 
 		sf::RectangleShape healthBar(sf::Vector2f(healthPointsPercent * 6.0f * windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels/2.0f));
 		cardPointsBar.setFillColor(sf::Color::White);
-
-		blackoutRectBottom.setFillColor(sf::Color::Black);
-		blackoutRectRight.setFillColor(sf::Color::Black);
-
-		delineatingLineBottom.setFillColor(sf::Color::White);
-		delineatingLineRight.setFillColor(sf::Color::White);
 
 		//if fullscreen, set position according to exact distance frm edge of screen (not tile aligned)
 		if (windowInfo.fullscreen == 1)
