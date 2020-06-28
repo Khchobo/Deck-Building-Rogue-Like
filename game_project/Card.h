@@ -4,7 +4,7 @@
 #include <vector>
 
 enum class AttackType {circle, cross, line};
-enum class AttackElement {psychic,physical,ethereal};
+enum class AttackElement {ethereal,corporeal,metaphysical};
 
 
 class Card

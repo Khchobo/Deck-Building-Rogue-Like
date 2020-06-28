@@ -33,10 +33,10 @@ Card::Card()
 		attackElement = AttackElement::ethereal;
 		break;
 	case(1):
-		attackElement = AttackElement::physical;
+		attackElement = AttackElement::corporeal;
 		break;
 	case(2):
-		attackElement = AttackElement::psychic;
+		attackElement = AttackElement::metaphysical;
 		break;
 	}
 
