@@ -17,42 +17,43 @@
     "deckSize": 10,
     "maxHandSize":  2,
     "typeDistribution": { "standard": 1 },
-    "standard": {
-      "classDistribution": {
-        "ethereal": 0.8,
-        "corporeal": 0.1,
-        "metaphysical": 0.1
-      },
-      "shapeDistribution": {
-        "line": 0.92,
-        "cross": 0.08,
-        "circle": 0
-      },
-      "radiusDistribution": {
-        "n": 4,
-        "p": 0.7,
-        "shift": -1
-      },
-      "attackEmanationSpeedDistribution": {
-        "n": 40,
-        "p": 0.5,
-        "shift": 0
-      },
-      "persistenceDistribution": {
-        "n": 80,
-        "p": 0.5,
-        "shift": -20
-      },
-      "attackDamageDistribution": {
-        "n": 20,
-        "p": 0.5,
-        "shift": -3
-      },
-      "costMutationDistribution": {
-        "plusMinus": 0.1,
-        "weight": 0
+    "typeData": {
+      "standard": {
+        "classDistribution": {
+          "ethereal": 0.8,
+          "corporeal": 0.1,
+          "metaphysical": 0.1
+        },
+        "shapeDistribution": {
+          "line": 0.92,
+          "cross": 0.08,
+          "circle": 0
+        },
+        "radiusDistribution": {
+          "n": 4,
+          "p": 0.7,
+          "shift": -1
+        },
+        "attackEmanationSpeedDistribution": {
+          "n": 40,
+          "p": 0.5,
+          "shift": 0
+        },
+        "persistenceDistribution": {
+          "n": 80,
+          "p": 0.5,
+          "shift": -20
+        },
+        "attackDamageDistribution": {
+          "n": 20,
+          "p": 0.5,
+          "shift": -3
+        },
+        "costMutationDistribution": {
+          "plusMinus": 0.1,
+          "weight": 0
+        }
       }
-
     }
 
   }

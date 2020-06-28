@@ -159,6 +159,7 @@
     <ClInclude Include="CardActionMap.h" />
     <ClInclude Include="CardsInDeck.h" />
     <ClInclude Include="CardsInHand.h" />
+    <ClInclude Include="Distributions.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="entities\characters\BattlingCharacter.h" />
     <ClInclude Include="entities\characters\player.h" />

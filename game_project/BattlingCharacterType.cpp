@@ -44,6 +44,8 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 		targetDirection = directionMap[data["targetDirection"].asString()];
 		targetDistance = data["targetDistance"].asInt();
 
+		loadCardDistributions(data);
+
 	}
 
 }
@@ -123,6 +125,56 @@ void BattlingCharacterType::assignTransitionDataToMap(Json::Value data, std::uno
 														 itr->operator[](index)[1].asString())
 												   );
 		}
+	}
+
+}
+
+void BattlingCharacterType::loadCardDistributions(Json::Value data)
+{
+	//just a rename for ease of reading and writing
+	Json::Value& cardData = data["cards"];
+
+	deckSize = cardData["deckSize"].asInt();
+	maxHandSize = cardData["maxHandSize"].asInt();
+
+	//assign the card type distribution to its variable
+	for (Json::ValueIterator itr = cardData["typeDistribution"].begin(); itr != cardData["typeDistribution"].end(); itr++)
+	{
+		cardTypeDistribution[itr.name()]=itr->asFloat();
+	}
+
+	
+	for (Json::ValueIterator itr = cardData["typeData"].begin(); itr != cardData["typeData"].end(); itr++)
+	{
+		cardDistributions[itr.name()]=CardDists();
+
+		//TODO there is probably a nicer way of doing this
+		cardDistributions[itr.name()].classDistribution["ethereal"] = itr->operator[]("classDistribution")["ethereal"].asFloat();
+		cardDistributions[itr.name()].classDistribution["corporeal"] = itr->operator[]("classDistribution")["corporeal"].asFloat();
+		cardDistributions[itr.name()].classDistribution["metaphysical"] = itr->operator[]("classDistribution")["metaphysical"].asFloat();
+
+		cardDistributions[itr.name()].shapeDistribution["line"] = itr->operator[]("shapeDistribution")["line"].asFloat();
+		cardDistributions[itr.name()].shapeDistribution["cross"] = itr->operator[]("shapeDistribution")["cross"].asFloat();
+		cardDistributions[itr.name()].shapeDistribution["circle"] = itr->operator[]("shapeDistribution")["circle"].asFloat();
+
+		cardDistributions[itr.name()].radiusDistribution.n = itr->operator[]("radiusDistribution")["n"].asInt();
+		cardDistributions[itr.name()].radiusDistribution.p = itr->operator[]("radiusDistribution")["p"].asFloat();
+		cardDistributions[itr.name()].radiusDistribution.shift = itr->operator[]("radiusDistribution")["shift"].asInt();
+
+		cardDistributions[itr.name()].attackEmanationSpeedDistribution.n = itr->operator[]("attackEmanationSpeedDistribution")["n"].asInt();
+		cardDistributions[itr.name()].attackEmanationSpeedDistribution.p = itr->operator[]("attackEmanationSpeedDistribution")["p"].asFloat();
+		cardDistributions[itr.name()].attackEmanationSpeedDistribution.shift = itr->operator[]("attackEmanationSpeedDistribution")["shift"].asInt();
+
+		cardDistributions[itr.name()].persistenceDistribution.n = itr->operator[]("persistenceDistribution")["n"].asInt();
+		cardDistributions[itr.name()].persistenceDistribution.p = itr->operator[]("persistenceDistribution")["p"].asFloat();
+		cardDistributions[itr.name()].persistenceDistribution.shift = itr->operator[]("persistenceDistribution")["shift"].asInt();
+
+		cardDistributions[itr.name()].attackDamageDistribution.n = itr->operator[]("attackDamageDistribution")["n"].asInt();
+		cardDistributions[itr.name()].attackDamageDistribution.p = itr->operator[]("attackDamageDistribution")["p"].asFloat();
+		cardDistributions[itr.name()].attackDamageDistribution.shift = itr->operator[]("attackDamageDistribution")["shift"].asInt();
+
+		cardDistributions[itr.name()].costMutationPlusMinus = itr->operator[]("costMutationDistribution")["plusMinus"].asFloat();
+		cardDistributions[itr.name()].costMutationWeight = itr->operator[]("costMutationDistribution")["weight"].asFloat();
 	}
 
 }

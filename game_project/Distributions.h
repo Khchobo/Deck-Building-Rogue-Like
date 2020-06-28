@@ -3,15 +3,15 @@
 #include <string>
 
 //shifted binomial distribution
-struct ShiftedBinom
+struct ShiftedBinomialDist
 {
 	unsigned int n;
-	unsigned int p;
+	float p;
 	int shift;
 };
 
 //explict discrete distribution
-struct ExpDiscDist
+struct ExplicitDiscreteDist
 {
 	float& operator[](std::string key)
 	{
@@ -23,12 +23,14 @@ struct ExpDiscDist
 
 struct CardDists
 {
-	ExpDiscDist classDistribution;
-	ExpDiscDist shapeDistribution;
-	ShiftedBinom radiusDistribution;
-	ShiftedBinom attackEmanationSpeedDistribution;
-	ShiftedBinom persistenceDistribution;
-	ShiftedBinom attackDamageDistribution;
+	CardDists(){}
+
+	ExplicitDiscreteDist classDistribution;
+	ExplicitDiscreteDist shapeDistribution;
+	ShiftedBinomialDist radiusDistribution;
+	ShiftedBinomialDist attackEmanationSpeedDistribution;
+	ShiftedBinomialDist persistenceDistribution;
+	ShiftedBinomialDist attackDamageDistribution;
 	float costMutationPlusMinus;
 	float costMutationWeight;
 };

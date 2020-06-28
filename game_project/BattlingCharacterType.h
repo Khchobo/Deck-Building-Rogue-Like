@@ -9,6 +9,7 @@
 #include "SquashAnimation.h"
 #include <unordered_map>
 #include "TransitionMap.h"
+#include "Distributions.h"
 
 #include "standaloneFunctions.h"
 
@@ -42,8 +43,15 @@ public:
 	float maxHealth;
 	CharType characterType;
 
+	//card information
+	int deckSize;
+	int maxHandSize;
+	ExplicitDiscreteDist cardTypeDistribution;
+	std::unordered_map<std::string, CardDists> cardDistributions;
+
 private:
 	void assignTransitionDataToMap(Json::Value data, std::unordered_map<std::string, BehaviourTrigger>& triggerMap);
 	void loadAnimationData(std::string typeName);
+	void loadCardDistributions(Json::Value data);
 };
 

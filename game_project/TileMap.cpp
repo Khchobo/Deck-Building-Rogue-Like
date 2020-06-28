@@ -121,7 +121,7 @@ void TileMap::cardActionUpdateMap(CardActionMap cardActionMap)
 			case(AttackElement::ethereal):
 				tileNo = 8;
 				break;
-			case(AttackElement::physical):
+			case(AttackElement::corporeal):
 				tileNo = 9;
 				break;
 			//TODO give its own texture
