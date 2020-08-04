@@ -1,7 +1,7 @@
 #pragma once
 #include<string>
-#include<unordered_map>
-#include "CardsInHand.h"
+#include <map>
+#include "BehaviourTrigger.h"
 
 struct TransitionMap
 {
