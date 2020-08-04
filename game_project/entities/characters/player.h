@@ -22,7 +22,7 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager), cardsInHand(1), cardsInDeck(50)
+	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager), cardsInHand(1)
 	{
 		currentTilePos = sf::Vector2i(2, 2);
 		position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels), static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));

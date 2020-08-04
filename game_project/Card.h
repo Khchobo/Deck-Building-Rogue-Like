@@ -2,6 +2,7 @@
 #define CARD_HEADER
 
 #include <vector>
+#include "BattlingCharacterType.h"
 
 enum class AttackType {circle, cross, line};
 enum class AttackElement {ethereal,corporeal,metaphysical};
@@ -10,7 +11,7 @@ enum class AttackElement {ethereal,corporeal,metaphysical};
 class Card
 {
 public:
-	Card();
+	Card(BattlingCharacterType* type);
 	long double id;
 	std::string name;
 	AttackType attackType;

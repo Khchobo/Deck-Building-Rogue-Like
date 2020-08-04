@@ -12,11 +12,15 @@ public:
 	
 	CardsInDeck() {};
 
-	CardsInDeck(int n): cardsInDeck(n), cardsRemaining(n)
+	CardsInDeck(BattlingCharacterType* type): cardsRemaining(type->deckSize)
 	{
+
 		std::cout << std::setprecision(60);
-		for (unsigned int i=0;i<cardsInDeck.size();i++)
+		for (unsigned int i=0;i<type->deckSize;i++)
 		{
+
+			cardsInDeck.push_back(Card(type));
+
 			//add the ID to cards remaining
 			cardsRemaining[i] = cardsInDeck[i].id;
 			std::cout << "Card "<<i<<" ID="<< cardsInDeck[i].id<<std::endl;
