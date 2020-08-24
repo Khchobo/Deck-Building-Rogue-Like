@@ -2,7 +2,7 @@
 
 
 BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
-	cardsInHand(), cardsInDeck(type), type(type) , animationManager(&type->animationTransitions,type)
+	cardsInHand(1), cardsInDeck(type), type(type) , animationManager(&type->animationTransitions,type)
 {
 	//type->identifier = identity;
 	cardPoints = type->cardPointsMax;

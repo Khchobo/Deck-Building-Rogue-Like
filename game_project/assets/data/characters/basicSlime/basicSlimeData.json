@@ -19,7 +19,7 @@
     "typeDistribution": { "standard": 1 },
     "typeData": {
       "standard": {
-        "classDistribution": {
+        "elementDistribution": {
           "ethereal": 0.8,
           "corporeal": 0.1,
           "metaphysical": 0.1

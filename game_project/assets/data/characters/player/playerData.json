@@ -4,5 +4,49 @@
   "cardPointsMax": 300, //200 default
   "cardPointRecoveryRate": 50, //12.5 default
   "motionTime": 0.15, //0.15 default
-  "maxHealth": 100
+  "maxHealth": 100,
+
+  "cards": {
+    "deckSize": 10,
+    "maxHandSize": 2,
+    "typeDistribution": { "standard": 1 },
+    "typeData": {
+      "standard": {
+        "elementDistribution": {
+          "ethereal": 0.33,
+          "corporeal": 0.33,
+          "metaphysical": 0.34
+        },
+        "shapeDistribution": {
+          "line": 0.0,
+          "cross": 0.0,
+          "circle": 1
+        },
+        "radiusDistribution": {
+          "n": 8,
+          "p": 0.65,
+          "shift": 2
+        },
+        "attackEmanationSpeedDistribution": {
+          "n": 40,
+          "p": 0.5,
+          "shift": 0
+        },
+        "persistenceDistribution": {
+          "n": 80,
+          "p": 0.5,
+          "shift": -20
+        },
+        "attackDamageDistribution": {
+          "n": 20,
+          "p": 0.5,
+          "shift": -3
+        },
+        "costMutationDistribution": {
+          "plusMinus": 0.1,
+          "weight": 0
+        }
+      }
+    }
+  }
 }

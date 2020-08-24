@@ -34,6 +34,8 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 		throw std::invalid_argument("");
 	}
 
+	loadCardDistributions(data);
+
 	//data for enemy ai only
 	if (data["characterType"].asString() == "enemy")
 	{
@@ -43,8 +45,6 @@ BattlingCharacterType::BattlingCharacterType(std::string typeName)
 		movementTimeoutFlee = data["movementTimeoutFlee"].asFloat();
 		targetDirection = directionMap[data["targetDirection"].asString()];
 		targetDistance = data["targetDistance"].asInt();
-
-		loadCardDistributions(data);
 
 	}
 
@@ -149,9 +149,9 @@ void BattlingCharacterType::loadCardDistributions(Json::Value data)
 		cardDistributions[itr.name()]=CardDists();
 
 		//TODO there is probably a nicer way of doing this
-		cardDistributions[itr.name()].classDistribution["ethereal"] = itr->operator[]("classDistribution")["ethereal"].asFloat();
-		cardDistributions[itr.name()].classDistribution["corporeal"] = itr->operator[]("classDistribution")["corporeal"].asFloat();
-		cardDistributions[itr.name()].classDistribution["metaphysical"] = itr->operator[]("classDistribution")["metaphysical"].asFloat();
+		cardDistributions[itr.name()].elementDistribution["ethereal"] = itr->operator[]("elementDistribution")["ethereal"].asFloat();
+		cardDistributions[itr.name()].elementDistribution["corporeal"] = itr->operator[]("elementDistribution")["corporeal"].asFloat();
+		cardDistributions[itr.name()].elementDistribution["metaphysical"] = itr->operator[]("elementDistribution")["metaphysical"].asFloat();
 
 		cardDistributions[itr.name()].shapeDistribution["line"] = itr->operator[]("shapeDistribution")["line"].asFloat();
 		cardDistributions[itr.name()].shapeDistribution["cross"] = itr->operator[]("shapeDistribution")["cross"].asFloat();
