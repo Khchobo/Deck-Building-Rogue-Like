@@ -7,9 +7,7 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i til
 {
 	//texture.loadFromFile("assets/basic_slime.png");
 	currentTilePos = tilePosition;
-
 	position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels),static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
-	initialise((type->identifier)+".png", position, imageManager);
 	pathUpdateTimeout = 0;
 	movementTimeout = type->movementTimeoutChase;
 }

@@ -80,14 +80,14 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 
 	if (renderMode == 1)
 	{
-		int cardIndex = 10000;
+		
 		healthNumber.value = static_cast<int>(health);
 		cardPointsNumber.value = static_cast<int>(cardPoints);
-		cardsInHand.action(type->identifier, cardsInDeck.cardsInDeck, cardsInDeck.cardsRemaining, windowInfo, cardIndex, cardPoints, behaviourTriggers, imageManager);
+		int deckIndex=cardsInHand.action(this,windowInfo);
 
-		if (cardIndex != 10000)
+		if (behaviourTriggers[useCardSuccess])
 		{
-			cardActionMap.newAction(cardsInDeck.cardsInDeck[cardIndex], direction, currentTilePos,CharType::player, collision);
+			cardActionMap.newAction(cardsInDeck.cardsInDeck[deckIndex], direction, currentTilePos,CharType::player, collision);
 		}
 
 

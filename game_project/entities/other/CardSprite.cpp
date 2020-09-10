@@ -2,13 +2,13 @@
 #include <iostream>
 #include "globalVariables.h"
 
-void CardSprite::initialise(Entity deckSprite,ImageManager& imageManager)
+void CardSprite::initialise(Entity* deckSprite,ImageManager& imageManager)
 {
 	sprite.setTexture(imageManager.getImage("card2.png"));
 	
 	movementLocation = 2;
 	inMotion = 1;
-	position = deckSprite.position;
+	position = dynamic_cast<PositionalEntity*>(deckSprite)->position;
 	previousPos = position;
 }
 

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Entity.h"
+#include "Sprite.h"
 #include "WindowInfo.h"
 #include "standaloneFunctions.h"
 
-class CardSprite : public Entity
+class CardSprite : public Sprite
 {
 public:
 
@@ -30,7 +31,7 @@ public:
 		inMotion = 0;
 	}
 
-	void initialise(Entity deckSprite,ImageManager& imageManager);
+	void initialise(Entity* deckSprite, ImageManager& imageManager);
 
 	void move(int i, WindowInfo windowInfo);
 

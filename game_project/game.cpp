@@ -54,7 +54,7 @@ void Game::initialiseBattleMode()
 	windowInfo.UIHeight = 4;
 	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	player.cardsInHand.initialise(player.cardsInDeck.cardsInDeck, player.cardsInDeck.cardsRemaining, windowInfo,player.type->identifier, imageManager);
+	player.cardsInHand.initialise(&player,windowInfo);
 
 	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
 
@@ -183,11 +183,99 @@ void Game::action()
 void Game::draw()
 {
 
-	//THIS SECTION DETERMINES THE BACKGROUND POSITIONING BASED ON THE PLAYERS POSITION
-	//TODO move into tilemap class?
+	setBackgroundTexturePosition();
 
-	//TODO - case when screen size is larger than map size
+	tileMap.updateVertexMap(windowInfo);
+	tileMap.setPosition(windowInfo.backgroundTexturePosition);
+	//draw the background
+	window.draw(tileMap);
 
+	player.draw(window, windowInfo);
+
+	for (auto& enemy : enemies)
+	{
+		enemy.draw(window, windowInfo);
+
+		//draw cards if in battle mode
+		if (renderMode == 1)
+		{
+			//occludes the bottom and right part of the screen
+			sf::RectangleShape blackoutRectBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels),
+				static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIHeight)
+			)
+			);
+			sf::RectangleShape blackoutRectRight(sf::Vector2f(static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIWidth),
+				windowInfo.getWindowWidth()
+			)
+			);
+
+			//creates a line white line to delineate the bottom and right parts of screen
+			sf::RectangleShape delineatingLineBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels), 1.0f));
+			sf::RectangleShape delineatingLineRight(sf::Vector2f(1.0f, windowInfo.getWindowWidth()));
+
+			float cardPointsPercent = player.cardPoints / player.type->cardPointsMax;
+			float healthPointsPercent = player.health / player.type->maxHealth;
+
+			sf::RectangleShape cardPointsBar(sf::Vector2f(cardPointsPercent *6.0f* windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels / 2.0f));
+			cardPointsBar.setFillColor(sf::Color::White);
+
+			sf::RectangleShape healthBar(sf::Vector2f(healthPointsPercent * 6.0f * windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels / 2.0f));
+			cardPointsBar.setFillColor(sf::Color::White);
+
+			blackoutRectBottom.setFillColor(sf::Color::Black);
+			blackoutRectRight.setFillColor(sf::Color::Black);
+
+			delineatingLineBottom.setFillColor(sf::Color::White);
+			delineatingLineRight.setFillColor(sf::Color::White);
+
+			//if fullscreen, set position according to exact distance frm edge of screen (not tile aligned)
+			if (windowInfo.fullscreen == 1)
+			{
+				blackoutRectBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight*windowInfo.tileSizeInPixels));
+				blackoutRectRight.setPosition(static_cast<float>(sf::VideoMode::getDesktopMode().width - (windowInfo.UIWidth * windowInfo.tileSizeInPixels)), 0.0f);
+
+				delineatingLineBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight * windowInfo.tileSizeInPixels));
+				delineatingLineRight.setPosition(static_cast<float>((sf::VideoMode::getDesktopMode().width) - windowInfo.UIWidth * windowInfo.tileSizeInPixels), 0.0f);
+
+			}
+
+			//if windowed, use tile alignment
+			else
+			{
+				blackoutRectBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
+				blackoutRectRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels), 0.0f);
+
+				delineatingLineBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
+				delineatingLineRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels), 0.0f);
+
+
+			}
+
+			cardPointsBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 32.0f);
+			healthBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 64.0f);
+
+			//draw them to the window
+			window.draw(blackoutRectBottom);
+			window.draw(blackoutRectRight);
+
+			window.draw(delineatingLineBottom);
+			window.draw(delineatingLineRight);
+
+			window.draw(cardPointsBar);
+			window.draw(healthBar);
+
+			player.cardPointsNumber.draw(window);
+			player.healthNumber.draw(window);
+
+			player.cardsInHand.draw(window, &player,windowInfo);
+
+		}
+
+	}
+}
+
+void Game::setBackgroundTexturePosition()
+{
 	//positioning of the overall texture relativeto the window
 	sf::Vector2f backgroundTexturePosition;
 
@@ -195,7 +283,7 @@ void Game::draw()
 	int desktopTileOffsetY = static_cast<int>(windowInfo.getWindowHeight()) % 32;
 
 	//determined by the players position as well as their distance from edge. however cant be further in either direction than the edge of the map
-	backgroundTexturePosition.x = max(static_cast<float>(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels-desktopTileOffsetX)),
+	backgroundTexturePosition.x = max(static_cast<float>(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels - desktopTileOffsetX)),
 		min(static_cast<float>(0), playerDistanceFromEdgeX - player.position.x));
 	backgroundTexturePosition.y = max(static_cast<float>(-(mapHeight*windowInfo.tileSizeInPixels - windowInfo.activeSceneHeightPixels - desktopTileOffsetY)),
 		min(static_cast<float>(0), playerDistanceFromEdgeY - player.yPosNoOffset));
@@ -209,93 +297,7 @@ void Game::draw()
 		backgroundTexturePosition.y = (windowInfo.getWindowHeight() / 2) - ((mapHeight*static_cast<int>(windowInfo.tileSizeInPixels)) / 2);
 	}
 
-	tileMap.updateVertexMap(windowInfo);
-	tileMap.setPosition(backgroundTexturePosition);
-	//draw the background
-	window.draw(tileMap);
-
-	player.draw(window, backgroundTexturePosition);
-
-	for (auto& enemy : enemies)
-	{
-		enemy.draw(window, backgroundTexturePosition);
-	}
-
-	//draw cards if in battle mode
-	if (renderMode == 1)
-	{
-		//occludes the bottom and right part of the screen
-		sf::RectangleShape blackoutRectBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels),
-														   static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIHeight)
-														  )
-											 );
-		sf::RectangleShape blackoutRectRight(sf::Vector2f(static_cast<float>(windowInfo.tileSizeInPixels*windowInfo.UIWidth),
-													      windowInfo.getWindowWidth()
-		                                                  )
-			                                 );
-
-		//creates a line white line to delineate the bottom and right parts of screen
-		sf::RectangleShape delineatingLineBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels), 1.0f));
-		sf::RectangleShape delineatingLineRight(sf::Vector2f(1.0f, windowInfo.getWindowWidth() ));
-
-		float cardPointsPercent = player.cardPoints / player.type->cardPointsMax;
-		float healthPointsPercent = player.health / player.type->maxHealth;
-
-		sf::RectangleShape cardPointsBar(sf::Vector2f(cardPointsPercent *6.0f* windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels/2.0f));
-		cardPointsBar.setFillColor(sf::Color::White);
-
-		sf::RectangleShape healthBar(sf::Vector2f(healthPointsPercent * 6.0f * windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels/2.0f));
-		cardPointsBar.setFillColor(sf::Color::White);
-
-		blackoutRectBottom.setFillColor(sf::Color::Black);
-		blackoutRectRight.setFillColor(sf::Color::Black);
-
-		delineatingLineBottom.setFillColor(sf::Color::White);
-		delineatingLineRight.setFillColor(sf::Color::White);
-
-		//if fullscreen, set position according to exact distance frm edge of screen (not tile aligned)
-		if (windowInfo.fullscreen == 1)
-		{
-			blackoutRectBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height)- windowInfo.UIHeight*windowInfo.tileSizeInPixels));
-			blackoutRectRight.setPosition(static_cast<float>(sf::VideoMode::getDesktopMode().width - (windowInfo.UIWidth * windowInfo.tileSizeInPixels)), 0.0f);
-
-			delineatingLineBottom.setPosition(0.0f, static_cast<float>((sf::VideoMode::getDesktopMode().height) - windowInfo.UIHeight * windowInfo.tileSizeInPixels));
-			delineatingLineRight.setPosition(static_cast<float>((sf::VideoMode::getDesktopMode().width) - windowInfo.UIWidth * windowInfo.tileSizeInPixels),0.0f);
-
-		}
-
-		//if windowed, use tile alignment
-		else
-		{
-			blackoutRectBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
-			blackoutRectRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels), 0.0f);
-
-			delineatingLineBottom.setPosition(0.0f, static_cast<float>(windowInfo.activeSceneHeightPixels));
-			delineatingLineRight.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels),0.0f);
-
-			
-		}
-
-		cardPointsBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels +windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 32.0f);
-		healthBar.setPosition(static_cast<float>(windowInfo.activeSceneWidthPixels + windowInfo.tileSizeInPixels), windowInfo.getWindowHeight() - 64.0f);
-
-		//draw them to the window
-		window.draw(blackoutRectBottom);
-		window.draw(blackoutRectRight);
-
-		window.draw(delineatingLineBottom);
-		window.draw(delineatingLineRight);
-
-		window.draw(cardPointsBar);
-		window.draw(healthBar);
-		
-		player.cardPointsNumber.draw(window);
-		player.healthNumber.draw(window);
-
-		player.cardsInHand.draw(window, player.cardsInDeck.cardsInDeck);
-
-	}
-	
+	windowInfo.backgroundTexturePosition = backgroundTexturePosition;
 }
 
 void Game::initialise()

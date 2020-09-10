@@ -3,8 +3,10 @@
 #include "TransitionMap.h"
 #include "StateAnimation.h"
 #include "BehaviourTrigger.h"
+#include "entities/other/Entity.h"
 #include "SquashAnimation.h"
 #include "BattlingCharacterType.h"
+#include "entities/characters/BattlingCharacter.h"
 
 struct PlayingAnimation
 {
@@ -18,15 +20,22 @@ struct PlayingAnimation
 	std::shared_ptr<StateAnimation> animation;
 };
 
-class AnimationManager
+class AnimationManager : public Entity
 {
 public:
-	AnimationManager(TransitionMap* transitions, BattlingCharacterType* type) : transitions(transitions)
+
+	AnimationManager(){}
+
+	void initalise(BattlingCharacterType* type)
 	{
+		identity = "AnimationManager";
+		transitions = &type->animationTransitions;
 		playingAnimations[0] = PlayingAnimation("defaultSquash", type);
 	}
 
-	void updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, sf::Sprite& sprite);
+	void update(BattlingCharacter* parent);
+
+	void updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, Sprite* sprite);
 
 private:
 	TransitionMap* transitions;

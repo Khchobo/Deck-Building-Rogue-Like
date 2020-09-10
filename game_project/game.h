@@ -26,9 +26,8 @@ public:
 	TileMap tileMap;
 	int mapWidth, mapHeight;
 
-	WindowInfo windowInfo;
-
 	sf::RenderWindow window;
+	WindowInfo windowInfo;
 
 	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
 
@@ -92,6 +91,7 @@ private:
 	sf::Shader fixedColourShader;
 	Player player;
 	Json::Value gameData;
+	
 
 	//Determines which mode we are in. 0 is overworld movement, 1 is card fight.
 	int renderMode;
@@ -101,6 +101,7 @@ private:
 	//todo fix bug where it doesnt adjest with gui and fullscreen
 	float playerDistanceFromEdgeX = 200, playerDistanceFromEdgeY = 200;
 
+	void setBackgroundTexturePosition();
 	void draw();	
 	void action();	
 	void initialise();

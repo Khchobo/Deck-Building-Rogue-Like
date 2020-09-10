@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.h"
+#include "Sprite.h"
 class NumberEntity :
-	public Entity
+	public Sprite
 {
 public:
 	NumberEntity();

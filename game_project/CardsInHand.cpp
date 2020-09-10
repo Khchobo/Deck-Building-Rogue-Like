@@ -1,5 +1,6 @@
 #include "CardsInHand.h"
 #include "SFML/Window.hpp"
+#include "entities\characters\BattlingCharacter.h"
 #include <vector>
 #include <assert.h>
 #include <iomanip>
@@ -39,7 +40,7 @@ void CardsInHand::cardInfoPrint(std::vector<Card>& cardsInDeck)
 
 }
 
-void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& window)
+void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWindow& window)
 {
 	
 	for (unsigned int i = 0; i < cardsInDeck.size(); i++)
@@ -61,11 +62,11 @@ void CardsInHand::cardInfoDraw(std::vector<Card>& cardsInDeck,sf::RenderWindow& 
 	window.draw(text);
 }
 
-void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo,std::string identifier, ImageManager& imageManager)
+void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowInfo)
 {
 	
 	cardsInHand.clear();
-	if (identifier == "player")
+	if (parent->identity == "player")
 	{
 
 		font.loadFromFile("assets/minecraft.ttf");
@@ -79,7 +80,11 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 		//centred vertically
 		float initialY = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
 
-		deckSprite.initialise("card2.png", sf::Vector2f(initialX, initialY), imageManager);
+		//HOTFIX Temp solution till I can think of something better
+		PositionalEntity* temp=&PositionalEntity();
+		temp->identity = "card2.png";
+		temp->imageManager = parent->imageManager;
+		deckSprite.initialise(temp, sf::Vector2f(initialX, initialY));
 
 		//one tile to the right from the edge of the UI box
 		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels, windowInfo);
@@ -88,27 +93,27 @@ void CardsInHand::initialise(std::vector<Card>& cardsInDeck, std::vector<long do
 
 		text.setPosition(initialX, initialY);
 
-		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x+32, deckSprite.position.y+48), cardsRemaining.size());
+		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x+32, deckSprite.position.y+48), parent->cardsInDeck.cardsRemaining.size());
 	}
 
-	drawCard(cardsInDeck,cardsRemaining,identifier, imageManager);
-	drawCard(cardsInDeck, cardsRemaining, identifier, imageManager);
-	drawCard(cardsInDeck, cardsRemaining,identifier, imageManager);
+	for (int i = 0; i < parent->type->maxHandSize; i++)
+	{
+		drawCard(parent);
+	}
 	selected = 0;
 
 }
-void CardsInHand::draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck)
+void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent,WindowInfo& windowInfo)
 {
 
-	deckSprite.draw(window);
+	deckSprite.draw(window, windowInfo,dynamic_cast<const PositionalEntity*>(parent),Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-
-		cardsInHand[i].draw(window);
+		cardsInHand[i].draw(window, windowInfo, dynamic_cast<const PositionalEntity*>(parent), Sprite::CoordSpace::viewportSpace);
 		//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
 		
 	}
-	cardInfoDraw(cardsInDeck,window);
+	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
 	noOfCardsInHand.draw(window);
 }
 
@@ -148,8 +153,7 @@ void CardsInHand::resize(WindowInfo windowInfo)
 	}
 }
 
-void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,
-						WindowInfo windowInfo, int& cardIndex,float& cardPoints,std::map<BehaviourTrigger,bool> behaviourTriggers,ImageManager& imageManager)
+int CardsInHand::action(BattlingCharacter* parent, WindowInfo windowInfo)
 {
 
 	//MOTION
@@ -158,15 +162,15 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 
 		//DRAW NEW CARD
 
-		if (behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
+		if (parent->behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
 		{
 			drawCardCooldown = 0;
-			drawCard(cardsInDeck,cardsRemaining,identifier,imageManager);
+			drawCard(parent);
 		}
 		
 		bool inMotion=false;
 
-		if (identifier == "player")
+		if (parent->identity == "player")
 		{
 			inMotion = anyCardsInMotion(cardsInHand);
 		}
@@ -178,41 +182,43 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 			//SELECTION 
 
 			//only allows selection moving if we have more than 1 card
-			if ((behaviourTriggers[selectCardLeft] || behaviourTriggers[selectCardRight]) && cardsInHand.size() > 1)
+			if ((parent->behaviourTriggers[selectCardLeft] || parent->behaviourTriggers[selectCardRight]) && cardsInHand.size() > 1)
 			{
-				changeSelection(selected, identifier, cardsInHand,behaviourTriggers,cardsInDeck);
+				changeSelection(selected, parent->identity, cardsInHand, parent->behaviourTriggers, parent->cardsInDeck.cardsInDeck);
 			}	
 
 			//USE CARD
 
 			//TODO ensure this can only happen when the player is stationary
 
-			else if (behaviourTriggers[useCard] && cardsInHand.size() > 1)
+			else if (parent->behaviourTriggers[useCard] && cardsInHand.size() > 1)
 			{
-				
+				int deckCardIndex;
 				long double cardSelected = cardsInHand[selected].id;
 
 				//Firstly, find and save the index of the selected card in the deck
 
-				for (unsigned int i = 0; i <cardsInDeck.size(); i++)
+				for (unsigned int i = 0; i < parent->cardsInDeck.cardsInDeck.size(); i++)
 				{
-					if (cardSelected == cardsInDeck[i].id)
+					if (cardSelected == parent->cardsInDeck.cardsInDeck[i].id)
 					{
-						cardIndex = i;
+						deckCardIndex = i;
 						break;
 					}
 				}
 
-				assert(cardIndex != 10000);
-
-				if (cardPoints >= cardsInDeck[cardIndex].cardPointCost)
+				if (parent->cardPoints >= parent->cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost)
 				{
-					cardPoints -= cardsInDeck[cardIndex].cardPointCost;
+					parent->cardPoints -= parent->cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost;
 				}
-				else { cardIndex = 10000; return; }
+				else { return 0; }
+
+				parent->behaviourTriggers[useCardSuccess];
 
 				for (unsigned int i = selected+2; i < cardsInHand.size(); i++)
 				{
+
+					//todo turn movement location into enum
 					cardsInHand[i].movementLocation = 3;
 					newMotion(i);
 				}
@@ -232,6 +238,7 @@ void CardsInHand::action(std::string identifier, std::vector<Card>& cardsInDeck,
 				}
 				
 				newMotion(selected);
+				return deckCardIndex;
 			}
 	}
 
@@ -287,9 +294,9 @@ bool CardsInHand::anyCardsInMotion(std::vector<CardSprite> cardsInHand)
 	return false;
 }
 
-void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier,ImageManager& imageManager)
+void CardsInHand::drawCard(BattlingCharacter* parent)
 {
-	if (cardsRemaining.size()>0)
+	if (parent->cardsInDeck.cardsRemaining.size()>0)
 	{
 		std::cout << "Drawing New Card" << std::endl;
 
@@ -299,13 +306,13 @@ void CardsInHand::drawCard(std::vector<Card>& cardsInDeck, std::vector<long doub
 
 		int rando = rand();
 		//std::cout << cardsRemaining.size() << " " << rando << std::endl;
-		int index = rando % cardsRemaining.size();
-		newCard.id = cardsRemaining[index];
-		cardsRemaining.erase(cardsRemaining.begin() + index);
+		int index = rando % parent->cardsInDeck.cardsRemaining.size();
+		newCard.id = parent->cardsInDeck.cardsRemaining[index];
+		parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
 		noOfCardsInHand.value--;
-		newCard.initialise(deckSprite, imageManager);
+		newCard.initialise(&deckSprite, *parent->imageManager);
 		
-		if (identifier == "player")
+		if (parent->identity == "player")
 		{
 			cardsInHand.push_back(newCard);
 

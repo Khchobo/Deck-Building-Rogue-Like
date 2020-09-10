@@ -7,26 +7,22 @@
 #include <assert.h>
 #include "globalVariables.h"
 #include <minmax.h>
+#include <memory>
+
+#define GET_COMPONENT(cast,name) dynamic_cast<cast*>(getComponent(name))
+#define GET_PARENT_COMPONENT(cast,name) dynamic_cast<cast*>(parent->getComponent(name))
 
 class Entity
 {
 public:
 
 	Entity(){}
+	Entity(std::string identity,ImageManager& imageManager) : identity(identity), imageManager(&imageManager) {}
+	virtual ~Entity() {};
 
-	sf::Vector2f position;
+	std::string identity;
+	ImageManager* imageManager;
+	std::vector<Entity*> components;
 
-	void draw(sf::RenderWindow &window);
-	void initialise(std::string fileName, sf::Vector2f incomingPosition, ImageManager& imageManager);
-
-	sf::Sprite sprite;
-	sf::Texture texture;
-
-	std::string currentAnimation;
-
-	float animationFrameTime;
-	int animationFrame;
-
-	sf::Vector2u textureSize;
-
+	Entity* getComponent(std::string _identity);
 };

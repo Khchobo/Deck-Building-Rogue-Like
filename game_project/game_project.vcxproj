@@ -137,12 +137,14 @@
     <ClCompile Include="entities\characters\BattlingCharacter.cpp" />
     <ClCompile Include="entities\characters\player.cpp" />
     <ClCompile Include="entities\other\CardSprite.cpp" />
-    <ClCompile Include="entities\other\Entity.cpp" />
     <ClCompile Include="entities\other\NumberEntity.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PositionalEntity.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SquashAnimation.cpp" />
     <ClCompile Include="standaloneFunctions.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="globalVariables.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Keyframe.h" />
+    <ClInclude Include="PositionalEntity.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="SquashAnimation.h" />
     <ClInclude Include="standaloneFunctions.h" />
     <ClInclude Include="StateAnimation.h" />

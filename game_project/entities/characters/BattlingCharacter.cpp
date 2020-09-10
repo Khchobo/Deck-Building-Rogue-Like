@@ -1,15 +1,25 @@
 #include "BattlingCharacter.h"
+#include "AnimationManager.h"
 
-
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type,std::string identity,ImageManager& imageManager) :
-	cardsInHand(1), cardsInDeck(type), type(type) , animationManager(&type->animationTransitions,type)
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager& imageManager)  : PositionalEntity(type, identity, imageManager),
+cardsInHand(1), cardsInDeck(type), type(type)
 {
 	//type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
 	health = type->maxHealth;
-	directionalArrow.initialise("directionalArrow.png", position, imageManager);
+
+	//HOTFIX
+	PositionalEntity* temp=new PositionalEntity();
+	temp->identity = "directionalArrow";
+	temp->imageManager = &imageManager;
+	directionalArrow.initialise(temp);
+	delete temp;
 	arrowDirectionUpdate();
+
+	AnimationManager* animationManager = new AnimationManager();
+	animationManager->initalise(type);
+	components.emplace_back(std::move(animationManager));
 };
 
 void BattlingCharacter::checkForMotion() {}
@@ -85,11 +95,10 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		{
 			arrowDirectionUpdate();
 		}
-		directionalArrow.position = sf::Vector2f(position.x + directionalArrowOffset.x, position.y + directionalArrowOffset.y);
 		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	}
 
-	animationManager.updateAnimations(behaviourTriggers, type, sprite);
+	GET_COMPONENT(AnimationManager,"AnimationManager")->updateAnimations(behaviourTriggers, type, GET_COMPONENT(Sprite,"sprite"));
 }
 
 void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)
@@ -119,19 +128,19 @@ void BattlingCharacter::arrowDirectionUpdate()
 	switch (direction)
 	{
 	case(0):
-		directionalArrowOffset = sf::Vector2i(0, -24);
+		directionalArrow.position = sf::Vector2f(0, -24);
 		directionalArrowRotation = 0;
 		break;
 	case(1):
-		directionalArrowOffset = sf::Vector2i(-24, 0);
+		directionalArrow.position = sf::Vector2f(-24, 0);
 		directionalArrowRotation = 270;
 		break;
 	case(2):
-		directionalArrowOffset = sf::Vector2i(0, 24);
+		directionalArrow.position = sf::Vector2f(0, 24);
 		directionalArrowRotation = 180;
 		break;
 	case(3):
-		directionalArrowOffset = sf::Vector2i(24, 0);
+		directionalArrow.position = sf::Vector2f(24, 0);
 		directionalArrowRotation = 90;
 		break;
 	default:
@@ -177,11 +186,10 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	}
 }
 
-void BattlingCharacter::draw(sf::RenderWindow& window, sf::Vector2f backgroundTexturePosition)
+void BattlingCharacter::draw(sf::RenderWindow& window, const WindowInfo& windowInfo)
 {
-	directionalArrow.position.x += backgroundTexturePosition.x;
-	directionalArrow.position.y += backgroundTexturePosition.y;
-	directionalArrow.draw(window);
-	sprite.setPosition(position.x + backgroundTexturePosition.x + textureSize.x / 2, position.y + backgroundTexturePosition.y + textureSize.x / 2);
-	window.draw(sprite);
+	directionalArrow.position.x += windowInfo.backgroundTexturePosition.x;
+	directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
+	directionalArrow.draw(window,windowInfo);
+	GET_COMPONENT(Sprite,"Sprite")->draw(window, windowInfo);
 }

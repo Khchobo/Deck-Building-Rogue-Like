@@ -1,30 +1,30 @@
 #pragma once
-#include "entities\other\Entity.h"
+
 #include "standaloneFunctions.h"
 #include "cardsInHand.h"
 #include "CardsInDeck.h"
 #include "BattlingCharacterType.h"
 #include "CardActionMap.h"
-#include "AnimationManager.h"
+#include <memory>
 
 using namespace standaloneFunctions;
 
 enum class actionState { idle,move,attack,death };
 enum class iFrameState {invincible, vunerable};
 
-class BattlingCharacter : public Entity
+class BattlingCharacter : public PositionalEntity
 {
 public:
 
 	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager& imageManager);
-
+	
 	float cardPoints;
 	float health;
 
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
-	void draw(sf::RenderWindow& window, sf::Vector2f backgroundTexturePosition);
+	void draw(sf::RenderWindow& window,  const WindowInfo& windowInfo);
 
 	//current tile alignment or tile alignment before current motion began
 	sf::Vector2i currentTilePos;
@@ -40,7 +40,7 @@ public:
 														{initiateMotion, false}, {selectCardLeft, false},
 														{selectCardRight, false},{directionChange,false},
 														{destroySelf,false},{takeDamage,false},{endMotion,false},
-														{triggerDeath,false},{defaultAnimation,false} }; //TODO really need to write a script to do this
+														{triggerDeath,false},{defaultAnimation,false},{useCardSuccess,false} }; //TODO really need to write a script to do this
 
 protected:
 
@@ -59,8 +59,6 @@ protected:
 
 	void updateDamageAndHealth(CardActionMap cardActionMap);
 
-	AnimationManager animationManager;
-
 	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();
 
@@ -72,9 +70,8 @@ protected:
 	//card point cost to move 1 tile
 	float cardPointsStepCost;
 
-	Entity directionalArrow;
+	Sprite directionalArrow;
 	void arrowDirectionUpdate();
-	sf::Vector2i directionalArrowOffset;
 
 	//for discrete motion, determines whether a motion animation is already occurring
 	bool inMotion = false;

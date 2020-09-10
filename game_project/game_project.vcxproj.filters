@@ -84,9 +84,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Resource Files\Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="entities\other\Entity.cpp">
-      <Filter>Resource Files\Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="entities\other\CardSprite.cpp">
       <Filter>Resource Files\Source Files\Entity</Filter>
     </ClCompile>
@@ -104,6 +101,15 @@
     </ClCompile>
     <ClCompile Include="SquashAnimation.cpp">
       <Filter>Resource Files\Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionalEntity.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Resource Files\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Header Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +192,12 @@
       <Filter>Header Files\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Distributions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionalEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

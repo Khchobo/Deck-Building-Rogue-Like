@@ -30,5 +30,7 @@ public:
 
 	float getWindowWidth();
 	float getWindowHeight();
+
+	sf::Vector2f backgroundTexturePosition;
 };
 

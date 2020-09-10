@@ -1,6 +1,11 @@
 #include "AnimationManager.h"
 
-void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, sf::Sprite& sprite)
+void AnimationManager::update(BattlingCharacter* parent)
+{
+	updateAnimations(parent->behaviourTriggers, parent->type, GET_PARENT_COMPONENT(Sprite,"Sprite"));
+}
+
+void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, Sprite* sprite)
 {
 	for (unsigned int i = 0; i < playingAnimations.size(); i++)
 	{
@@ -53,7 +58,7 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 		}
 
 		//update the animation
-		playingAnimations[i].animation->update(playingAnimations[i].timeActive, playingAnimations[i].keyframeLocation, sprite);
+		playingAnimations[i].animation->update(playingAnimations[i].timeActive, playingAnimations[i].keyframeLocation, sprite->sprite);
 
 	}
 

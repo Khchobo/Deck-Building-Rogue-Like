@@ -5,12 +5,15 @@
 #include "Card.h"
 #include "entities\other\CardSprite.h"
 #include "entities\other\NumberEntity.h"
+
+#include "Sprite.h"
 #include "WindowInfo.h"
 #include "globalVariables.h"
 #include "BehaviourTrigger.h"
 #include <string>
 
-static class CardsInHand: public Entity
+class BattlingCharacter;
+class CardsInHand: public Entity
 {
 public:
 
@@ -23,23 +26,21 @@ public:
 		cardsInHand[selected].offset = 1;
 	}
 
-	void initialise(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining, WindowInfo windowInfo, std::string identifier, ImageManager& imageManager);
+	void initialise(BattlingCharacter* parent, const WindowInfo& windowInfo);
 
-	void draw(sf::RenderWindow &window, std::vector<Card>& cardsInDeck);
+	void draw(sf::RenderWindow &window, const Entity* parent, WindowInfo& windowInfo);
 
 	void resize(WindowInfo windowInfo);
 
-	void action(std::string identifier, std::vector<Card>& cardsInDeck,
-				std::vector<long double>& cardsRemaining, WindowInfo windowInfo, int& cardIndex,
-				float& cardPoints, std::map<BehaviourTrigger, bool> behaviourTriggers, ImageManager& imageManager);
+	int action(BattlingCharacter* parent, WindowInfo windowInfo);
 
-	void drawCard(std::vector<Card>& cardsInDeck, std::vector<long double>& cardsRemaining,std::string identifier,ImageManager& imageManager);
+	void drawCard(BattlingCharacter* parent);
 
 	void newMotion(int index);
 
 	void cardInfoPrint(std::vector<Card>& cardsInDeck);
 
-	void cardInfoDraw(std::vector<Card>& cardsInDeck, sf::RenderWindow& window);
+	void cardInfoDraw(const std::vector<Card>& cardsInDeck, sf::RenderWindow& window);
 
 	bool anyCardsInMotion(std::vector<CardSprite> cardsInHand);
 
@@ -55,7 +56,7 @@ private:
 	sf::Text text;
 	sf::Font font;
 
-	Entity deckSprite;
+	Sprite deckSprite;
 	NumberEntity noOfCardsInHand;
 	unsigned int selected;
 	int drawCardCooldown = 10;

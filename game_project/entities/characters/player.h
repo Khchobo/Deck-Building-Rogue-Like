@@ -22,11 +22,10 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(WindowInfo windowInfo, BattlingCharacterType* type, std::string identity,ImageManager& imageManager) : BattlingCharacter(type, identity, imageManager)
+	Player(WindowInfo& windowInfo, BattlingCharacterType* type, std::string _identity,ImageManager& imageManager) : BattlingCharacter(type, _identity, imageManager)
 	{
 		currentTilePos = sf::Vector2i(2, 2);
 		position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels), static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
-		initialise("tic_tac.png", position, imageManager);
 	}
 
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
@@ -39,4 +38,5 @@ public:
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
 	NumberEntity cardPointsNumber;
 	NumberEntity healthNumber;
+
 };
