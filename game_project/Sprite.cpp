@@ -25,7 +25,7 @@ void Sprite::draw(sf::RenderWindow& window,const WindowInfo& windowInfo, const P
 		offset = sf::Vector2f(0, 0);
 		break;
 	case(viewportSpace):
-		assert(false); //todo
+		offset = sf::Vector2f(-static_cast<signed int>(textureSize.x) / 2 - windowInfo.backgroundTexturePosition.x, -static_cast<signed int>(textureSize.y) / 2 - windowInfo.backgroundTexturePosition.y);
 		break;
 	default:
 		offset = sf::Vector2f(0, 0);

@@ -76,13 +76,13 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 		//temporary values for x & y for readability
 
 		//offset from right of screen by half the width of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f+32.0f), windowInfo);
+		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f), windowInfo);
 		//centred vertically
-		float initialY = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
+		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
 
 		//HOTFIX Temp solution till I can think of something better
 		PositionalEntity* temp=&PositionalEntity();
-		temp->identity = "card2.png";
+		temp->identity = "card2";
 		temp->imageManager = parent->imageManager;
 		deckSprite.initialise(temp, sf::Vector2f(initialX, initialY));
 

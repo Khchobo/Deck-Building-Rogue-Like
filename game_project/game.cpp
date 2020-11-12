@@ -264,8 +264,8 @@ void Game::draw()
 			window.draw(cardPointsBar);
 			window.draw(healthBar);
 
-			player.cardPointsNumber.draw(window);
-			player.healthNumber.draw(window);
+			player.cardPointsNumber.draw(window, windowInfo);
+			player.healthNumber.draw(window, windowInfo);
 
 			player.cardsInHand.draw(window, &player,windowInfo);
 

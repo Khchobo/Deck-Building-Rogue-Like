@@ -98,7 +98,7 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		cardPoints = min(static_cast<float>(type->cardPointsMax), cardPoints + type->cardPointRecoveryRate*frameTime);
 	}
 
-	GET_COMPONENT(AnimationManager,"AnimationManager")->updateAnimations(behaviourTriggers, type, GET_COMPONENT(Sprite,"sprite"));
+	GET_COMPONENT(AnimationManager,"AnimationManager")->updateAnimations(behaviourTriggers, type, GET_COMPONENT(Sprite,"Sprite"));
 }
 
 void BattlingCharacter::updateDamageAndHealth(CardActionMap cardActionMap)
