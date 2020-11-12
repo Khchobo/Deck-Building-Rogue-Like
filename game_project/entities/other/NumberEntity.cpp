@@ -16,35 +16,25 @@ void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 		assert(digitTextures[i].loadFromFile("assets/numbers_" + std::to_string(i)+".png"));
 	}
 
-	//sprite.setTexture(texture);
-
-
 	value = initialValue;
-
 	position = incomingPosition;
 }
 
-void NumberEntity::draw(sf::RenderWindow& window)
+void NumberEntity::draw(sf::RenderWindow& window, const WindowInfo& windowInfo, CoordSpace coordSpace, const PositionalEntity* parent)
 {
-	sf::Sprite finalSprite;
 	int numberOfDigits = getNumberOfDigits(value);
 	std::vector<int> vectorOfDigits(numberOfDigits);
 	storeDigit(vectorOfDigits, 0, value);
 
-	sf::Texture finalTexture;
-	assert(finalTexture.create(12*numberOfDigits, 18));
+	assert(texture.create(12*numberOfDigits, 18));
 	for (int i = 0; i < numberOfDigits; i++)
 	{
-		finalTexture.update(digitTextures[vectorOfDigits[i]], 12 * i, 0);
+		texture.update(digitTextures[vectorOfDigits[i]], 12 * i, 0);
 	}
-	finalSprite.setTexture(finalTexture);
+	sprite.setTexture(texture);
+	textureSize = texture.getSize();
 
-	//TODO make this work with alignment modes
-	finalSprite.setPosition(position.x-finalTexture.getSize().x/2, position.y- finalTexture.getSize().y/2);
-	window.draw(finalSprite);
-
-
-
+	Sprite::draw(window, windowInfo, viewportSpace);
 }
 
 void NumberEntity::storeDigit(std::vector<int>& vectorOfDigits, int recursionDepth, int x)

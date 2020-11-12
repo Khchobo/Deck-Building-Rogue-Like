@@ -64,7 +64,6 @@ void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWi
 
 void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowInfo)
 {
-	
 	cardsInHand.clear();
 	if (parent->identity == "player")
 	{
@@ -93,7 +92,7 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 
 		text.setPosition(initialX, initialY);
 
-		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x+32, deckSprite.position.y+48), parent->cardsInDeck.cardsRemaining.size());
+		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x-6, deckSprite.position.y-9), parent->cardsInDeck.cardsRemaining.size());
 	}
 
 	for (int i = 0; i < parent->type->maxHandSize; i++)
@@ -106,15 +105,15 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent,WindowInfo& windowInfo)
 {
 
-	deckSprite.draw(window, windowInfo,dynamic_cast<const PositionalEntity*>(parent),Sprite::CoordSpace::viewportSpace);
+	deckSprite.draw(window, windowInfo, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		cardsInHand[i].draw(window, windowInfo, dynamic_cast<const PositionalEntity*>(parent), Sprite::CoordSpace::viewportSpace);
+		cardsInHand[i].draw(window, windowInfo, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
 		//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
 		
 	}
 	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
-	noOfCardsInHand.draw(window);
+	noOfCardsInHand.draw(window, windowInfo);
 }
 
 //move the deck sprite to its relative location if changing between fullscreen and windowed

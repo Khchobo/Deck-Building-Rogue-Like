@@ -14,14 +14,13 @@ public:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	void draw(sf::RenderWindow& window,const WindowInfo& windowInfo, const PositionalEntity* parent=&PositionalEntity(), CoordSpace coordSpace = localSpace);
+	virtual void draw(sf::RenderWindow& window,const WindowInfo& windowInfo, CoordSpace coordSpace = localSpace, const PositionalEntity* parent=&PositionalEntity());
 
 	void initialise(const Entity* parent, sf::Vector2f offset = sf::Vector2f(0, 0));
-
-
+protected:
+	sf::Vector2u textureSize;
 private:
 
-	sf::Vector2u textureSize;
 	std::string currentAnimation;
 
 	float animationFrameTime;

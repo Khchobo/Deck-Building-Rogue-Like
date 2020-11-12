@@ -13,7 +13,7 @@ void Sprite::initialise(const Entity* parent, sf::Vector2f offset)
 
 }
 
-void Sprite::draw(sf::RenderWindow& window,const WindowInfo& windowInfo, const PositionalEntity* parent, CoordSpace coordSpace)
+void Sprite::draw(sf::RenderWindow& window,const WindowInfo& windowInfo, CoordSpace coordSpace, const PositionalEntity* parent)
 {
 	sf::Vector2f offset;
 	switch (coordSpace)
