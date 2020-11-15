@@ -89,8 +89,8 @@ void Card::assignName()
 float Card::getRandomMutationModifier(BattlingCharacterType* type,std::string cardType)
 {
 	int base =1000-type->cardDistributions[cardType].costMutationPlusMinus * 1000;
-	float max = type->cardDistributions[cardType].costMutationPlusMinus * 2000+ type->cardDistributions[cardType].costMutationWeight;
-	float rando = rand() % base + max;
+	int max = type->cardDistributions[cardType].costMutationPlusMinus * 2000+ type->cardDistributions[cardType].costMutationWeight;
+	float rando = (float)(rand() % base + max);
 	return rando / 1000.0f;
 }
 

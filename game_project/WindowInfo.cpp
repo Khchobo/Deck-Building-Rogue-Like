@@ -28,10 +28,10 @@ void WindowInfo::setactiveSceneHeight(int height)
 
 float WindowInfo::getWindowWidth()
 {
-	return (fullscreen) ? sf::VideoMode::getDesktopMode().width : windowedWidthPixels;
+	return (fullscreen) ? (float)sf::VideoMode::getDesktopMode().width : (float)windowedWidthPixels;
 }
 
 float WindowInfo::getWindowHeight()
 {
-	return (fullscreen) ? sf::VideoMode::getDesktopMode().height : windowedHeightPixels;
+	return (fullscreen) ? (float)sf::VideoMode::getDesktopMode().height : (float)windowedHeightPixels;
 }

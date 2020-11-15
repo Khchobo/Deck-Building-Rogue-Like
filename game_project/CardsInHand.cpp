@@ -249,6 +249,8 @@ int CardsInHand::action(BattlingCharacter* parent)
 			cardsInHand[i].move(i);
 		}
 	}
+
+	return 0;
 }
 
 void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,

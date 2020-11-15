@@ -17,7 +17,7 @@ namespace standaloneFunctions {
 	enum class Axis {x,y};
 
 	float easeInOut(float x);
-	std::vector<sf::Vector2i> lineOfSight(int x, int y, int x2, int y2);
+	std::vector<sf::Vector2u> lineOfSight(int x, int y, int x2, int y2);
 
 	Json::Value loadJsonFile(const char* filename);
 

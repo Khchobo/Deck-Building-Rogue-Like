@@ -21,16 +21,16 @@ void TileMap::updateVertexMap()
 			sf::Vertex* quad =& vertexMap[(i*mapWidth + j) * 4];
 
 			// define its 4 corners
-			quad[0].position = sf::Vector2f(j *windowInfo.tileSizeInPixels, i * windowInfo.tileSizeInPixels);
-			quad[1].position = sf::Vector2f(j * windowInfo.tileSizeInPixels, (i+1) *windowInfo.tileSizeInPixels);
-			quad[2].position = sf::Vector2f((j + 1) * windowInfo.tileSizeInPixels, (i + 1) * windowInfo.tileSizeInPixels);
-			quad[3].position = sf::Vector2f((j+1) * windowInfo.tileSizeInPixels, i  * windowInfo.tileSizeInPixels);
+			quad[0].position = sf::Vector2f((float)j *windowInfo.tileSizeInPixels, (float)i * windowInfo.tileSizeInPixels);
+			quad[1].position = sf::Vector2f((float)j * windowInfo.tileSizeInPixels, (float)(i + 1) *windowInfo.tileSizeInPixels);
+			quad[2].position = sf::Vector2f((float)(j + 1) * windowInfo.tileSizeInPixels, (float)(i + 1) * windowInfo.tileSizeInPixels);
+			quad[3].position = sf::Vector2f((float)(j + 1) * windowInfo.tileSizeInPixels, (float)i  * windowInfo.tileSizeInPixels);
 
 			// define its 4 texture coordinates
-			quad[0].texCoords = sf::Vector2f(tu * windowInfo.tileSizeInPixels, tv * windowInfo.tileSizeInPixels);
-			quad[1].texCoords = sf::Vector2f(tu* windowInfo.tileSizeInPixels, (tv+1) * windowInfo.tileSizeInPixels);
-			quad[2].texCoords = sf::Vector2f((tu + 1) * windowInfo.tileSizeInPixels, (tv + 1) * windowInfo.tileSizeInPixels);
-			quad[3].texCoords = sf::Vector2f((tu+1) * windowInfo.tileSizeInPixels, tv * windowInfo.tileSizeInPixels);
+			quad[0].texCoords = sf::Vector2f((float)tu * windowInfo.tileSizeInPixels, (float)tv * windowInfo.tileSizeInPixels);
+			quad[1].texCoords = sf::Vector2f((float)tu* windowInfo.tileSizeInPixels, (float)(tv + 1) * windowInfo.tileSizeInPixels);
+			quad[2].texCoords = sf::Vector2f((float)(tu + 1) * windowInfo.tileSizeInPixels, (float)(tv + 1) * windowInfo.tileSizeInPixels);
+			quad[3].texCoords = sf::Vector2f((float)(tu + 1) * windowInfo.tileSizeInPixels, (float)tv * windowInfo.tileSizeInPixels);
 
 		}
 	}
@@ -88,7 +88,7 @@ void TileMap::defineMapLayout()
 			}
 		}
 	}
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 
 }

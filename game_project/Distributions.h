@@ -41,9 +41,9 @@ public:
 				return it->first;
 
 			}
-
-
 		}
+		throw std::logic_error("");
+		return "";
 	}
 };
 

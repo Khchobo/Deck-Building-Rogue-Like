@@ -27,7 +27,7 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 			xPos = playerPos.x+directionMap[direction][0]*(i+1);
 			yPos = playerPos.y+directionMap[direction][1]*(i+1);
 
-			pushBackActionMap(sf::Vector2i(xPos,yPos), playerPos, characterType, collision, i, card);
+			pushBackActionMap(sf::Vector2i(xPos,yPos), playerPos, characterType, collision, (float)i, card);
 		}
 		
 	case(AttackType::cross):
@@ -44,7 +44,7 @@ void CardActionMap::newAction(Card& card, int direction, sf::Vector2i playerPos,
 				xPos = playerPos.x + (i + 1) * directionMap[j][0];
 				yPos = playerPos.y + (i + 1) * directionMap[j][1];
 
-				pushBackActionMap(sf::Vector2i(xPos, yPos), playerPos, characterType, collision, i, card);
+				pushBackActionMap(sf::Vector2i(xPos, yPos), playerPos, characterType, collision, (float)i, card);
 			}
 
 		}
@@ -139,7 +139,7 @@ void CardActionMap::updateAllCardActions(float frameTime)
 */
 bool CardActionMap::lineOfSightObstructed(int xPos1,int yPos1,int xPos2,int yPos2, std::vector<std::vector<int>> collision)
 {
-	std::vector<sf::Vector2i> v;
+	std::vector<sf::Vector2u> v;
 	v = standaloneFunctions::lineOfSight(xPos1, yPos1, xPos2, yPos2);
 
 	for (unsigned int k = 0; k < v.size(); k++)

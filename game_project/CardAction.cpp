@@ -4,7 +4,7 @@
 
 CardAction::CardAction(int xPos, int yPos, float activationTime,
 					   float destructionTime, AttackElement attackElement,
-					   float attackDamage,CharType characterType) 
+					   int attackDamage,CharType characterType) 
 					   : xPos(xPos), yPos(yPos), activationTime(activationTime),
 						 destructionTime(destructionTime), attackElement(attackElement),
 						 attackDamage(attackDamage), characterType(characterType)

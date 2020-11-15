@@ -29,21 +29,21 @@ float standaloneFunctions::quadraticHop(float a, float x)
 
 float standaloneFunctions::easeInOut(float x)
 {
-	return -(cos(PI*x) - 1) / 2;
+	return (float)(-(cos(PI*x) - 1) / 2);
 }
 
-std::vector<sf::Vector2i> standaloneFunctions::lineOfSight(int x1, int y1, int x2, int y2)
+std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x2, int y2)
 {
-	std::vector<sf::Vector2i> v;
+	std::vector<sf::Vector2u> v;
 
-	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
+	unsigned int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 	dx = x2 - x1;
 	dy = y2 - y1;
-	dx1 = fabs(dx);
-	dy1 = fabs(dy);
+	dx1 = (unsigned int)fabs(dx);
+	dy1 = (unsigned int)fabs(dy);
 	px = 2 * dy1 - dx1;
 	py = 2 * dx1 - dy1;
-	sf::Vector2i point;
+	sf::Vector2u point;
 	if (dy1 <= dx1)
 	{
 		if (dx >= 0)
@@ -132,10 +132,10 @@ float standaloneFunctions::setWindowSize(Axis axis)
 		switch (axis)
 		{
 		case(Axis::x):
-			return sf::VideoMode::getDesktopMode().width;
+			return (float)sf::VideoMode::getDesktopMode().width;
 			break;
 		case(Axis::y):
-			return sf::VideoMode::getDesktopMode().height;
+			return (float)sf::VideoMode::getDesktopMode().height;
 			break;
 		default:
 			throw std::invalid_argument("You must use Axis enum");
@@ -145,10 +145,10 @@ float standaloneFunctions::setWindowSize(Axis axis)
 		switch (axis)
 		{
 		case(Axis::x):
-			return windowInfo.windowedWidthPixels;
+			return (float)windowInfo.windowedWidthPixels;
 			break;
 		case(Axis::y):
-			return windowInfo.windowedHeightPixels;
+			return (float)windowInfo.windowedHeightPixels;
 			break;
 		default:
 			throw std::invalid_argument("You must use Axis enum");

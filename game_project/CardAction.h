@@ -16,7 +16,7 @@ using namespace standaloneFunctions;
 class CardAction
 {
 public:
-	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement,float attackDamage, CharType characterTypek);
+	CardAction(int xPos, int yPos, float activationTime, float destructionTime, AttackElement attackElement, int attackDamage, CharType characterTypek);
 	//test
 	//map position in tiles
 	int xPos;
@@ -35,7 +35,7 @@ public:
 	bool active;
 
 	AttackElement attackElement;
-	float attackDamage;
+	int attackDamage;
 
 	//TODO damage info, attack type, etc?
 };

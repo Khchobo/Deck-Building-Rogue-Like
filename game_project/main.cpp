@@ -65,7 +65,7 @@ WindowInfo windowInfo=WindowInfo();
 
 int main()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	ImageManager imageManager;
 	

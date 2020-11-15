@@ -45,10 +45,10 @@ void CardSprite::move(int i)
 
 		if (movementLocation ==2)
 		{
-			motionTime = 0.55;
+			motionTime = 0.55f;
 		}
 		else {
-			motionTime = 0.225;
+			motionTime = 0.225f;
 		}
 		motionPercentage += frameTime / motionTime;
 

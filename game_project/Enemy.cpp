@@ -162,20 +162,20 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 	sf::Vector2f normalisedVector = sf::Vector2f((directionVector.x / magnitude), (directionVector.y / magnitude));
 	//the line of sight algorithm checks between the enemy location and the working location. start off at the enemy location
 	//and repeatedly step along the normalised vector.
-	sf::Vector2f workingLocation = sf::Vector2f(float(currentTilePos.x), float(currentTilePos.y));
+	sf::Vector2i workingLocation = sf::Vector2i(currentTilePos.x, currentTilePos.y);
 	bool flag = true;
 	while (flag)
 	{
-		sf::Vector2f tempLocation = sf::Vector2f(workingLocation.x + normalisedVector.x, workingLocation.y + normalisedVector.y);
+		sf::Vector2i tempLocation = sf::Vector2i((int)(workingLocation.x + normalisedVector.x),(int)(workingLocation.y + normalisedVector.y));
 
 		if (collisionMap[tempLocation.y][tempLocation.x] == 1)
 		{
 			break;
 		}
 
-		std::vector<sf::Vector2i> path = lineOfSight(currentTilePos.x, currentTilePos.y, (int)round(workingLocation.x), (int)round(workingLocation.y));
+		std::vector<sf::Vector2u> path = lineOfSight(currentTilePos.x, currentTilePos.y, (int)round(workingLocation.x), (int)round(workingLocation.y));
 
-		for (sf::Vector2i point : path)
+		for (sf::Vector2u point : path)
 		{
 			if (point.y<0 || point.y>collisionMap.size() || point.x<0 || point.x>collisionMap[0].size())
 			{
@@ -191,7 +191,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 		}
 		workingLocation = tempLocation;
 	}
-	return sf::Vector2i(round(workingLocation.x),round(workingLocation.y));
+	return sf::Vector2i((int)round(workingLocation.x), (int)round(workingLocation.y));
 }
 
 void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap)
