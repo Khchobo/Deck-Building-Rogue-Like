@@ -1,7 +1,5 @@
 #include "WindowInfo.h"
 
-
-
 WindowInfo::WindowInfo()
 {
 	tileSizeInPixels = pixelSize * tileSize;

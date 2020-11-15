@@ -2,7 +2,6 @@
 
 #include "Entity.h"
 #include "Sprite.h"
-#include "WindowInfo.h"
 #include "standaloneFunctions.h"
 
 class CardSprite : public Sprite
@@ -33,7 +32,7 @@ public:
 
 	void initialise(Entity* deckSprite, ImageManager& imageManager);
 
-	void move(int i, WindowInfo windowInfo);
+	void move(int i);
 
 
 	//the location before this motion was initiated

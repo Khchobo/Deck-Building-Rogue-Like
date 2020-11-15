@@ -26,19 +26,19 @@ class Enemy : public BattlingCharacter
 {
 public:
 
-	Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, WindowInfo windowInfo, ImageManager& imageManager);
+	Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager& imageManager);
 
-	void action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardActionMap cardActionMap, std::vector<std::vector<int>> collision);
+	void action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collision);
 	AStar::CoordinateList currentPath;
 private:
 	float movementTimeout;
 	aiMoveState aiMoveState= aiMoveState::chase;
 	int const pathUpdateTimeoutInterval = 10; //how many frames the path is updated
 	int pathUpdateTimeout; // the actual coundown from pathUpdateTimeoutInterval
-	AStar::CoordinateList pathfindNextSpace(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles);
+	AStar::CoordinateList pathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles);
 	LocationWithDistance closestPlayerActionPointInRange(CardActionMap cardActionMap);
 	sf::Vector2i AiTarget;
-	void updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap, WindowInfo windowInfo);
+	void updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap);
 	//the time after which the ai switches back to chase mode (seconds)
 	float const AiFleeTimeout=0.5;
 	//varaible that tracks how long left in the Ai flee state

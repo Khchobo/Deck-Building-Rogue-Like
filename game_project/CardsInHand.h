@@ -7,7 +7,6 @@
 #include "entities\other\NumberEntity.h"
 
 #include "Sprite.h"
-#include "WindowInfo.h"
 #include "globalVariables.h"
 #include "BehaviourTrigger.h"
 #include <string>
@@ -26,13 +25,13 @@ public:
 		cardsInHand[selected].offset = 1;
 	}
 
-	void initialise(BattlingCharacter* parent, const WindowInfo& windowInfo);
+	void initialise(BattlingCharacter* parent);
 
-	void draw(sf::RenderWindow &window, const Entity* parent, WindowInfo& windowInfo);
+	void draw(sf::RenderWindow &window, const Entity* parent);
 
-	void resize(WindowInfo windowInfo);
+	void resize();
 
-	int action(BattlingCharacter* parent, WindowInfo windowInfo);
+	int action(BattlingCharacter* parent);
 
 	void drawCard(BattlingCharacter* parent);
 

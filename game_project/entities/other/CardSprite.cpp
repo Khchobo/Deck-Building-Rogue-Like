@@ -12,7 +12,7 @@ void CardSprite::initialise(Entity* deckSprite,ImageManager& imageManager)
 	previousPos = position;
 }
 
-void CardSprite::move(int i, WindowInfo windowInfo)
+void CardSprite::move(int i)
 {
 	
 	

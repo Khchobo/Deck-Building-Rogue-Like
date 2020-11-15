@@ -24,7 +24,7 @@ cardsInHand(1), cardsInDeck(type), type(type)
 
 void BattlingCharacter::checkForMotion() {}
 
-void BattlingCharacter::updateMotion(WindowInfo windowInfo)
+void BattlingCharacter::updateMotion()
 {
 	//once motion is completed, end in motion state and change tile alignement 
 	if (motionPercentage == 1)
@@ -66,7 +66,7 @@ void BattlingCharacter::initialiseBattleMode()
 {
 }
 
-void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowInfo windowInfo, int renderMode, int direction, CardActionMap cardActionMap)
+void BattlingCharacter::action(std::vector<std::vector<int>>& collision, int renderMode, int direction, CardActionMap cardActionMap)
 {
 
 
@@ -79,7 +79,7 @@ void BattlingCharacter::action(std::vector<std::vector<int>>& collision, WindowI
 		}
 		break;
 	case actionState::move:
-		updateMotion(windowInfo);
+		updateMotion();
 		
 		break;
 	default:
@@ -186,10 +186,10 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 	}
 }
 
-void BattlingCharacter::draw(sf::RenderWindow& window, const WindowInfo& windowInfo)
+void BattlingCharacter::draw(sf::RenderWindow& window)
 {
 	directionalArrow.position.x += windowInfo.backgroundTexturePosition.x;
 	directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
-	directionalArrow.draw(window,windowInfo);
-	GET_COMPONENT(Sprite,"Sprite")->draw(window, windowInfo);
+	directionalArrow.draw(window);
+	GET_COMPONENT(Sprite,"Sprite")->draw(window);
 }

@@ -33,4 +33,3 @@ public:
 
 	sf::Vector2f backgroundTexturePosition;
 };
-

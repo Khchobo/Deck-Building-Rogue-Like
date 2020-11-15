@@ -61,6 +61,7 @@ public:
 
 float frameTime;
 float runTime=0;
+WindowInfo windowInfo=WindowInfo();
 
 int main()
 {

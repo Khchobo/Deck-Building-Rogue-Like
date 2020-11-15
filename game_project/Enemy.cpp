@@ -2,7 +2,7 @@
 
 
 
-Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition,WindowInfo windowInfo,ImageManager& imageManager)
+Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager& imageManager)
 	: BattlingCharacter(type, identity, imageManager)
 {
 	//texture.loadFromFile("assets/basic_slime.png");
@@ -12,7 +12,7 @@ Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i til
 	movementTimeout = type->movementTimeoutChase;
 }
 
-void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardActionMap cardActionMap, std::vector<std::vector<int>> collisionMap)
+void Enemy::action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collisionMap)
 {
 	resetBehaviourTriggers();
 
@@ -32,7 +32,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 			//The opposite direction and equal magnitude of the vector between the current location and the action point it is fleeing from
 			AiTarget = chooseFleePoint(playerTilePos, collisionMap);
 			//update path immediately to prevent it continuing on the old path
-			updatePath(collisionMap, cardActionMap, windowInfo);
+			updatePath(collisionMap, cardActionMap);
 		}
 		break;	
 	case aiMoveState::flee:
@@ -49,7 +49,7 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 		pathUpdateTimeout--;
 		if (pathUpdateTimeout <= 0)
 		{
-			updatePath(collisionMap, cardActionMap, windowInfo);
+			updatePath(collisionMap, cardActionMap);
 		}
 		
 
@@ -97,14 +97,14 @@ void Enemy::action(sf::Vector2i playerTilePos, WindowInfo windowInfo, CardAction
 
 		}
 	}
-	BattlingCharacter::action(collisionMap,windowInfo, 1, direction, cardActionMap);
+	BattlingCharacter::action(collisionMap, 1, direction, cardActionMap);
 }
 
 
 //TODO Much of this code is reused from the example on the git page for the pathfinder library but I seriously need
 //to reduce the nesting levels for readability
 //I'm pretty sure windowInfo isn't doing anything here and can be removed from arguments
-AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, WindowInfo windowInfo, std::vector<std::vector<int>> walkableTiles)
+AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles)
 {
 
 	AStar::Generator generator;
@@ -173,7 +173,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 			break;
 		}
 
-		std::vector<sf::Vector2i> path = lineOfSight(currentTilePos.x, currentTilePos.y, round(workingLocation.x), round(workingLocation.y));
+		std::vector<sf::Vector2i> path = lineOfSight(currentTilePos.x, currentTilePos.y, (int)round(workingLocation.x), (int)round(workingLocation.y));
 
 		for (sf::Vector2i point : path)
 		{
@@ -194,7 +194,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 	return sf::Vector2i(round(workingLocation.x),round(workingLocation.y));
 }
 
-void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap, WindowInfo windowInfo)
+void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap)
 {
 	for (unsigned int i = 0; i < collisionMap.size(); i++)
 	{
@@ -217,5 +217,5 @@ void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap
 	}
 
 	pathUpdateTimeout = pathUpdateTimeoutInterval;
-	currentPath = pathfindNextSpace(AiTarget.x, AiTarget.y, windowInfo, collisionMap);
+	currentPath = pathfindNextSpace(AiTarget.x, AiTarget.y, collisionMap);
 }

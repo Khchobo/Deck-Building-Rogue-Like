@@ -7,7 +7,7 @@ void TileMap::initialise()
 	vertexMap.resize(mapHeight*mapWidth * 4);
 }
 
-void TileMap::updateVertexMap(WindowInfo& windowInfo)
+void TileMap::updateVertexMap()
 {
 	for (unsigned int i = 0; i < mapHeight; i++)
 	{

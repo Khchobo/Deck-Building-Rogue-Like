@@ -1,14 +1,13 @@
+#pragma once
+
 #include <algorithm>
 #include "globalVariables.h"
 #include <vector>
 #include <string>
-#include "WindowInfo.h"
 #include <stdexcept>
 #include "json/json.h"
 #include <fstream>
-
-#ifndef STANDALONE_H
-#define STANDALONE_H
+#include "WindowInfo.h"
 
 namespace standaloneFunctions {
 
@@ -40,7 +39,7 @@ namespace standaloneFunctions {
 	*@param offset The offset from the alignment position, given in tiles
 	*@return The coordinate along the axis given in pixels
 	*/
-	float setPosition(Alignment alignment, Axis axis, float offset, WindowInfo windowInfo);
+	float setPosition(Alignment alignment, Axis axis, float offset);
 	/**
 	*Gives a position in the window in pixels based on an offset given in tiles from a
 	*particular side of the screen. This function will automatically handle fullscreen
@@ -53,10 +52,8 @@ namespace standaloneFunctions {
 	*@param offset The offset from the alignment position, given in tiles
 	*@return The coordinate along the axis given in pixels
 	*/
-	float setPosition(float alignment, Axis axis, float offset, WindowInfo windowInfo);
+	float setPosition(float alignment, Axis axis, float offset);
 
-	float setWindowSize(Axis axis, WindowInfo windowInfo);
+	float setWindowSize(Axis axis);
 
 }
-
-#endif

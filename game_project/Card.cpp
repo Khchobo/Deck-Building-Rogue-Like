@@ -60,15 +60,15 @@ Card::Card(BattlingCharacterType* type)
 			type->cardDistributions[cardType].persistenceDistribution.p);
 
 		//TODO may want to adjust these values or move them to data later
-		attackEmanationSpeed = (eminationBinom(gen) + type->cardDistributions[cardType].attackEmanationSpeedDistribution.shift) / 10.0;
-		persistence = (persistenceBinom(gen) + type->cardDistributions[cardType].persistenceDistribution.shift) / 60.0;
+		attackEmanationSpeed = (eminationBinom(gen) + type->cardDistributions[cardType].attackEmanationSpeedDistribution.shift) / 10.0f;
+		persistence = (persistenceBinom(gen) + type->cardDistributions[cardType].persistenceDistribution.shift) / 60.0f;
 
 		std::binomial_distribution<int> attackDamageBinom(type->cardDistributions[cardType].attackDamageDistribution.n,
 			type->cardDistributions[cardType].attackDamageDistribution.p);
 
 		attackDamage = attackDamageBinom(gen) + type->cardDistributions[cardType].attackDamageDistribution.shift;
 
-		cardPointCost = floor(((shapeCost + attackRadius * 7 + (attackEmanationSpeed * 3) + (persistence * 5)) / 1.5)*getRandomMutationModifier(type, cardType));
+		cardPointCost = (int)floor(((shapeCost + attackRadius * 7 + (attackEmanationSpeed * 3) + (persistence * 5)) / 1.5)*getRandomMutationModifier(type, cardType));
 
 	
 }
@@ -91,7 +91,7 @@ float Card::getRandomMutationModifier(BattlingCharacterType* type,std::string ca
 	int base =1000-type->cardDistributions[cardType].costMutationPlusMinus * 1000;
 	float max = type->cardDistributions[cardType].costMutationPlusMinus * 2000+ type->cardDistributions[cardType].costMutationWeight;
 	float rando = rand() % base + max;
-	return rando / 1000.0;
+	return rando / 1000.0f;
 }
 
 long int Card::uniqueIdTrack;

@@ -173,8 +173,8 @@ void BattlingCharacterType::loadCardDistributions(Json::Value data)
 		cardDistributions[itr.name()].attackDamageDistribution.p = itr->operator[]("attackDamageDistribution")["p"].asFloat();
 		cardDistributions[itr.name()].attackDamageDistribution.shift = itr->operator[]("attackDamageDistribution")["shift"].asInt();
 
-		cardDistributions[itr.name()].costMutationPlusMinus = itr->operator[]("costMutationDistribution")["plusMinus"].asFloat();
-		cardDistributions[itr.name()].costMutationWeight = itr->operator[]("costMutationDistribution")["weight"].asFloat();
+		cardDistributions[itr.name()].costMutationPlusMinus = itr->operator[]("costMutationDistribution")["plusMinus"].asInt();
+		cardDistributions[itr.name()].costMutationWeight = itr->operator[]("costMutationDistribution")["weight"].asInt();
 	}
 
 }

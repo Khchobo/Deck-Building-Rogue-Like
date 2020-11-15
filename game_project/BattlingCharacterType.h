@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -10,8 +11,6 @@
 #include <unordered_map>
 #include "TransitionMap.h"
 #include "Distributions.h"
-
-#include "standaloneFunctions.h"
 
 using namespace standaloneFunctions;
 
@@ -44,7 +43,7 @@ public:
 	CharType characterType;
 
 	//card information
-	int deckSize;
+	unsigned int deckSize;
 	int maxHandSize;
 	ExplicitDiscreteDist cardTypeDistribution;
 	std::unordered_map<std::string, CardDists> cardDistributions;

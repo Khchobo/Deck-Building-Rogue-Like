@@ -1,6 +1,5 @@
 #pragma once
 #include "PositionalEntity.h"
-#include "WindowInfo.h"
 
 class Sprite : public PositionalEntity
 {
@@ -14,7 +13,7 @@ public:
 	sf::Sprite sprite;
 	sf::Texture texture;
 
-	virtual void draw(sf::RenderWindow& window,const WindowInfo& windowInfo, CoordSpace coordSpace = localSpace, const PositionalEntity* parent=&PositionalEntity());
+	virtual void draw(sf::RenderWindow& window, CoordSpace coordSpace = localSpace, const PositionalEntity* parent=&PositionalEntity());
 
 	void initialise(const Entity* parent, sf::Vector2f offset = sf::Vector2f(0, 0));
 protected:

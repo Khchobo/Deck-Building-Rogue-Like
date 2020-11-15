@@ -1,3 +1,5 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <math.h>
@@ -50,7 +52,7 @@ public:
 
 	void testDrawPath(AStar::CoordinateList path);
 
-	void updateVertexMap(WindowInfo& windowInfo);
+	void updateVertexMap();
 
 private:
 

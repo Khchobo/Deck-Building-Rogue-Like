@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SFML/Graphics.hpp"
 #include <vector>
 #include <math.h>
@@ -12,8 +14,8 @@
 #include "entities\characters\player.h"
 #include "TileMap.h"
 #include "CardsInDeck.h"
-#include "WindowInfo.h"
 #include "cardActionMap.h"
+#include "globalVariables.h"
 #include "BattlingCharacterType.h"
 #include <filesystem>
 #include "Enemy.h"
@@ -27,12 +29,11 @@ public:
 	int mapWidth, mapHeight;
 
 	sf::RenderWindow window;
-	WindowInfo windowInfo;
 
 	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
 
 		imageManager(imageManager),
-		player(windowInfo, &battlingCharacterTypes["player"], "player", imageManager),
+		player(&battlingCharacterTypes["player"], "player", imageManager),
 		battlingCharacterTypes(battlingCharacterTypes),
 		gameData(gameData)
 	{
@@ -57,7 +58,7 @@ public:
 	
 		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13, 13), windowInfo,imageManager);
+			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13, 13),imageManager);
 			enemies.push_back(newEnemy);
 		}
 

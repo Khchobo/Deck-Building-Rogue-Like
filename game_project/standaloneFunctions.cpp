@@ -124,7 +124,7 @@ std::vector<sf::Vector2i> standaloneFunctions::lineOfSight(int x1, int y1, int x
 	return v;
 }
 
-float standaloneFunctions::setWindowSize(Axis axis, WindowInfo windowInfo)
+float standaloneFunctions::setWindowSize(Axis axis)
 {
 	switch (windowInfo.fullscreen)
 	{
@@ -160,10 +160,10 @@ float standaloneFunctions::setWindowSize(Axis axis, WindowInfo windowInfo)
 	}
 }
 
-float standaloneFunctions::setPosition(Alignment alignment, Axis axis, float offset, WindowInfo windowInfo)
+float standaloneFunctions::setPosition(Alignment alignment, Axis axis, float offset)
 {
 	float alignmentPosition;
-	float windowSize = setWindowSize(axis, windowInfo);
+	float windowSize = setWindowSize(axis);
 
 	switch (alignment)
 	{
@@ -192,10 +192,10 @@ float standaloneFunctions::setPosition(Alignment alignment, Axis axis, float off
 
 }
 
-float standaloneFunctions::setPosition(float alignment, Axis axis, float offset, WindowInfo windowInfo)
+float standaloneFunctions::setPosition(float alignment, Axis axis, float offset)
 {
 	float alignmentPosition = alignment;
-	float windowSize = setWindowSize(axis, windowInfo);
+	float windowSize = setWindowSize(axis);
 	return alignmentPosition + offset;
 
 }

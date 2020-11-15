@@ -52,17 +52,12 @@ void Game::initialiseBattleMode()
 	renderMode = 1;
 	windowInfo.UIWidth = 8;
 	windowInfo.UIHeight = 4;
-	player.cardsInDeck.resetDeck();
 	cardActionMap.reset();
-	player.cardsInHand.initialise(&player,windowInfo);
-
+	player.initialiseBattleMode();
 	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
 
 	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
-
-	player.cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 32.0f); 
-	player.healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
 }
 
 void Game::resize()
@@ -90,7 +85,7 @@ void Game::resize()
 	}
 
 	resizeActiveScene();
-	player.resize(windowInfo);
+	player.resize();
 	playerDistanceFromEdgeX = min(max(static_cast<float>(200), playerDistanceFromEdgeX), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
 	playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
 }
@@ -144,7 +139,7 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, windowInfo, renderMode, cardActionMap, imageManager);
+	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, renderMode, cardActionMap, imageManager);
 
 	cardActionMap.updateAllCardActions(frameTime);
 
@@ -154,7 +149,7 @@ void Game::action()
 	
 	for (auto& enemy : enemies)
 	{
-		enemy.action(player.currentTilePos, windowInfo, cardActionMap, collisionMap);
+		enemy.action(player.currentTilePos, cardActionMap, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
 			tileMap.testDrawPath(enemy.currentPath);
@@ -185,16 +180,16 @@ void Game::draw()
 
 	setBackgroundTexturePosition();
 
-	tileMap.updateVertexMap(windowInfo);
+	tileMap.updateVertexMap();
 	tileMap.setPosition(windowInfo.backgroundTexturePosition);
 	//draw the background
 	window.draw(tileMap);
 
-	player.draw(window, windowInfo);
+	player.draw(window);
 
 	for (auto& enemy : enemies)
 	{
-		enemy.draw(window, windowInfo);
+		enemy.draw(window);
 
 		//draw cards if in battle mode
 		if (renderMode == 1)
@@ -263,11 +258,6 @@ void Game::draw()
 
 			window.draw(cardPointsBar);
 			window.draw(healthBar);
-
-			player.cardPointsNumber.draw(window, windowInfo);
-			player.healthNumber.draw(window, windowInfo);
-
-			player.cardsInHand.draw(window, &player,windowInfo);
 
 		}
 

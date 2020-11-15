@@ -62,7 +62,7 @@ void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWi
 	window.draw(text);
 }
 
-void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowInfo)
+void CardsInHand::initialise(BattlingCharacter* parent)
 {
 	cardsInHand.clear();
 	if (parent->identity == "player")
@@ -75,9 +75,9 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 		//temporary values for x & y for readability
 
 		//offset from right of screen by half the width of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f), windowInfo);
+		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f));
 		//centred vertically
-		float initialY = setPosition(ALIGN::centre, Axis::y, 0, windowInfo);
+		float initialY = setPosition(ALIGN::centre, Axis::y, 0);
 
 		//HOTFIX Temp solution till I can think of something better
 		PositionalEntity* temp=&PositionalEntity();
@@ -86,9 +86,9 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 		deckSprite.initialise(temp, sf::Vector2f(initialX, initialY));
 
 		//one tile to the right from the edge of the UI box
-		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels, windowInfo);
+		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
 		//3 tiles lower than centre
-		initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels, windowInfo);
+		initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
 
 		text.setPosition(initialX, initialY);
 
@@ -102,33 +102,33 @@ void CardsInHand::initialise(BattlingCharacter* parent,const WindowInfo& windowI
 	selected = 0;
 
 }
-void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent,WindowInfo& windowInfo)
+void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 {
 
-	deckSprite.draw(window, windowInfo, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
+	deckSprite.draw(window, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		cardsInHand[i].draw(window, windowInfo, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
+		cardsInHand[i].draw(window, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
 		//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
 		
 	}
 	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
-	noOfCardsInHand.draw(window, windowInfo);
+	noOfCardsInHand.draw(window);
 }
 
 //move the deck sprite to its relative location if changing between fullscreen and windowed
-void CardsInHand::resize(WindowInfo windowInfo)
+void CardsInHand::resize()
 {
 
-	float tempX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels, windowInfo);
-	float tempY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels, windowInfo);
+	float tempX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
+	float tempY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
 
 	text.setPosition(tempX, tempY);
 
-	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f + 32.0f), windowInfo);
+	deckSprite.position.x = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f + 32.0f));
 
 	//centred as it is moved up by 48 i.e. half the length of the card
-	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48, windowInfo);
+	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48);
 
 	noOfCardsInHand.position = deckSprite.position;
 
@@ -152,7 +152,7 @@ void CardsInHand::resize(WindowInfo windowInfo)
 	}
 }
 
-int CardsInHand::action(BattlingCharacter* parent, WindowInfo windowInfo)
+int CardsInHand::action(BattlingCharacter* parent)
 {
 
 	//MOTION
@@ -246,7 +246,7 @@ int CardsInHand::action(BattlingCharacter* parent, WindowInfo windowInfo)
 	{
 		if (cardsInHand[i].inMotion==true)
 		{
-			cardsInHand[i].move(i, windowInfo);
+			cardsInHand[i].move(i);
 		}
 	}
 }

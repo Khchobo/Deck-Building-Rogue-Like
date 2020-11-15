@@ -1,10 +1,8 @@
+#pragma once
 #include <vector>
 #include <iostream>
 #include <iomanip>
 #include "Card.h"
-
-#ifndef CARDSINDECK_HEADER
-#define CARDSINDECK_HEADER
 
 class CardsInDeck
 {
@@ -16,7 +14,7 @@ public:
 	{
 
 		std::cout << std::setprecision(60);
-		for (unsigned int i=0;i<type->deckSize;i++)
+		for (unsigned int i = 0; i < type->deckSize; i++)
 		{
 
 			cardsInDeck.push_back(Card(type));
@@ -37,5 +35,3 @@ public:
 	//track the cards in the deck but not in the hand (to draw from)
 	std::vector<long double> cardsRemaining;
 };
-
-#endif

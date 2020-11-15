@@ -24,7 +24,7 @@ public:
 	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 
 	virtual void initialiseBattleMode();
-	void draw(sf::RenderWindow& window,  const WindowInfo& windowInfo);
+	virtual void draw(sf::RenderWindow& window);
 
 	//current tile alignment or tile alignment before current motion began
 	sf::Vector2i currentTilePos;
@@ -55,14 +55,14 @@ protected:
 	float distanceMovedX;
 	float distanceMovedY;
 
-	void updateMotion(WindowInfo windowInfo);
+	void updateMotion();
 
 	void updateDamageAndHealth(CardActionMap cardActionMap);
 
 	//TODO unsure what this is here for, may remove it later
 	virtual void checkForMotion();
 
-	void action(std::vector<std::vector<int>>& collision,WindowInfo windowInfo, int renderMode, int direction, CardActionMap cardActionMap);
+	void action(std::vector<std::vector<int>>& collision, int renderMode, int direction, CardActionMap cardActionMap);
 	//set all behaviour triggers to false each frame
 	void resetBehaviourTriggers();
 

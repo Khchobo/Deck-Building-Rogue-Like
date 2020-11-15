@@ -57,6 +57,6 @@ struct CardDists
 	ShiftedBinomialDist attackEmanationSpeedDistribution;
 	ShiftedBinomialDist persistenceDistribution;
 	ShiftedBinomialDist attackDamageDistribution;
-	float costMutationPlusMinus;
-	float costMutationWeight;
+	int costMutationPlusMinus;
+	int costMutationWeight;
 };

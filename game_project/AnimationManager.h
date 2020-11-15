@@ -2,7 +2,6 @@
 
 #include "TransitionMap.h"
 #include "StateAnimation.h"
-#include "BehaviourTrigger.h"
 #include "entities/other/Entity.h"
 #include "SquashAnimation.h"
 #include "BattlingCharacterType.h"

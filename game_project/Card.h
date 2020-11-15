@@ -1,5 +1,4 @@
-#ifndef CARD_HEADER
-#define CARD_HEADER
+#pragma once
 
 #include <vector>
 #include "BattlingCharacterType.h"
@@ -22,7 +21,7 @@ public:
 	float attackEmanationSpeed;
 	//How long the action points exist after being activated
 	float persistence;
-	float attackDamage;
+	int attackDamage;
 	int cardPointCost;
 	//Keeps track of the current most recently assigned ID
 	static long int uniqueIdTrack;
@@ -45,5 +44,3 @@ private:
 	void assignName();
 	float getRandomMutationModifier(BattlingCharacterType* type, std::string cardType);
 };
-
-#endif
