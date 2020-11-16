@@ -18,7 +18,12 @@ public:
 
 	CardsInHand(){}
 
-	CardsInHand(int x) : cardsInHand(x)
+	CardsInHand(int x, ImageManager* imageManager) : cardsInHand(x),
+		deckSprite(&PositionalEntity("DeckSprite",
+			sf::Vector2f(setPosition(Alignment::right, Axis::x, -(windowInfo.UIWidth/2.0f)*windowInfo.tileSizeInPixels),
+			setPosition(Alignment::centre, Axis::y, 0))
+			,imageManager),
+			imageManager,"card2")
 	{
 		selected = rand() % x;
 		cardsInHand[selected].movementLocation = 1;

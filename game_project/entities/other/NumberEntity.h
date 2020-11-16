@@ -7,7 +7,7 @@ public:
 	NumberEntity();
 	NumberEntity(sf::Vector2f incomingPosition, int initialValue);
 	void initialise(sf::Vector2f incomingPosition,int initialValue);
-	void draw(sf::RenderWindow& window, CoordSpace coordSpace = localSpace, const PositionalEntity* parent = &PositionalEntity()) override;
+	void draw(sf::RenderWindow& window, CoordSpace coordSpace = localSpace) override;
 
 	int value;
 private:

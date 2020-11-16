@@ -16,7 +16,7 @@ class BattlingCharacter : public PositionalEntity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager& imageManager);
+	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager);
 	
 	float cardPoints;
 	float health;

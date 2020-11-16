@@ -58,7 +58,7 @@ void Player::resize()
 }
 
 void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-	std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap, ImageManager& imageManager)
+	std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap)
 {
 	//TODO see if you can remove this line
 	type->identifier = "player";
@@ -99,15 +99,15 @@ void Player::initialiseBattleMode()
 {
 	cardsInDeck.resetDeck();
 	cardsInHand.initialise(this);
-	cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
-	healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 4.0f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
+	cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
+	healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
 	BattlingCharacter::initialiseBattleMode();
 }
 
 void Player::draw(sf::RenderWindow& window)
 {
-	cardPointsNumber.draw(window);
-	healthNumber.draw(window);
+	cardPointsNumber.draw(window, Sprite::viewportSpace);
+	healthNumber.draw(window, Sprite::viewportSpace);
 	cardsInHand.draw(window, this);
 	BattlingCharacter::draw(window);
 }

@@ -11,7 +11,9 @@ public:
 
 	PositionalEntity() : position(0, 0) {}
 	PositionalEntity(sf::Vector2f pos) : position(pos) {}
-	PositionalEntity(BattlingCharacterType* type, std::string identity, ImageManager& imageManager);
+	PositionalEntity(std::string identity, sf::Vector2f pos, ImageManager* imageManager);
+	PositionalEntity(std::string identity, ImageManager* imageManager);
+	PositionalEntity(BattlingCharacterType* type, std::string identity, ImageManager* imageManager);
 
 	void initialise();
 	sf::Vector2f position;

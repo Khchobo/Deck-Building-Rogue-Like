@@ -17,11 +17,11 @@ class Entity
 public:
 
 	Entity(){}
-	Entity(std::string identity,ImageManager& imageManager) : identity(identity), imageManager(&imageManager) {}
+	Entity(std::string identity, ImageManager* imageManager) : identity(identity), imageManager(imageManager) {}
 	virtual ~Entity() {};
 
-	std::string identity;
 	ImageManager* imageManager;
+	std::string identity;
 	std::vector<Entity*> components;
 
 	Entity* getComponent(std::string _identity);

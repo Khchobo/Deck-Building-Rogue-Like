@@ -23,14 +23,15 @@ public:
 	//the ID of the card in the deck
 	long double id;
 
-	CardSprite()
+	CardSprite() {}
+
+	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : Sprite(deckSprite, imageManager, "card2", 1)
 	{
-
-		movementLocation = 0;
-		inMotion = 0;
+		movementLocation = 2;
+		inMotion = 1;
+		position = dynamic_cast<PositionalEntity*>(deckSprite)->position;
+		previousPos = position;
 	}
-
-	void initialise(Entity* deckSprite, ImageManager& imageManager);
 
 	void move(int i);
 

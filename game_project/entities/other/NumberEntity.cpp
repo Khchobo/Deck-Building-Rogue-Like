@@ -20,7 +20,7 @@ void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 	position = incomingPosition;
 }
 
-void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace, const PositionalEntity* parent)
+void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace)
 {
 	int numberOfDigits = getNumberOfDigits(value);
 	std::vector<int> vectorOfDigits(numberOfDigits);

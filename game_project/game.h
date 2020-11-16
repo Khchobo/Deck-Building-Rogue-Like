@@ -30,19 +30,13 @@ public:
 
 	sf::RenderWindow window;
 
-	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager& imageManager) :
+	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager* imageManager) :
 
 		imageManager(imageManager),
 		player(&battlingCharacterTypes["player"], "player", imageManager),
 		battlingCharacterTypes(battlingCharacterTypes),
 		gameData(gameData)
 	{
-		/////////////
-		//LOAD DATA//
-		/////////////
-		
-		windowInfo.fullscreen = gameData["fullscreen"].asBool();
-
 		//////////////
 		//CREATE MAP//
 		//////////////
@@ -63,9 +57,6 @@ public:
 		}
 
 		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
-		
-		windowInfo.setWindowedWidth(windowedWidth);
-		windowInfo.setWindowedHeight(windowedHeight);
 
 		//create window of appropriate size depending on default fullscreen setting
 		switch (windowInfo.fullscreen) {
@@ -111,7 +102,7 @@ private:
 	void initialiseBattleMode();
 	void loadTestMap();
 
-	ImageManager imageManager;
+	ImageManager* imageManager;
 
 	std::vector<Enemy> enemies;
 

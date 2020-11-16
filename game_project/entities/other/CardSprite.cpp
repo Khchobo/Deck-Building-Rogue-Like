@@ -2,20 +2,8 @@
 #include <iostream>
 #include "globalVariables.h"
 
-void CardSprite::initialise(Entity* deckSprite,ImageManager& imageManager)
-{
-	sprite.setTexture(imageManager.getImage("card2.png"));
-	
-	movementLocation = 2;
-	inMotion = 1;
-	position = dynamic_cast<PositionalEntity*>(deckSprite)->position;
-	previousPos = position;
-}
-
 void CardSprite::move(int i)
 {
-	
-	
 		if (motionPercentage == 1)
 		{
 			motionPercentage = 0;
@@ -50,7 +38,11 @@ void CardSprite::move(int i)
 		else {
 			motionTime = 0.225f;
 		}
-		motionPercentage += frameTime / motionTime;
+
+		if (runTime != 0)
+		{
+			motionPercentage += frameTime / motionTime;
+		}
 
 		if (motionPercentage > 1)
 		{

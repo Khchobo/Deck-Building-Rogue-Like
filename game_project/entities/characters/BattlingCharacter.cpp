@@ -1,20 +1,14 @@
 #include "BattlingCharacter.h"
 #include "AnimationManager.h"
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager& imageManager)  : PositionalEntity(type, identity, imageManager),
-cardsInHand(1), cardsInDeck(type), type(type)
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager) : PositionalEntity(type, identity, imageManager),
+cardsInHand(1, imageManager), cardsInDeck(type), type(type), directionalArrow(&PositionalEntity("directionalArrow", imageManager), imageManager, "directionalArrow")
 {
 	//type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
 	health = type->maxHealth;
 
-	//HOTFIX
-	PositionalEntity* temp=new PositionalEntity();
-	temp->identity = "directionalArrow";
-	temp->imageManager = &imageManager;
-	directionalArrow.initialise(temp);
-	delete temp;
 	arrowDirectionUpdate();
 
 	AnimationManager* animationManager = new AnimationManager();
@@ -188,8 +182,8 @@ void BattlingCharacter::initiateNewMotion(unsigned int direction, std::vector<st
 
 void BattlingCharacter::draw(sf::RenderWindow& window)
 {
-	directionalArrow.position.x += windowInfo.backgroundTexturePosition.x;
-	directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
-	directionalArrow.draw(window);
-	GET_COMPONENT(Sprite,"Sprite")->draw(window);
+	//directionalArrow.position.x += windowInfo.backgroundTexturePosition.x;
+	//directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
+	directionalArrow.draw(window, Sprite::localSpace);
+	GET_COMPONENT(Sprite,"Sprite")->draw(window, Sprite::CoordSpace::localSpace);
 }

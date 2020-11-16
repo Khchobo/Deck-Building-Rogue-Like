@@ -23,14 +23,14 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(BattlingCharacterType* type, std::string _identity,ImageManager& imageManager) : BattlingCharacter(type, _identity, imageManager)
+	Player(BattlingCharacterType* type, std::string _identity,ImageManager* imageManager) : BattlingCharacter(type, _identity, imageManager)
 	{
 		currentTilePos = sf::Vector2i(2, 2);
 		position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels), static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
 	}
 
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-		std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap, ImageManager& imageManager);
+		std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap);
 
 	void initialiseBattleMode() override;
 

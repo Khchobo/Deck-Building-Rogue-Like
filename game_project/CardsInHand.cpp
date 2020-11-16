@@ -72,23 +72,10 @@ void CardsInHand::initialise(BattlingCharacter* parent)
 		text.setFont(font);
 		text.setCharacterSize(16);
 
-		//temporary values for x & y for readability
-
-		//offset from right of screen by half the width of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -((windowInfo.UIWidth*windowInfo.tileSizeInPixels) / 2.0f));
-		//centred vertically
-		float initialY = setPosition(ALIGN::centre, Axis::y, 0);
-
-		//HOTFIX Temp solution till I can think of something better
-		PositionalEntity* temp=&PositionalEntity();
-		temp->identity = "card2";
-		temp->imageManager = parent->imageManager;
-		deckSprite.initialise(temp, sf::Vector2f(initialX, initialY));
-
 		//one tile to the right from the edge of the UI box
-		initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
+		float initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
 		//3 tiles lower than centre
-		initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
+		float initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
 
 		text.setPosition(initialX, initialY);
 
@@ -104,11 +91,10 @@ void CardsInHand::initialise(BattlingCharacter* parent)
 }
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 {
-
-	deckSprite.draw(window, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
+	deckSprite.draw(window, Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		cardsInHand[i].draw(window, Sprite::CoordSpace::viewportSpace, dynamic_cast<const PositionalEntity*>(parent));
+		cardsInHand[i].draw(window, Sprite::CoordSpace::viewportSpace);
 		//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
 		
 	}
@@ -301,8 +287,7 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 	{
 		std::cout << "Drawing New Card" << std::endl;
 
-		CardSprite newCard;
-
+		CardSprite newCard(&static_cast<PositionalEntity>(deckSprite), parent->imageManager);
 		//choose a new card from the list of remaining cards
 
 		int rando = rand();
@@ -311,7 +296,6 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 		newCard.id = parent->cardsInDeck.cardsRemaining[index];
 		parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
 		noOfCardsInHand.value--;
-		newCard.initialise(&deckSprite, *parent->imageManager);
 		
 		if (parent->identity == "player")
 		{

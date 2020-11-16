@@ -71,9 +71,17 @@ int main()
 	
 	Json::Value gameData = standaloneFunctions::loadJsonFile("assets/data/gameData.json");
 
+	windowInfo.fullscreen = gameData["fullscreen"].asBool();
+
 	bool openInMapGenMode = gameData["openInMapGenMode"].asBool();
 	int windowedWidth = 35;
 	int windowedHeight = 28;
+
+	windowInfo.setWindowedWidth(windowedWidth);
+	windowInfo.setWindowedHeight(windowedHeight);
+
+	windowInfo.UIWidth = 8;
+	windowInfo.UIHeight = 4;
 
 	if (openInMapGenMode == 0)
 	{
@@ -91,7 +99,7 @@ int main()
 
 		}
 
-		Game game(windowedWidth, windowedHeight,battlingCharacterTypes,gameData, imageManager);
+		Game game(windowedWidth, windowedHeight,battlingCharacterTypes,gameData, &imageManager);
 
 		game.loop();
 	}

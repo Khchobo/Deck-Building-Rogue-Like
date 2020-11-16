@@ -1,19 +1,19 @@
 #include "Sprite.h"
 
-void Sprite::initialise(const Entity* parent, sf::Vector2f offset)
+void Sprite::initialise(PositionalEntity * _parent, std::string filename, int centering)
 {
-
-	//using identity to define filepath is temporary till i can move sprite definitions into data
-	sprite.setTexture(parent->imageManager->getImage(parent->identity+".png"));
-	identity = "Sprite";
-	textureSize = (parent->imageManager->getImage(parent->identity + ".png").getSize());
-	sprite.setOrigin(sf::Vector2f(parent->imageManager->getImage(parent->identity + ".png").getSize().x*static_cast<float>(0.5)
-		, parent->imageManager->getImage(parent->identity + ".png").getSize().y*static_cast<float>(0.5)));
-	position = offset;
-
+	parent = _parent;
+	sprite.setTexture(imageManager->getImage(filename + ".png"));
+	textureSize = (imageManager->getImage(filename + ".png").getSize());
+	if (centering == 0)
+	{
+		sprite.setOrigin(sf::Vector2f(imageManager->getImage(filename + ".png").getSize().x*static_cast<float>(0.5)
+			, imageManager->getImage(filename + ".png").getSize().y*static_cast<float>(0.5)));
+	}
+	position = parent->position;
 }
 
-void Sprite::draw(sf::RenderWindow& window, CoordSpace coordSpace, const PositionalEntity* parent)
+void Sprite::draw(sf::RenderWindow& window, CoordSpace coordSpace)
 {
 	sf::Vector2f offset;
 	switch (coordSpace)

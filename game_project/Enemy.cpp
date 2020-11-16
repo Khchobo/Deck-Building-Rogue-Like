@@ -2,7 +2,7 @@
 
 
 
-Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager& imageManager)
+Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager* imageManager)
 	: BattlingCharacter(type, identity, imageManager)
 {
 	//texture.loadFromFile("assets/basic_slime.png");
