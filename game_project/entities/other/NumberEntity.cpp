@@ -17,7 +17,7 @@ void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 	}
 
 	value = initialValue;
-	position = incomingPosition;
+	position = new sf::Vector2f(incomingPosition); //TODO delete
 }
 
 void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace)

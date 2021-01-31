@@ -16,7 +16,7 @@ class BattlingCharacter : public PositionalEntity
 {
 public:
 
-	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager);
+	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos);
 	
 	float cardPoints;
 	float health;
@@ -70,7 +70,7 @@ protected:
 	//card point cost to move 1 tile
 	float cardPointsStepCost;
 
-	Sprite directionalArrow;
+	PositionalEntity directionalArrow;
 	void arrowDirectionUpdate();
 
 	//for discrete motion, determines whether a motion animation is already occurring

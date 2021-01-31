@@ -51,8 +51,8 @@ void Player::checkInputs(std::map<int, bool> keyboardArray)
 
 void Player::resize()
 {
-	cardPointsNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 32));
-	healthNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 64));
+	*cardPointsNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 32));
+	*healthNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 64));
 
 	cardsInHand.resize();
 }
@@ -99,8 +99,8 @@ void Player::initialiseBattleMode()
 {
 	cardsInDeck.resetDeck();
 	cardsInHand.initialise(this);
-	cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
-	healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
+	*cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
+	*healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
 	BattlingCharacter::initialiseBattleMode();
 }
 

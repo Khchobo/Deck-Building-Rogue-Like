@@ -23,10 +23,8 @@ class Player : public BattlingCharacter
 {
 public:
 
-	Player(BattlingCharacterType* type, std::string _identity,ImageManager* imageManager) : BattlingCharacter(type, _identity, imageManager)
+	Player(BattlingCharacterType* type, std::string _identity,ImageManager* imageManager) : BattlingCharacter(type, _identity, imageManager, sf::Vector2f(2*windowInfo.tileSizeInPixels,2* windowInfo.tileSizeInPixels))
 	{
-		currentTilePos = sf::Vector2i(2, 2);
-		position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels), static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
 	}
 
 	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,

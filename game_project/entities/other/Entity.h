@@ -11,6 +11,7 @@
 
 #define GET_COMPONENT(cast,name) dynamic_cast<cast*>(getComponent(name))
 #define GET_PARENT_COMPONENT(cast,name) dynamic_cast<cast*>(parent->getComponent(name))
+#define GET_OBJECT_COMPONENT(cast, name, object) dynamic_cast<cast*>(object.getComponent(name))
 
 class Entity
 {

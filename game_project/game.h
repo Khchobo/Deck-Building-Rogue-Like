@@ -27,7 +27,7 @@ public:
 	sf::RenderStates renderState;
 	TileMap tileMap;
 	int mapWidth, mapHeight;
-
+	sf::Vector2f backgroundTexturePosition;
 	sf::RenderWindow window;
 
 	Game(int windowedWidth, int windowedHeight, std::map<std::string, BattlingCharacterType>& battlingCharacterTypes,Json::Value gameData,ImageManager* imageManager) :
@@ -56,7 +56,7 @@ public:
 			enemies.push_back(newEnemy);
 		}
 
-		fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
+		//fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 
 		//create window of appropriate size depending on default fullscreen setting
 		switch (windowInfo.fullscreen) {

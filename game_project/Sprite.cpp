@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-void Sprite::initialise(PositionalEntity * _parent, std::string filename, int centering)
+void Sprite::initialise(PositionalEntity * _parent, std::string filename, PositionalEntity* componentParent, int centering)
 {
 	parent = _parent;
 	sprite.setTexture(imageManager->getImage(filename + ".png"));
@@ -10,7 +10,14 @@ void Sprite::initialise(PositionalEntity * _parent, std::string filename, int ce
 		sprite.setOrigin(sf::Vector2f(imageManager->getImage(filename + ".png").getSize().x*static_cast<float>(0.5)
 			, imageManager->getImage(filename + ".png").getSize().y*static_cast<float>(0.5)));
 	}
-	position = parent->position;
+	if (componentParent != _parent)
+	{
+		position = &componentParent->position;
+	}
+	else
+	{
+		position = new sf::Vector2f(0, 0);
+	}
 }
 
 void Sprite::draw(sf::RenderWindow& window, CoordSpace coordSpace)
@@ -31,6 +38,6 @@ void Sprite::draw(sf::RenderWindow& window, CoordSpace coordSpace)
 		offset = sf::Vector2f(0, 0);
 		break;
 	}
-	sprite.setPosition(offset.x+position.x + textureSize.x / 2+ windowInfo.backgroundTexturePosition.x, offset.y+position.y + textureSize.y / 2+ windowInfo.backgroundTexturePosition.y);
+	sprite.setPosition(offset.x+position->x + textureSize.x / 2+ windowInfo.backgroundTexturePosition.x, offset.y+position->y + textureSize.y / 2+ windowInfo.backgroundTexturePosition.y);
 	window.draw(sprite);
 }

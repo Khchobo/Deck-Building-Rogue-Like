@@ -89,14 +89,14 @@ void CardsInHand::initialise(BattlingCharacter* parent)
 	selected = 0;
 
 }
+
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 {
-	deckSprite.draw(window, Sprite::CoordSpace::viewportSpace);
+	GET_OBJECT_COMPONENT(Sprite, "Sprite", deckSprite)->draw(window, Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		cardsInHand[i].draw(window, Sprite::CoordSpace::viewportSpace);
-		//std::cout << deckSprite.xPos << " " << deckSprite.yPos << std::endl;
-		
+		GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->position = &cardsInHand[i].position; //this should really happen in the constructor but for some reason the pointer becomes invalid
+		GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->draw(window, Sprite::CoordSpace::viewportSpace);	
 	}
 	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
 	noOfCardsInHand.draw(window);
@@ -116,7 +116,7 @@ void CardsInHand::resize()
 	//centred as it is moved up by 48 i.e. half the length of the card
 	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48);
 
-	noOfCardsInHand.position = deckSprite.position;
+	*noOfCardsInHand.position = deckSprite.position;
 
 	if (windowInfo.fullscreen == 1)
 	{
@@ -287,7 +287,7 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 	{
 		std::cout << "Drawing New Card" << std::endl;
 
-		CardSprite newCard(&static_cast<PositionalEntity>(deckSprite), parent->imageManager);
+		CardSprite newCard = CardSprite(&static_cast<PositionalEntity>(deckSprite), parent->imageManager);
 		//choose a new card from the list of remaining cards
 
 		int rando = rand();
@@ -299,7 +299,7 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 		
 		if (parent->identity == "player")
 		{
-			cardsInHand.push_back(newCard);
+			cardsInHand.push_back(std::move(newCard));
 
 
 			//for some reason this breaks the textures so we now have to reload them

@@ -4,7 +4,7 @@
 #include "Sprite.h"
 #include "standaloneFunctions.h"
 
-class CardSprite : public Sprite
+class CardSprite : public PositionalEntity
 {
 public:
 
@@ -25,11 +25,10 @@ public:
 
 	CardSprite() {}
 
-	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : Sprite(deckSprite, imageManager, "card2", 1)
+	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", this, 1)
 	{
 		movementLocation = 2;
 		inMotion = 1;
-		position = dynamic_cast<PositionalEntity*>(deckSprite)->position;
 		previousPos = position;
 	}
 
