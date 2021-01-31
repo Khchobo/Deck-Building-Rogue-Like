@@ -53,8 +53,16 @@ void Game::initialiseBattleMode()
 	windowInfo.UIWidth = 8;
 	windowInfo.UIHeight = 4;
 	cardActionMap.reset();
-	windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
-	windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
+	if (windowInfo.fullscreen)
+	{
+		windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
+		windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
+	}
+	else
+	{
+		windowInfo.setactiveSceneWidth(windowInfo.windowedWidthPixels / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
+		windowInfo.setactiveSceneHeight(windowInfo.windowedHeightPixels / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
+	}
 	player.initialiseBattleMode();
 	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
 }

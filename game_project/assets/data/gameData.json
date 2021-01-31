@@ -4,6 +4,6 @@
      "testEnemy":  true,
     "loadTestMap": true
   },
-  "fullscreen": true,
+  "fullscreen": false,
   "openInMapGenMode" :  false
 }
