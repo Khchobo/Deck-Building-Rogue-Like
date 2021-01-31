@@ -79,11 +79,7 @@ void Player::action(std::map<int, bool> keyboardArray, std::vector<std::vector<i
 		{
 			cardActionMap.newAction(cardsInDeck.cardsInDeck[deckIndex], direction, currentTilePos,CharType::player, collision);
 		}
-
-
-
 	}
-
 }
 
 void Player::initialiseBattleMode()

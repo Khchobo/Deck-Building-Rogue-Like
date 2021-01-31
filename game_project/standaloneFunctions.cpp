@@ -36,14 +36,15 @@ std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x
 {
 	std::vector<sf::Vector2u> v;
 
-	unsigned int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
+	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 	dx = x2 - x1;
 	dy = y2 - y1;
-	dx1 = (unsigned int)fabs(dx);
-	dy1 = (unsigned int)fabs(dy);
+	dx1 = fabs(dx);
+	dy1 = fabs(dy);
 	px = 2 * dy1 - dx1;
 	py = 2 * dx1 - dy1;
-	sf::Vector2u point;
+
+
 	if (dy1 <= dx1)
 	{
 		if (dx >= 0)
@@ -58,7 +59,7 @@ std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x
 			y = y2;
 			xe = x1;
 		}
-		point.x = x; point.y = y; v.push_back(point);
+		v.push_back(sf::Vector2u(x, y));
 		for (i = 0; x < xe; i++)
 		{
 			x = x + 1;
@@ -78,8 +79,7 @@ std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x
 				}
 				px = px + 2 * (dy1 - dx1);
 			}
-
-			point.x = x; point.y = y; v.push_back(point);
+			v.push_back(sf::Vector2u(x, y));
 		}
 	}
 	else
@@ -96,7 +96,7 @@ std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x
 			y = y2;
 			ye = y1;
 		}
-		point.x = x; point.y = y; v.push_back(point);
+		v.push_back(sf::Vector2u(x, y));
 		for (i = 0; y < ye; i++)
 		{
 			y = y + 1;
@@ -116,8 +116,7 @@ std::vector<sf::Vector2u> standaloneFunctions::lineOfSight(int x1, int y1, int x
 				}
 				py = py + 2 * (dx1 - dy1);
 			}
-
-			point.x = x; point.y = y; v.push_back(point);
+			v.push_back(sf::Vector2u(x, y));
 		}
 	}
 

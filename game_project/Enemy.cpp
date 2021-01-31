@@ -166,7 +166,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 	bool flag = true;
 	while (flag)
 	{
-		sf::Vector2i tempLocation = sf::Vector2i((int)(workingLocation.x + normalisedVector.x),(int)(workingLocation.y + normalisedVector.y));
+		sf::Vector2i tempLocation = sf::Vector2i((int)(workingLocation.x + max(1,normalisedVector.x)),(int)(workingLocation.y + max(1, normalisedVector.y)));
 
 		if (collisionMap[tempLocation.y][tempLocation.x] == 1)
 		{
@@ -182,7 +182,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 				flag = false;
 				break;
 			}
-			std::cout << (collisionMap[point.y][point.x] == 1) << std::endl;
+			//std::cout << (collisionMap[point.y][point.x] == 1) << std::endl;
 			if (collisionMap[point.y][point.x] == 1)
 			{
 				flag = false;

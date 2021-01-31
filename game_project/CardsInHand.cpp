@@ -185,7 +185,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 				}
 				else { return 0; }
 
-				parent->behaviourTriggers[useCardSuccess];
+				parent->behaviourTriggers[useCardSuccess] = true;
 
 				for (unsigned int i = selected+2; i < cardsInHand.size(); i++)
 				{
