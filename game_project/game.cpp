@@ -53,47 +53,20 @@ void Game::initialiseBattleMode()
 	windowInfo.UIWidth = 8;
 	windowInfo.UIHeight = 4;
 	cardActionMap.reset();
-	if (windowInfo.fullscreen)
-	{
-		windowInfo.setactiveSceneWidth(sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
-		windowInfo.setactiveSceneHeight(sf::VideoMode::getDesktopMode().height / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
-	}
-	else
-	{
-		windowInfo.setactiveSceneWidth(windowInfo.windowedWidthPixels / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
-		windowInfo.setactiveSceneHeight(windowInfo.windowedHeightPixels / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
-	}
+	windowInfo.setactiveSceneWidth(windowInfo.getWindowWidth() / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
+	windowInfo.setactiveSceneHeight(windowInfo.getWindowHeight() / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
 	player.initialiseBattleMode();
-	std::cout << sf::VideoMode::getDesktopMode().width / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth << std::endl;
 }
 
 void Game::resize()
 {
-
-	if (windowInfo.fullscreen == 0)
-	{
-
-		window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFMLtest", sf::Style::Fullscreen);
-
-		window.setVerticalSyncEnabled(true);
-		windowInfo.fullscreen = 1;
-	}
-	else
-	{
-		
-		window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels),
-						"SFMLtest", sf::Style::Default);
-
-		//window.setFramerateLimit(60);
-		window.setVerticalSyncEnabled(true);
-		windowInfo.fullscreen = 0;
-
-	}
-
+	windowInfo.fullscreen += 1;
+	windowInfo.fullscreen %= 2;
+	
 	resizeActiveScene();
 	player.resize();
-	playerDistanceFromEdgeX = min(max(static_cast<float>(200), playerDistanceFromEdgeX), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
-	playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
+
+	window.create(sf::VideoMode(windowInfo.getWindowWidth(), windowInfo.getWindowHeight()), "Game", windowInfo.fullscreen == 1 ? sf::Style::Fullscreen : sf::Style::Default);
 }
 
 void Game::resizeActiveScene()
@@ -145,7 +118,7 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, playerDistanceFromEdgeX, playerDistanceFromEdgeY, collisionMap, renderMode, cardActionMap);
+	player.action(keyboardArray, collisionMap, renderMode, cardActionMap);
 
 	cardActionMap.updateAllCardActions(frameTime);
 

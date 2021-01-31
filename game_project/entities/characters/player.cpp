@@ -57,8 +57,7 @@ void Player::resize()
 	cardsInHand.resize();
 }
 
-void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-	std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap)
+void Player::action(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap)
 {
 	//TODO see if you can remove this line
 	type->identifier = "player";
@@ -67,14 +66,6 @@ void Player::action(std::map<int, bool> keyboardArray, float& playerDistanceFrom
 	checkInputs(keyboardArray);
 	BattlingCharacter::action(collision, renderMode, direction, cardActionMap);
 	
-
-	if (inMotion == 1)
-	{
-		//ensures the player stays bounded within the screen scroll static region
-		playerDistanceFromEdgeX = min(max(static_cast<float>(200), playerDistanceFromEdgeX + distanceMovedX), static_cast<float>((windowInfo.activeSceneWidthPixels - windowInfo.tileSizeInPixels) - 200));
-		playerDistanceFromEdgeY = min(max(static_cast<float>(200), playerDistanceFromEdgeY + distanceMovedY), static_cast<float>((windowInfo.activeSceneHeightPixels - windowInfo.tileSizeInPixels) - 200));
-	}
-
 	//CARDS
 
 	if (renderMode == 1)

@@ -27,8 +27,7 @@ public:
 	{
 	}
 
-	void action(std::map<int, bool> keyboardArray, float& playerDistanceFromEdgeX, float& playerDistanceFromEdgeY,
-		std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap);
+	void action(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap);
 
 	void initialiseBattleMode() override;
 

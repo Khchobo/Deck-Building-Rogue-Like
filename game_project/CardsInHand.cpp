@@ -118,23 +118,10 @@ void CardsInHand::resize()
 
 	*noOfCardsInHand.position = deckSprite.position;
 
-	if (windowInfo.fullscreen == 1)
+	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		for (unsigned int i = 0; i < cardsInHand.size(); i++)
-		{
-			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-			cardsInHand[i].position.y = cardsInHand[i].position.y + (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-		}
-	}
-	else
-	{
-
-		for (unsigned int i = 0; i < cardsInHand.size(); i++)
-		{
-			cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-			cardsInHand[i].position.y = cardsInHand[i].position.y - (sf::VideoMode::getDesktopMode().height - windowInfo.windowedHeightPixels);
-		}
-
+		cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
+		cardsInHand[i].position.y = cardsInHand[i].position.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
 	}
 }
 

@@ -59,15 +59,9 @@ public:
 		//fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);
 
 		//create window of appropriate size depending on default fullscreen setting
-		switch (windowInfo.fullscreen) {
-		case(0):
-			window.create(sf::VideoMode(windowInfo.windowedWidthPixels, windowInfo.windowedHeightPixels), "Game", sf::Style::Default);
-			break;
-		case(1):
-			window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "Game", sf::Style::Fullscreen);
-			break;
-		}
+		window.create(sf::VideoMode(windowInfo.getWindowWidth(), windowInfo.getWindowHeight()), "Game", windowInfo.fullscreen==1 ? sf::Style::Fullscreen : sf::Style::Default);
 
+		//TODO
 		//window.setFramerateLimit(30);
 		window.setVerticalSyncEnabled(true);
 	}
@@ -83,15 +77,10 @@ private:
 	sf::Shader fixedColourShader;
 	Player player;
 	Json::Value gameData;
-	
 
 	//Determines which mode we are in. 0 is overworld movement, 1 is card fight.
 	int renderMode;
 	int renderModeTimeout = 0;
-
-	//default minimum distance between the player and edge of the screen
-	//todo fix bug where it doesnt adjest with gui and fullscreen
-	float playerDistanceFromEdgeX = 200, playerDistanceFromEdgeY = 200;
 
 	void setBackgroundTexturePosition();
 	void draw();	
