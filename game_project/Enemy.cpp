@@ -89,7 +89,7 @@ void Enemy::action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std:
 			switch (aiMoveState)
 			{
 			case aiMoveState::chase:
-				movementTimeout = type->movementTimeoutChase;
+				movementTimeout = type->movementTimeoutChase+ -0.3 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (0.3+0.3)));
 				break;
 			case aiMoveState::flee:
 				movementTimeout = type->movementTimeoutFlee;
@@ -166,7 +166,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 	bool flag = true;
 	while (flag)
 	{
-		sf::Vector2i tempLocation = sf::Vector2i((int)(workingLocation.x + max(1,normalisedVector.x)),(int)(workingLocation.y + max(1, normalisedVector.y)));
+		sf::Vector2i tempLocation = sf::Vector2i((int)(workingLocation.x + ceil(normalisedVector.x)),(int)(workingLocation.y + ceil(normalisedVector.y)));
 
 		if (collisionMap[tempLocation.y][tempLocation.x] == 1)
 		{
@@ -216,6 +216,6 @@ void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap
 		}
 	}
 
-	pathUpdateTimeout = pathUpdateTimeoutInterval;
+	pathUpdateTimeout = pathUpdateTimeoutInterval + -5 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (10)));;
 	currentPath = pathfindNextSpace(AiTarget.x, AiTarget.y, collisionMap);
 }

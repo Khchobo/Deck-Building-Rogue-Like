@@ -52,8 +52,11 @@ public:
 	
 		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13, 13),imageManager);
-			enemies.push_back(newEnemy);
+			for (int i = 0; i < 5; i++)
+			{
+				Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13+i, 13+i), imageManager);
+				enemies.push_back(newEnemy);
+			}
 		}
 
 		//fixedColourShader.loadFromFile("assets/fixedColourShader.frag", sf::Shader::Fragment);

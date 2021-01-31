@@ -33,7 +33,7 @@ public:
 private:
 	float movementTimeout;
 	aiMoveState aiMoveState= aiMoveState::chase;
-	int const pathUpdateTimeoutInterval = 10; //how many frames the path is updated
+	int const pathUpdateTimeoutInterval = 30; //how many frames the path is updated
 	int pathUpdateTimeout; // the actual coundown from pathUpdateTimeoutInterval
 	AStar::CoordinateList pathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles);
 	LocationWithDistance closestPlayerActionPointInRange(CardActionMap cardActionMap);
