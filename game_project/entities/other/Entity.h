@@ -19,7 +19,7 @@ public:
 
 	Entity(){}
 	Entity(std::string identity, ImageManager* imageManager) : identity(identity), imageManager(imageManager) {}
-	virtual ~Entity() {};
+	virtual ~Entity();
 
 	ImageManager* imageManager;
 	std::string identity;
