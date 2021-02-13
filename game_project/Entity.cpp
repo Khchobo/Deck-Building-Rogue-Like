@@ -1,16 +1,8 @@
 #include "entities/other/Entity.h"
 
-Entity::~Entity()
+std::shared_ptr<Entity> Entity::getComponent(std::string _identity)
 {
-	for (Entity* component : components)
-	{
-		delete component;
-	}
-}
-
-Entity* Entity::getComponent(std::string _identity)
-{
-	std::vector<Entity*>::iterator find = std::find_if(components.begin(), components.end(), [&_identity](Entity* component) {return component->identity == _identity; });
+	std::vector<std::shared_ptr<Entity>>::iterator find = std::find_if(components.begin(), components.end(), [&_identity](std::shared_ptr<Entity> component) {return component->identity == _identity; });
 	if (find != components.end())
 	{
 		return *find;

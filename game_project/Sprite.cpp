@@ -12,11 +12,11 @@ void Sprite::initialise(PositionalEntity * _parent, std::string filename, Positi
 	}
 	if (componentParent != _parent)
 	{
-		position = &componentParent->position;
+		position = std::make_shared<sf::Vector2f>(componentParent->position);
 	}
 	else
 	{
-		position = new sf::Vector2f(0, 0);
+		position = std::make_shared<sf::Vector2f>(0, 0);
 	}
 }
 

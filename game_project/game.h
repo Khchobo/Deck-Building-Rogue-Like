@@ -52,10 +52,10 @@ public:
 	
 		if (gameData["debugSettings"]["testEnemy"].asBool())
 		{
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13+i, 13+i), imageManager);
-				enemies.push_back(newEnemy);
+				enemies.push_back((newEnemy));
 			}
 		}
 

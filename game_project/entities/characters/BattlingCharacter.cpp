@@ -12,7 +12,7 @@ cardsInHand(1, imageManager), cardsInDeck(type), type(type), directionalArrow("d
 
 	arrowDirectionUpdate();
 
-	AnimationManager* animationManager = new AnimationManager();
+	std::shared_ptr<AnimationManager> animationManager = std::make_shared<AnimationManager>();
 	animationManager->initalise(type);
 	components.emplace_back(std::move(animationManager));
 };

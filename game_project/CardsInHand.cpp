@@ -95,7 +95,7 @@ void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 	GET_OBJECT_COMPONENT(Sprite, "Sprite", deckSprite)->draw(window, Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->position = &cardsInHand[i].position; //this should really happen in the constructor but for some reason the pointer becomes invalid
+		*GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->position = cardsInHand[i].position; //this should really happen in the constructor but for some reason the pointer becomes invalid
 		GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->draw(window, Sprite::CoordSpace::viewportSpace);	
 	}
 	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);

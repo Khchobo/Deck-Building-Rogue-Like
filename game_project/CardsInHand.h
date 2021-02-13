@@ -22,7 +22,7 @@ public:
 		deckSprite("DeckSprite",
 			sf::Vector2f(setPosition(Alignment::right, Axis::x, -(windowInfo.UIWidth/2.0f)*windowInfo.tileSizeInPixels),
 			setPosition(Alignment::centre, Axis::y, 0))
-			,imageManager, "card2", new PositionalEntity())
+			,imageManager, "card2", nullptr)
 	{
 		selected = rand() % x;
 		cardsInHand[selected].movementLocation = 1;

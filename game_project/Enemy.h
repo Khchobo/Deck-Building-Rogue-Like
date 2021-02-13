@@ -25,7 +25,6 @@ struct LocationWithDistance
 class Enemy : public BattlingCharacter
 {
 public:
-
 	Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager* imageManager);
 
 	void action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collision);

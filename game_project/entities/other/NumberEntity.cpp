@@ -13,11 +13,12 @@ void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		assert(digitTextures[i].loadFromFile("assets/numbers_" + std::to_string(i)+".png"));
+		bool ok = digitTextures[i].loadFromFile("assets/numbers_" + std::to_string(i) + ".png");
+		assert(ok);
 	}
 
 	value = initialValue;
-	position = new sf::Vector2f(incomingPosition); //TODO delete
+	position = std::make_shared<sf::Vector2f>(incomingPosition);
 }
 
 void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace)
