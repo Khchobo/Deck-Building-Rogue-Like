@@ -8,6 +8,8 @@ class CardSprite : public PositionalEntity
 {
 public:
 
+	enum CardLocationState { New, BecomingSelected, BecomingUnselected, Unselected, Selected, BelowUsedBecomingSelected, BelowUsedNotBecomingSelected };
+
 	//whether the card is currently undergoing an animation. 
 	//if so, the position variable tracks which direction
 	//it should be moving in
@@ -15,30 +17,31 @@ public:
 
 	float offset = 0;
 
-	//0 is not selected, 1 is selected. Only switches once the in motion
-	//variable is set to false, so for example if inMotion is true and 
-	//position is set to 0, we know the card is currently moving upwards
-	int movementLocation;
-
 	//the ID of the card in the deck
 	long double id;
 
 	CardSprite() {}
 
-	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", this, this, 1)
+	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager, Entity* parent) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", parent, parent, 1)
 	{
-		movementLocation = 2;
-		inMotion = 1;
-		previousPos = position;
+		SetState(CardLocationState::New);
 	}
 
-	void move(int i);
-
+	void UpdateCardMotion(int index);
+	void SetState(CardLocationState state);
+	CardLocationState GetState();
 
 	//the location before this motion was initiated
 	sf::Vector2f previousPos;
 
 private:
+
+
+
+	//0 is not selected, 1 is selected. Only switches once the in motion
+	//variable is set to false, so for example if inMotion is true and 
+	//position is set to 0, we know the card is currently moving upwards
+	CardLocationState locationState;
 
 	//how long tile motion takes for tile based motion
 	float motionTime;

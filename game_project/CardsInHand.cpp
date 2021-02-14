@@ -11,12 +11,31 @@ using namespace standaloneFunctions;
 
 #define ALIGN Alignment
 
-//print information about the card to console (its ID and name) DEBUG
-
-void CardsInHand::newMotion(int index)
+void CardsInHand::initialise(BattlingCharacter* parent)
 {
-	cardsInHand[index]->inMotion = true;
-	cardsInHand[index]->previousPos = cardsInHand[index]->position;
+	cardsInHand.clear();
+	if (parent->identity == "player")
+	{
+
+		font.loadFromFile("assets/minecraft.ttf");
+		text.setFont(font);
+		text.setCharacterSize(16);
+
+		//one tile to the right from the edge of the UI box
+		float initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
+		//3 tiles lower than centre
+		float initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
+
+		text.setPosition(initialX, initialY);
+
+		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x - 6, deckSprite.position.y - 9), parent->cardsInDeck.cardsRemaining.size());
+	}
+
+	for (int i = 0; i < parent->type->maxHandSize; i++)
+	{
+		drawCard(parent);
+	}
+	selected = 0;
 }
 
 //print card info to console
@@ -60,35 +79,6 @@ void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWi
 	}
 	
 	window.draw(text);
-}
-
-void CardsInHand::initialise(BattlingCharacter* parent)
-{
-	cardsInHand.clear();
-	if (parent->identity == "player")
-	{
-
-		font.loadFromFile("assets/minecraft.ttf");
-		text.setFont(font);
-		text.setCharacterSize(16);
-
-		//one tile to the right from the edge of the UI box
-		float initialX = setPosition(ALIGN::right, Axis::x, -(windowInfo.UIWidth - 1.0f)*windowInfo.tileSizeInPixels);
-		//3 tiles lower than centre
-		float initialY = setPosition(ALIGN::centre, Axis::y, 3.0f * windowInfo.tileSizeInPixels);
-
-		text.setPosition(initialX, initialY);
-
-		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x-6, deckSprite.position.y-9), parent->cardsInDeck.cardsRemaining.size());
-	}
-
-	for (int i = 0; i < parent->type->maxHandSize; i++)
-	{
-		drawCard(parent);
-	}
-	selected = 0;
-	cardsInHand[selected]->movementLocation = 1;
-	cardsInHand[selected]->offset = 1;
 }
 
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
@@ -189,27 +179,22 @@ int CardsInHand::action(BattlingCharacter* parent)
 
 				for (unsigned int i = selected+2; i < cardsInHand.size(); i++)
 				{
-
-					//todo turn movement location into enum
-					cardsInHand[i]->movementLocation = 3;
-					newMotion(i);
+					cardsInHand[i]->SetState(CardSprite::CardLocationState::BelowUsedNotBecomingSelected);
 				}
 
 				//selected the next card unless the last card is already selected in which case it selects the previous card
 				if (selected == cardsInHand.size() - 1)
 				{
-					newMotion(selected-1);
+					cardsInHand[selected - 1]->SetState(CardSprite::CardLocationState::BecomingSelected);
 					cardsInHand.erase(cardsInHand.begin() + selected);
 					selected--;
 				}
 				else
 				{
-					cardsInHand[selected + 1]->movementLocation = 4;
-					newMotion(selected + 1);
+					cardsInHand[selected + 1]->SetState(CardSprite::CardLocationState::BelowUsedBecomingSelected);
 					cardsInHand.erase(cardsInHand.begin() + selected);
 				}
 				
-				newMotion(selected);
 				return deckCardIndex;
 			}
 	}
@@ -219,7 +204,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 	{
 		if (cardsInHand[i]->inMotion==true)
 		{
-			cardsInHand[i]->move(i);
+			cardsInHand[i]->UpdateCardMotion(i);
 		}
 	}
 
@@ -229,16 +214,14 @@ int CardsInHand::action(BattlingCharacter* parent)
 void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<std::unique_ptr<CardSprite>>& cardsInHand,
 									std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck)
 {
-	//std::cout << selected;
 	if (identifier == "player")
 	{
-		newMotion(selected);
+		cardsInHand[selected]->SetState(CardSprite::CardLocationState::BecomingUnselected);
 	}
 	if (behaviourTriggers[selectCardLeft])
 	{
 		if (selected == 0)
 		{
-			
 			selected = cardsInHand.size() - 1;
 		}
 		else {
@@ -251,9 +234,13 @@ void CardsInHand::changeSelection(unsigned int& selected, std::string identifier
 	}
 	if (identifier == "player")
 	{
-		cardInfoPrint(cardsInDeck);
-		newMotion(selected);
+		cardsInHand[selected]->SetState(CardSprite::CardLocationState::BecomingSelected);
 	}
+}
+
+unsigned int CardsInHand::GetSelectedCard()
+{
+	return selected;
 }
 
 bool CardsInHand::anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& cardsInHand)
@@ -274,25 +261,16 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 	{
 		if (parent->identity == "player")
 		{
-			cardsInHand.push_back(std::make_unique<CardSprite>(&static_cast<PositionalEntity>(deckSprite), parent->imageManager));
+			cardsInHand.push_back(std::make_unique<CardSprite>(&static_cast<PositionalEntity>(deckSprite), parent->imageManager, this));
 
 			std::cout << "Drawing New Card" << std::endl;
 			//choose a new card from the list of remaining cards
 
 			int rando = rand();
-			//std::cout << cardsRemaining.size() << " " << rando << std::endl;
 			int index = rando % parent->cardsInDeck.cardsRemaining.size();
 			cardsInHand[cardsInHand.size()-1]->id = parent->cardsInDeck.cardsRemaining[index];
 			parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
 			noOfCardsInHand.value--;
-
-
-			//for some reason this breaks the textures so we now have to reload them
-			//for (int i = 0; i < cardsInHand.size(); i++)
-			//{
-				//texture.loadFromFile("assets/card2.png");
-			//	cardsInHand[i].sprite.setTexture(texture);
-			//}
 		}
 	}
 	else

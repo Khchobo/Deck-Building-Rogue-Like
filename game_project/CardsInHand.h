@@ -26,25 +26,16 @@ public:
 	{}
 
 	void initialise(BattlingCharacter* parent);
-
 	void draw(sf::RenderWindow &window, const Entity* parent);
-
 	void resize();
-
-	int action(BattlingCharacter* parent);
-
-	void drawCard(BattlingCharacter* parent);
-
-	void newMotion(int index);
-
+	int  action(BattlingCharacter* parent);
 	void cardInfoPrint(std::vector<Card>& cardsInDeck);
-
 	void cardInfoDraw(const std::vector<Card>& cardsInDeck, sf::RenderWindow& window);
-
-	bool anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& cardsInHand);
-
 	void changeSelection(unsigned int& selected, std::string identifier, std::vector<std::unique_ptr<CardSprite>>& cardsInHand,
 							std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck);
+	unsigned int GetSelectedCard();
+	bool anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& cardsInHand);
+	void drawCard(BattlingCharacter* parent);
 
 	std::vector<std::unique_ptr<CardSprite>> cardsInHand;
 

@@ -1,42 +1,40 @@
 #include "CardSprite.h"
 #include <iostream>
 #include "globalVariables.h"
+#include "CardsInHand.h"
 
-void CardSprite::move(int i)
+void CardSprite::UpdateCardMotion(int index)
 {
+		//state transitions upon completed movements
 		if (motionPercentage == 1)
 		{
 			motionPercentage = 0;
 			inMotion = 0;
 
-			if (movementLocation ==2 || movementLocation ==3)
+			if (locationState == CardLocationState::New || locationState ==CardLocationState::BecomingUnselected)
 			{
-				int formerPos = movementLocation;
-				movementLocation = 0;
-				if (i==0 && formerPos==2)
+				int formerPos = locationState;
+				locationState = CardLocationState::Unselected;
+
+				if (dynamic_cast<CardsInHand*>(parentObject)->GetSelectedCard() == index && formerPos== CardLocationState::New)
 				{
-					previousPos = position;
-					inMotion = 1;
+					SetState(CardLocationState::BecomingSelected);
 				}
 			}
-			else if (movementLocation == 4)
+			else if (locationState == CardLocationState::BelowUsedBecomingSelected)
 			{
-				movementLocation = 1;
+				locationState = CardLocationState::Selected;
 			}
-			else {
-				movementLocation = (movementLocation + 1) % 2;
+			else if (locationState == CardLocationState::BelowUsedNotBecomingSelected)
+			{
+				locationState = CardLocationState::Unselected;
+			}
+			else if (locationState == CardLocationState::BecomingSelected)
+			{
+				locationState == CardLocationState::Selected;
 			}
 
-			//std::cout << position;
 			return;
-		}
-
-		if (movementLocation == 2)
-		{
-			motionTime = 0.55f;
-		}
-		else {
-			motionTime = 0.225f;
 		}
 
 		if (runTime != 0)
@@ -44,27 +42,25 @@ void CardSprite::move(int i)
 			motionPercentage += frameTime / motionTime;
 		}
 
+		//prevents motions overshooting
 		if (motionPercentage > 1)
 		{
 			motionPercentage = 1;
 		}
-		//std::cout << motionPercentage << std::endl;
-		switch (movementLocation) {
-		case(0):
+
+		switch (locationState) {
+		case(CardLocationState::BecomingSelected):
 		{
-			
 			position.y = previousPos.y - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
-		case(1):
+		case(CardLocationState::BecomingUnselected):
 		{
 			position.y = previousPos.y + (standaloneFunctions::easeInOut(motionPercentage) * 32);
 			break;
 		}
-		case(2):
-		//test	
-			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*( (standaloneFunctions::easeInOut(motionPercentage))));
-			//std::cout << xPos<<std::endl;
+		case(CardLocationState::New):
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (index * 32)*( (standaloneFunctions::easeInOut(motionPercentage))));
 			if (windowInfo.fullscreen == 0) 
 			{ 
 				position.y = previousPos.y * (1- standaloneFunctions::easeInOut(motionPercentage)) + ((windowInfo.activeSceneHeightTiles + 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
@@ -72,15 +68,35 @@ void CardSprite::move(int i)
 			else { 
 				position.y = previousPos.y*(1- standaloneFunctions::easeInOut(motionPercentage)) + (sf::VideoMode::getDesktopMode().height - (windowInfo.UIHeight - 1) * 32)*(standaloneFunctions::easeInOut(motionPercentage));
 			}
-		case(3):
-			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
+		case(CardLocationState::BelowUsedNotBecomingSelected):
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (index * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
 			
 			break;
-		case(4):
-			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (i * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
+		case(CardLocationState::BelowUsedBecomingSelected):
+			position.x = (previousPos.x* (1 - standaloneFunctions::easeInOut(motionPercentage)) + (index * 32)*((standaloneFunctions::easeInOut(motionPercentage))));
 			position.y = previousPos.y - (standaloneFunctions::easeInOut(motionPercentage) * 32);
 		default:
 			break;
 		}
 
+}
+
+void CardSprite::SetState(CardLocationState state)
+{
+	locationState = state;
+	inMotion = true;
+	previousPos = position;
+	//movements from CardLocationState::New take longer
+	if (locationState == CardLocationState::New)
+	{
+		motionTime = 0.55f;
+	}
+	else {
+		motionTime = 0.225f;
+	}
+}
+
+CardSprite::CardLocationState CardSprite::GetState()
+{
+	return locationState;
 }
