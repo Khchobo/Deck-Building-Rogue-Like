@@ -27,18 +27,15 @@ public:
 	{
 	}
 
-	void action(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap);
-
-	void initialiseBattleMode() override;
-
-	void draw(sf::RenderWindow& window) override;
-
-	void checkInputs(std::map<int, bool> keyboardArray);
-
-	void resize();
+	void Update(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap);
+	void InitialiseBattleMode() override;
+	void DrawToScreen(sf::RenderWindow& window) override;
+	void Resize();
 
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
-	NumberEntity cardPointsNumber;
-	NumberEntity healthNumber;
+	NumberEntity m_cardPointsNumber;
+	NumberEntity m_healthNumber;
 
+private:
+	void CheckInputs(std::map<int, bool> keyboardArray);
 };

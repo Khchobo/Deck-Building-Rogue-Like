@@ -52,7 +52,7 @@ void Game::initialiseBattleMode()
 	cardActionMap.reset();
 	windowInfo.setactiveSceneWidth(windowInfo.getWindowWidth() / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIWidth);
 	windowInfo.setactiveSceneHeight(windowInfo.getWindowHeight() / (windowInfo.tileSize*windowInfo.pixelSize) - windowInfo.UIHeight);
-	player.initialiseBattleMode();
+	player.InitialiseBattleMode();
 }
 
 void Game::resize()
@@ -61,7 +61,7 @@ void Game::resize()
 	windowInfo.fullscreen %= 2;
 	
 	resizeActiveScene();
-	player.resize();
+	player.Resize();
 
 	window.create(sf::VideoMode(windowInfo.getWindowWidth(), windowInfo.getWindowHeight()), "Game", windowInfo.fullscreen == 1 ? sf::Style::Fullscreen : sf::Style::Default);
 }
@@ -115,7 +115,7 @@ void Game::action()
 	}
 
 	
-	player.action(keyboardArray, collisionMap, renderMode, cardActionMap);
+	player.Update(keyboardArray, collisionMap, renderMode, cardActionMap);
 
 	cardActionMap.updateAllCardActions(frameTime);
 
@@ -125,10 +125,10 @@ void Game::action()
 	
 	for (auto& enemy : enemies)
 	{
-		enemy->action(player.currentTilePos, cardActionMap, collisionMap);
+		enemy->Update(player.m_currentTilePos, cardActionMap, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
-			tileMap.testDrawPath(enemy->currentPath);
+			tileMap.testDrawPath(enemy->m_currentPath);
 		}
 	}
 
@@ -163,7 +163,7 @@ window.draw(tileMap);
 
 for (auto& enemy : enemies)
 {
-	enemy->draw(window);
+	enemy->DrawToScreen(window);
 }
 //draw cards if in battle mode
 if (renderMode == 1)
@@ -182,8 +182,8 @@ if (renderMode == 1)
 	sf::RectangleShape delineatingLineBottom(sf::Vector2f(static_cast<float>(windowInfo.activeSceneWidthPixels), 1.0f));
 	sf::RectangleShape delineatingLineRight(sf::Vector2f(1.0f, windowInfo.getWindowWidth()));
 
-	float cardPointsPercent = player.cardPoints / player.type->cardPointsMax;
-	float healthPointsPercent = player.health / player.type->maxHealth;
+	float cardPointsPercent = player.m_cardPoints / player.m_battlingCharacterType->cardPointsMax;
+	float healthPointsPercent = player.m_health / player.m_battlingCharacterType->maxHealth;
 
 	sf::RectangleShape cardPointsBar(sf::Vector2f(cardPointsPercent *6.0f* windowInfo.tileSizeInPixels, windowInfo.tileSizeInPixels / 2.0f));
 	cardPointsBar.setFillColor(sf::Color::White);
@@ -235,7 +235,7 @@ if (renderMode == 1)
 
 }
 
-player.draw(window);
+player.DrawToScreen(window);
 
 }
 
@@ -258,13 +258,13 @@ void Game::setBackgroundTexturePosition()
 	backgroundTexturePosition.x = max(-(mapWidth*windowInfo.tileSizeInPixels - windowInfo.activeSceneWidthPixels - desktopTileOffsetX), backgroundTexturePosition.x);
 
 	//y
-	if (backgroundTexturePosition.y + player.yPosNoOffset > windowInfo.activeSceneHeightPixels-200)
+	if (backgroundTexturePosition.y + player.m_yPosNoOffset > windowInfo.activeSceneHeightPixels-200)
 	{
-		backgroundTexturePosition.y = windowInfo.activeSceneHeightPixels - 200 - player.yPosNoOffset;
+		backgroundTexturePosition.y = windowInfo.activeSceneHeightPixels - 200 - player.m_yPosNoOffset;
 	}
-	if (backgroundTexturePosition.y + player.yPosNoOffset < 200)
+	if (backgroundTexturePosition.y + player.m_yPosNoOffset < 200)
 	{
-		backgroundTexturePosition.y = 200 - player.yPosNoOffset;
+		backgroundTexturePosition.y = 200 - player.m_yPosNoOffset;
 	}
 	backgroundTexturePosition.y = min(0, backgroundTexturePosition.y);
 	backgroundTexturePosition.y = max(-(mapHeight*windowInfo.tileSizeInPixels - windowInfo.activeSceneHeightPixels - desktopTileOffsetY), backgroundTexturePosition.y);
@@ -284,7 +284,7 @@ void Game::setBackgroundTexturePosition()
 
 void Game::initialise()
 	{
-		player.type->identifier = "player";
+		player.m_battlingCharacterType->identifier = "player";
 		tileMap.initialise();
 		initialiseBattleMode();
 	}

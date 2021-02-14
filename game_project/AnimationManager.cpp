@@ -2,7 +2,7 @@
 
 void AnimationManager::update(BattlingCharacter* parent)
 {
-	updateAnimations(parent->behaviourTriggers, parent->type, GET_PARENT_COMPONENT(Sprite,"Sprite"));
+	updateAnimations(parent->m_behaviourTriggers, parent->m_battlingCharacterType, GET_PARENT_COMPONENT(Sprite,"Sprite"));
 }
 
 void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, Sprite* sprite)
@@ -58,7 +58,7 @@ void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behavio
 		}
 
 		//update the animation
-		playingAnimations[i].animation->update(playingAnimations[i].timeActive, playingAnimations[i].keyframeLocation, sprite->sprite);
+		playingAnimations[i].animation->update(playingAnimations[i].timeActive, playingAnimations[i].keyframeLocation, sprite->m_sprite);
 
 	}
 

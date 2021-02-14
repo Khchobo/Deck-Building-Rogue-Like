@@ -18,25 +18,24 @@ public:
 
 	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos);
 	
-	float cardPoints;
-	float health;
-
-	void initiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
-
-	virtual void initialiseBattleMode();
-	virtual void draw(sf::RenderWindow& window);
+	void InitiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
+	virtual void InitialiseBattleMode();
+	virtual void DrawToScreen(sf::RenderWindow& window);
 
 	//current tile alignment or tile alignment before current motion began
-	sf::Vector2i currentTilePos;
+	sf::Vector2i m_currentTilePos;
 
-	CardsInHand cardsInHand;
-	CardsInDeck cardsInDeck;
+	CardsInHand m_cardsInHand;
+	CardsInDeck m_cardsInDeck;
 
-	BattlingCharacterType* type;
+	BattlingCharacterType* m_battlingCharacterType;
 	
-	float yPosNoOffset;
+	float m_yPosNoOffset;
 
-	std::map<BehaviourTrigger, bool> behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
+	float m_cardPoints;
+	float m_health;
+
+	std::map<BehaviourTrigger, bool> m_behaviourTriggers = { {useCard,false}, {drawCardFromDeck,false },
 														{initiateMotion, false}, {selectCardLeft, false},
 														{selectCardRight, false},{directionChange,false},
 														{destroySelf,false},{takeDamage,false},{endMotion,false},
@@ -44,39 +43,34 @@ public:
 
 protected:
 
-	actionState actionstate=actionState::idle;
-	iFrameState iFrameState = iFrameState::vunerable;
+	void UpdateMotion();
+	void UpdateDamageAndHealth(CardActionMap cardActionMap);
+	void Update(std::vector<std::vector<int>>& collision, int renderMode, int direction, CardActionMap cardActionMap);
+	//set all behaviour triggers to false each frame
+	void ResetBehaviourTriggers();
+	void ArrowDirectionUpdate();
+
+	actionState m_actionState = actionState::idle;
+	iFrameState m_iFrameState = iFrameState::vunerable;
 
 	//direction character is facing, 0 is up and then proceed counter clockwise
-	int direction;
-	float verticalHopOffset;
-	sf::Vector2i futureTilePos;
+	int m_direction;
+	float m_verticalHopOffset;
+	sf::Vector2i m_futureTilePos;
 	//Todo switch this to a sf::vector2f
-	float distanceMovedX;
-	float distanceMovedY;
-
-	void updateMotion();
-
-	void updateDamageAndHealth(CardActionMap cardActionMap);
-
-	//TODO unsure what this is here for, may remove it later
-	virtual void checkForMotion();
-
-	void action(std::vector<std::vector<int>>& collision, int renderMode, int direction, CardActionMap cardActionMap);
-	//set all behaviour triggers to false each frame
-	void resetBehaviourTriggers();
+	float m_distanceMovedX;
+	float m_distanceMovedY;
 
 	//TODO make data
-	//card point cost to move 1 tile
-	float cardPointsStepCost;
+//card point cost to move 1 tile
+	float m_cardPointsStepCost;
 
-	PositionalEntity directionalArrow;
-	void arrowDirectionUpdate();
+	PositionalEntity m_directionalArrow;
 
 	//for discrete motion, determines whether a motion animation is already occurring
-	bool inMotion = false;
+	bool m_bInMotion = false;
 	//how far the motion the character is, 0 in beginning and 1 is end.
-	float motionPercentage;
+	float m_motionPercentage;
 	
 
 };

@@ -27,7 +27,7 @@ public:
 
 	void initalise(BattlingCharacterType* type)
 	{
-		identity = "AnimationManager";
+		m_identity = "AnimationManager";
 		transitions = &type->animationTransitions;
 		playingAnimations[0] = PlayingAnimation("defaultSquash", type);
 	}

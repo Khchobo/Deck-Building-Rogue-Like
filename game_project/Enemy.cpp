@@ -5,106 +5,104 @@
 Enemy::Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager* imageManager)
 	: BattlingCharacter(type, identity, imageManager, sf::Vector2f(10*windowInfo.tileSizeInPixels, 10 * windowInfo.tileSizeInPixels)) //TODO temporary until we define the enemy position externally
 {
-	//texture.loadFromFile("assets/basic_slime.png");
-	currentTilePos = tilePosition;
-	position = sf::Vector2f(static_cast<float>(currentTilePos.x * windowInfo.tileSizeInPixels),static_cast<float>(currentTilePos.y * windowInfo.tileSizeInPixels));
-	pathUpdateTimeout = 0;
-	movementTimeout = type->movementTimeoutChase;
+	m_currentTilePos = tilePosition;
+	position = sf::Vector2f(static_cast<float>(m_currentTilePos.x * windowInfo.tileSizeInPixels),static_cast<float>(m_currentTilePos.y * windowInfo.tileSizeInPixels));
+
+	m_pathUpdateTimeout = 0;
+	m_movementTimeout = type->movementTimeoutChase;
 }
 
-void Enemy::action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collisionMap)
+void Enemy::Update(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collisionMap)
 {
-	resetBehaviourTriggers();
+	ResetBehaviourTriggers();
 
-
-	
-	switch (aiMoveState)
+	switch (m_aiMoveState)
 	{
-	case aiMoveState::chase:
+	case AiMoveState::chase:
 		//Check if any player active action points are in range
-		AiTarget = playerTilePos;
-		closest = closestPlayerActionPointInRange(cardActionMap);
-		if (closest.distance != INF)
+		m_aiTarget = playerTilePos;
+		m_fleePointLocation = ClosestPlayerActionPointInRange(cardActionMap);
+		if (m_fleePointLocation.distance != INF)
 		{
-			movementTimeout=0;
-			aiMoveState = aiMoveState::flee;
-			AiFleeCountdown = AiFleeTimeout;
+			m_movementTimeout=0;
+			m_aiMoveState = AiMoveState::flee;
+			m_aiFleeCountdown = m_aiFleeTimeout;
 			//The opposite direction and equal magnitude of the vector between the current location and the action point it is fleeing from
-			AiTarget = chooseFleePoint(playerTilePos, collisionMap);
+			m_aiTarget = ChooseFleePoint(playerTilePos, collisionMap);
 			//update path immediately to prevent it continuing on the old path
-			updatePath(collisionMap, cardActionMap);
+			UpdatePath(collisionMap, cardActionMap);
 		}
 		break;	
-	case aiMoveState::flee:
-		AiFleeCountdown -= frameTime;
-		if( AiFleeCountdown <= 0 && (closestPlayerActionPointInRange(cardActionMap).distance==INF))
+	case AiMoveState::flee:
+		m_aiFleeCountdown -= frameTime;
+		if( m_aiFleeCountdown <= 0 && (ClosestPlayerActionPointInRange(cardActionMap).distance==INF))
 		{
-			aiMoveState = aiMoveState::chase;
+			m_aiMoveState = AiMoveState::chase;
 		}
 		break;
 	}
 	
-	if (actionstate != actionState::death)
+	if (m_actionState != actionState::death)
 	{
-		pathUpdateTimeout--;
-		if (pathUpdateTimeout <= 0)
+		m_pathUpdateTimeout--;
+		if (m_pathUpdateTimeout <= 0)
 		{
-			updatePath(collisionMap, cardActionMap);
+			UpdatePath(collisionMap, cardActionMap);
 		}
 		
 
 		//Movement
-		movementTimeout -= frameTime;
-		if (movementTimeout <= 0)
+		m_movementTimeout -= frameTime;
+		if (m_movementTimeout <= 0)
 		{
-			behaviourTriggers[initiateMotion] = true;
+			m_behaviourTriggers[initiateMotion] = true;
 
-			for (unsigned int i = 1; i < currentPath.size(); i++)
+			for (unsigned int i = 1; i < m_currentPath.size(); i++)
 			{
-				if (currentTilePos.x > currentPath[1].x)
+				if (m_currentTilePos.x > m_currentPath[1].x)
 				{
-					if (direction != 1) behaviourTriggers[directionChange] = true;
-					direction = 1;
+					if (m_direction != 1) m_behaviourTriggers[directionChange] = true;
+					m_direction = 1;
 					break;
 				}
-				else if (currentTilePos.x < currentPath[1].x)
+				else if (m_currentTilePos.x < m_currentPath[1].x)
 				{
-					if (direction != 3) behaviourTriggers[directionChange] = true;
-					direction = 3;
+					if (m_direction != 3) m_behaviourTriggers[directionChange] = true;
+					m_direction = 3;
 					break;
 				}
-				else if (currentTilePos.y > currentPath[1].y)
+				else if (m_currentTilePos.y > m_currentPath[1].y)
 				{
-					if (direction != 0) behaviourTriggers[directionChange] = true;
-					direction = 0;
+					if (m_direction != 0) m_behaviourTriggers[directionChange] = true;
+					m_direction = 0;
 
 				}
-				else if (currentTilePos.y < currentPath[1].y)
+				else if (m_currentTilePos.y < m_currentPath[1].y)
 				{
-					if (direction != 2) behaviourTriggers[directionChange] = true;
-					direction = 2;
+					if (m_direction != 2) m_behaviourTriggers[directionChange] = true;
+					m_direction = 2;
 				}
 			}
 
-			switch (aiMoveState)
+			switch (m_aiMoveState)
 			{
-			case aiMoveState::chase:
-				movementTimeout = type->movementTimeoutChase+ -0.3 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (0.3+0.3)));
+			case AiMoveState::chase:
+				m_movementTimeout = m_battlingCharacterType->movementTimeoutChase+ -0.3 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (0.3+0.3)));
 				break;
-			case aiMoveState::flee:
-				movementTimeout = type->movementTimeoutFlee;
+			case AiMoveState::flee:
+				m_movementTimeout = m_battlingCharacterType->movementTimeoutFlee;
 			}
 
 		}
 	}
-	BattlingCharacter::action(collisionMap, 1, direction, cardActionMap);
+	BattlingCharacter::Update(collisionMap, 1, m_direction, cardActionMap);
 }
 
 
 //TODO Much of this code is reused from the example on the git page for the pathfinder library but I seriously need
 //to reduce the nesting levels for readability
 //I'm pretty sure windowInfo isn't doing anything here and can be removed from arguments
-AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles)
+AStar::CoordinateList Enemy::PathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles)
 {
 
 	AStar::Generator generator;
@@ -123,21 +121,21 @@ AStar::CoordinateList Enemy::pathfindNextSpace(int targetX, int targetY, std::ve
 			}
 		}
 	}
-	AStar::CoordinateList path = generator.findPath({ targetX, targetY }, { currentTilePos.x, currentTilePos.y });
+	AStar::CoordinateList path = generator.findPath({ targetX, targetY }, { m_currentTilePos.x, m_currentTilePos.y });
 	return path;
 }
 
 
-LocationWithDistance Enemy::closestPlayerActionPointInRange(CardActionMap cardActionMap)
+LocationWithDistance Enemy::ClosestPlayerActionPointInRange(CardActionMap cardActionMap)
 {
 	LocationWithDistance closest = LocationWithDistance();
 	for (CardAction cardAction: cardActionMap.cardActionMap)
 	{
 			if (cardAction.active) //TODO and player condition
 			{
-				LocationWithDistance candidate = LocationWithDistance(sf::Vector2i(cardAction.xPos, cardAction.yPos), currentTilePos);
+				LocationWithDistance candidate = LocationWithDistance(sf::Vector2i(cardAction.xPos, cardAction.yPos), m_currentTilePos);
 
-				if ((candidate.distance <= type->attackVisionRadius) && (candidate.distance <= closest.distance))
+				if ((candidate.distance <= m_battlingCharacterType->attackVisionRadius) && (candidate.distance <= closest.distance))
 				{
 					closest = candidate;
 				}
@@ -153,16 +151,16 @@ LocationWithDistance Enemy::closestPlayerActionPointInRange(CardActionMap cardAc
 //and rounding the result to the nearest grid cell
 //Later I should look for a better solution that this as it will lead to enemies getting stuck on corners and the like
 //Perhaps once it reaches that point it can move in any direction that moves it further from the player
-sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std::vector<int>>& collisionMap)
+sf::Vector2i Enemy::ChooseFleePoint(sf::Vector2i playerTilePos, std::vector<std::vector<int>>& collisionMap)
 {
-	sf::Vector2i directionVector = sf::Vector2i(currentTilePos.x - playerTilePos.x, currentTilePos.y - playerTilePos.y);
+	sf::Vector2i directionVector = sf::Vector2i(m_currentTilePos.x - playerTilePos.x, m_currentTilePos.y - playerTilePos.y);
 	std::cout << directionVector.x << " " << directionVector.y<<"  ";
 	float magnitude = sqrtf(powf(static_cast<float>(directionVector.x), 2) + powf(static_cast<float>(directionVector.y), 2));
 	//multiply the normalised vector as with a magnitude of one it is too small to produce accurate results when rounded
 	sf::Vector2f normalisedVector = sf::Vector2f((directionVector.x / magnitude), (directionVector.y / magnitude));
 	//the line of sight algorithm checks between the enemy location and the working location. start off at the enemy location
 	//and repeatedly step along the normalised vector.
-	sf::Vector2i workingLocation = sf::Vector2i(currentTilePos.x, currentTilePos.y);
+	sf::Vector2i workingLocation = sf::Vector2i(m_currentTilePos.x, m_currentTilePos.y);
 	bool flag = true;
 	while (flag)
 	{
@@ -173,7 +171,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 			break;
 		}
 
-		std::vector<sf::Vector2u> path = lineOfSight(currentTilePos.x, currentTilePos.y, (int)round(workingLocation.x), (int)round(workingLocation.y));
+		std::vector<sf::Vector2u> path = lineOfSight(m_currentTilePos.x, m_currentTilePos.y, (int)round(workingLocation.x), (int)round(workingLocation.y));
 
 		for (sf::Vector2u point : path)
 		{
@@ -194,7 +192,7 @@ sf::Vector2i Enemy::chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std:
 	return sf::Vector2i((int)round(workingLocation.x), (int)round(workingLocation.y));
 }
 
-void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap)
+void Enemy::UpdatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap)
 {
 	for (unsigned int i = 0; i < collisionMap.size(); i++)
 	{
@@ -216,6 +214,6 @@ void Enemy::updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap
 		}
 	}
 
-	pathUpdateTimeout = pathUpdateTimeoutInterval + -5 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (10)));;
-	currentPath = pathfindNextSpace(AiTarget.x, AiTarget.y, collisionMap);
+	m_pathUpdateTimeout = m_pathUpdateTimeoutInterval + -5 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (10)));;
+	m_currentPath = PathfindNextSpace(m_aiTarget.x, m_aiTarget.y, collisionMap);
 }

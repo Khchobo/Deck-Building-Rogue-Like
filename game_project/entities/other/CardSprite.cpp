@@ -16,7 +16,7 @@ void CardSprite::UpdateCardMotion(int index)
 				int formerPos = locationState;
 				locationState = CardLocationState::Unselected;
 
-				if (dynamic_cast<CardsInHand*>(parentObject)->GetSelectedCard() == index && formerPos== CardLocationState::New)
+				if (dynamic_cast<CardsInHand*>(m_pParentObject)->GetSelectedCard() == index && formerPos== CardLocationState::New)
 				{
 					SetState(CardLocationState::BecomingSelected);
 				}

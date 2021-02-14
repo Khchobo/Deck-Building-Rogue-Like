@@ -14,7 +14,7 @@ using namespace standaloneFunctions;
 void CardsInHand::initialise(BattlingCharacter* parent)
 {
 	cardsInHand.clear();
-	if (parent->identity == "player")
+	if (parent->m_identity == "player")
 	{
 
 		font.loadFromFile("assets/minecraft.ttf");
@@ -28,10 +28,10 @@ void CardsInHand::initialise(BattlingCharacter* parent)
 
 		text.setPosition(initialX, initialY);
 
-		noOfCardsInHand.initialise(sf::Vector2f(deckSprite.position.x - 6, deckSprite.position.y - 9), parent->cardsInDeck.cardsRemaining.size());
+		noOfCardsInHand.Initialise(sf::Vector2f(deckSprite.position.x - 6, deckSprite.position.y - 9), parent->m_cardsInDeck.cardsRemaining.size());
 	}
 
-	for (int i = 0; i < parent->type->maxHandSize; i++)
+	for (int i = 0; i < parent->m_battlingCharacterType->maxHandSize; i++)
 	{
 		drawCard(parent);
 	}
@@ -83,13 +83,13 @@ void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWi
 
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 {
-	GET_OBJECT_COMPONENT(Sprite, "Sprite", deckSprite)->draw(window, Sprite::CoordSpace::viewportSpace);
+	GET_OBJECT_COMPONENT(Sprite, "Sprite", deckSprite)->DrawToScreen(window, Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
- 		GET_OBJECT_POINTER_COMPONENT(Sprite, "Sprite", cardsInHand[i])->draw(window, Sprite::CoordSpace::viewportSpace);	
+ 		GET_OBJECT_POINTER_COMPONENT(Sprite, "Sprite", cardsInHand[i])->DrawToScreen(window, Sprite::CoordSpace::viewportSpace);	
 	}
-	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
-	noOfCardsInHand.draw(window);
+	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->m_cardsInDeck.cardsInDeck,window);
+	noOfCardsInHand.DrawToScreen(window);
 }
 
 //move the deck sprite to its relative location if changing between fullscreen and windowed
@@ -124,7 +124,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 
 		//DRAW NEW CARD
 
-		if (parent->behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
+		if (parent->m_behaviourTriggers[drawCardFromDeck] && drawCardCooldown>=15)
 		{
 			drawCardCooldown = 0;
 			drawCard(parent);
@@ -132,7 +132,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 		
 		bool inMotion=false;
 
-		if (parent->identity == "player")
+		if (parent->m_identity == "player")
 		{
 			inMotion = anyCardsInMotion(cardsInHand);
 		}
@@ -144,38 +144,38 @@ int CardsInHand::action(BattlingCharacter* parent)
 			//SELECTION 
 
 			//only allows selection moving if we have more than 1 card
-			if ((parent->behaviourTriggers[selectCardLeft] || parent->behaviourTriggers[selectCardRight]) && cardsInHand.size() > 1)
+			if ((parent->m_behaviourTriggers[selectCardLeft] || parent->m_behaviourTriggers[selectCardRight]) && cardsInHand.size() > 1)
 			{
-				changeSelection(selected, parent->identity, cardsInHand, parent->behaviourTriggers, parent->cardsInDeck.cardsInDeck);
+				changeSelection(selected, parent->m_identity, cardsInHand, parent->m_behaviourTriggers, parent->m_cardsInDeck.cardsInDeck);
 			}	
 
 			//USE CARD
 
 			//TODO ensure this can only happen when the player is stationary
 
-			else if (parent->behaviourTriggers[useCard] && cardsInHand.size() > 1)
+			else if (parent->m_behaviourTriggers[useCard] && cardsInHand.size() > 1)
 			{
 				int deckCardIndex;
 				long double cardSelected = cardsInHand[selected]->id;
 
 				//Firstly, find and save the index of the selected card in the deck
 
-				for (unsigned int i = 0; i < parent->cardsInDeck.cardsInDeck.size(); i++)
+				for (unsigned int i = 0; i < parent->m_cardsInDeck.cardsInDeck.size(); i++)
 				{
-					if (cardSelected == parent->cardsInDeck.cardsInDeck[i].id)
+					if (cardSelected == parent->m_cardsInDeck.cardsInDeck[i].id)
 					{
 						deckCardIndex = i;
 						break;
 					}
 				}
 
-				if (parent->cardPoints >= parent->cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost)
+				if (parent->m_cardPoints >= parent->m_cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost)
 				{
-					parent->cardPoints -= parent->cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost;
+					parent->m_cardPoints -= parent->m_cardsInDeck.cardsInDeck[deckCardIndex].cardPointCost;
 				}
 				else { return 0; }
 
-				parent->behaviourTriggers[useCardSuccess] = true;
+				parent->m_behaviourTriggers[useCardSuccess] = true;
 
 				for (unsigned int i = selected+2; i < cardsInHand.size(); i++)
 				{
@@ -257,20 +257,20 @@ bool CardsInHand::anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& car
 
 void CardsInHand::drawCard(BattlingCharacter* parent)
 {
-	if (parent->cardsInDeck.cardsRemaining.size()>0)
+	if (parent->m_cardsInDeck.cardsRemaining.size()>0)
 	{
-		if (parent->identity == "player")
+		if (parent->m_identity == "player")
 		{
-			cardsInHand.push_back(std::make_unique<CardSprite>(&static_cast<PositionalEntity>(deckSprite), parent->imageManager, this));
+			cardsInHand.push_back(std::make_unique<CardSprite>(&static_cast<PositionalEntity>(deckSprite), parent->m_pImageManager, this));
 
 			std::cout << "Drawing New Card" << std::endl;
 			//choose a new card from the list of remaining cards
 
 			int rando = rand();
-			int index = rando % parent->cardsInDeck.cardsRemaining.size();
-			cardsInHand[cardsInHand.size()-1]->id = parent->cardsInDeck.cardsRemaining[index];
-			parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
-			noOfCardsInHand.value--;
+			int index = rando % parent->m_cardsInDeck.cardsRemaining.size();
+			cardsInHand[cardsInHand.size()-1]->id = parent->m_cardsInDeck.cardsRemaining[index];
+			parent->m_cardsInDeck.cardsRemaining.erase(parent->m_cardsInDeck.cardsRemaining.begin() + index);
+			noOfCardsInHand.m_value--;
 		}
 	}
 	else

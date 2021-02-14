@@ -6,15 +6,17 @@ class NumberEntity :
 public:
 	NumberEntity();
 	NumberEntity(sf::Vector2f incomingPosition, int initialValue);
-	void initialise(sf::Vector2f incomingPosition,int initialValue);
-	void draw(sf::RenderWindow& window, CoordSpace coordSpace = localSpace) override;
 
-	int value;
+	void Initialise(sf::Vector2f incomingPosition,int initialValue);
+	void DrawToScreen(sf::RenderWindow& window, CoordSpace coordSpace = localSpace) override;
+
+	int m_value;
 private:
 
-	int getNumberOfDigits(int number);
-	void storeDigit(std::vector<int>& vectorOfDigits, int recursionDepth, int x);
-	std::vector<sf::Texture> digitTextures;
+	int GetNumberOfDigits(int number);
+	void StoreDigit(std::vector<int>& vectorOfDigits, int recursionDepth, int x);
+
+	std::vector<sf::Texture> m_digitTextures;
 	
 };
 

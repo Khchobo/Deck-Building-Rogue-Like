@@ -5,7 +5,7 @@
 
 const float INF = std::numeric_limits<float>::infinity();
 
-enum class aiMoveState{chase,flee};
+enum class AiMoveState{chase,flee};
 
 struct LocationWithDistance
 {
@@ -27,23 +27,29 @@ class Enemy : public BattlingCharacter
 public:
 	Enemy(BattlingCharacterType* type, std::string identity, sf::Vector2i tilePosition, ImageManager* imageManager);
 
-	void action(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collision);
-	AStar::CoordinateList currentPath;
+	void Update(sf::Vector2i playerTilePos, CardActionMap cardActionMap, std::vector<std::vector<int>> collision);
+
+	AStar::CoordinateList m_currentPath;
+
 private:
-	float movementTimeout;
-	aiMoveState aiMoveState= aiMoveState::chase;
-	int const pathUpdateTimeoutInterval = 30; //how many frames the path is updated
-	int pathUpdateTimeout; // the actual coundown from pathUpdateTimeoutInterval
-	AStar::CoordinateList pathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles);
-	LocationWithDistance closestPlayerActionPointInRange(CardActionMap cardActionMap);
-	sf::Vector2i AiTarget;
-	void updatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap);
+	AStar::CoordinateList PathfindNextSpace(int targetX, int targetY, std::vector<std::vector<int>> walkableTiles);
+	LocationWithDistance ClosestPlayerActionPointInRange(CardActionMap cardActionMap);
+	sf::Vector2i ChooseFleePoint(sf::Vector2i playerTilePos, std::vector<std::vector<int>>& collisionMap);
+	void UpdatePath(std::vector<std::vector<int>> collisionMap, CardActionMap cardActionMap);
+
+	float m_movementTimeout;
+	AiMoveState m_aiMoveState= AiMoveState::chase;
+	int const m_pathUpdateTimeoutInterval = 30; //how many frames the path is updated
+	int m_pathUpdateTimeout; // the actual coundown from pathUpdateTimeoutInterval
+
+	sf::Vector2i m_aiTarget;
+
 	//the time after which the ai switches back to chase mode (seconds)
-	float const AiFleeTimeout=0.5;
+	float const m_aiFleeTimeout=0.5;
 	//varaible that tracks how long left in the Ai flee state
-	float AiFleeCountdown;
+	float m_aiFleeCountdown;
 	//point the enemy flees from TODO really could do with naming something better
-	LocationWithDistance closest;
-	sf::Vector2i chooseFleePoint(sf::Vector2i playerTilePos, std::vector<std::vector<int>>& collisionMap);
+	LocationWithDistance m_fleePointLocation;
+
 };
 

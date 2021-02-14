@@ -1,101 +1,101 @@
 #include "player.h"
 
-void Player::checkInputs(std::map<int, bool> keyboardArray)
+void Player::CheckInputs(std::map<int, bool> keyboardArray)
 {
 	//TODO could slightly refactor this to avoid the repetition
-	if (actionstate == actionState::idle)
+	if (m_actionState == actionState::idle)
 	{
 		if (keyboardArray[sf::Keyboard::W])
 		{
-			if (direction != 0) behaviourTriggers[directionChange] = true;
-			direction = 0;
-			behaviourTriggers[initiateMotion] = true;
+			if (m_direction != 0) m_behaviourTriggers[directionChange] = true;
+			m_direction = 0;
+			m_behaviourTriggers[initiateMotion] = true;
 		}
 		else if (keyboardArray[sf::Keyboard::A])
 		{
-			if (direction != 1) behaviourTriggers[directionChange] = true;
-			direction = 1;
-			behaviourTriggers[initiateMotion] = true;
+			if (m_direction != 1) m_behaviourTriggers[directionChange] = true;
+			m_direction = 1;
+			m_behaviourTriggers[initiateMotion] = true;
 		}
 		else if (keyboardArray[sf::Keyboard::S])
 		{
-			if (direction != 2) behaviourTriggers[directionChange] = true;
-			direction = 2;
-			behaviourTriggers[initiateMotion] = true;
+			if (m_direction != 2) m_behaviourTriggers[directionChange] = true;
+			m_direction = 2;
+			m_behaviourTriggers[initiateMotion] = true;
 		}
 		else if (keyboardArray[sf::Keyboard::D])
 		{
-			if (direction != 3) behaviourTriggers[directionChange] = true;
-			direction = 3;
-			behaviourTriggers[initiateMotion] = true;
+			if (m_direction != 3) m_behaviourTriggers[directionChange] = true;
+			m_direction = 3;
+			m_behaviourTriggers[initiateMotion] = true;
 		}
 		else if (keyboardArray[sf::Keyboard::Enter])
 		{
-			behaviourTriggers[useCard] = true;
+			m_behaviourTriggers[useCard] = true;
 		}
 	}
 	
 	if (keyboardArray[sf::Keyboard::LControl])
 	{
-		behaviourTriggers[drawCardFromDeck] = true;
+		m_behaviourTriggers[drawCardFromDeck] = true;
 	}
 	if (keyboardArray[sf::Keyboard::Left])
 	{
-		behaviourTriggers[selectCardLeft] = true;
+		m_behaviourTriggers[selectCardLeft] = true;
 	}
 	else if (keyboardArray[sf::Keyboard::Right])
 	{
-		behaviourTriggers[selectCardRight] = true;
+		m_behaviourTriggers[selectCardRight] = true;
 	}
 }
 
-void Player::resize()
+void Player::Resize()
 {
 	//*cardPointsNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 32));
 	//*healthNumber.position = sf::Vector2f((float)(windowInfo.activeSceneWidthPixels + 4 * 32), (float)(windowInfo.getWindowHeight() - 64));
 
-	cardsInHand.resize();
+	m_cardsInHand.resize();
 }
 
-void Player::action(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap)
+void Player::Update(std::map<int, bool> keyboardArray, std::vector<std::vector<int>>& collision, int renderMode, CardActionMap& cardActionMap)
 {
 	//TODO see if you can remove this line
-	type->identifier = "player";
+	m_battlingCharacterType->identifier = "player";
 
-	resetBehaviourTriggers();
-	checkInputs(keyboardArray);
-	BattlingCharacter::action(collision, renderMode, direction, cardActionMap);
+	ResetBehaviourTriggers();
+	CheckInputs(keyboardArray);
+	BattlingCharacter::Update(collision, renderMode, m_direction, cardActionMap);
 	
 	//CARDS
 
 	if (renderMode == 1)
 	{
 		
-		healthNumber.value = static_cast<int>(health);
-		cardPointsNumber.value = static_cast<int>(cardPoints);
-		int deckIndex=cardsInHand.action(this);
+		m_healthNumber.m_value = static_cast<int>(m_health);
+		m_cardPointsNumber.m_value = static_cast<int>(m_cardPoints);
+		int deckIndex=m_cardsInHand.action(this);
 
-		if (behaviourTriggers[useCardSuccess])
+		if (m_behaviourTriggers[useCardSuccess])
 		{
-			cardActionMap.newAction(cardsInDeck.cardsInDeck[deckIndex], direction, currentTilePos,CharType::player, collision);
+			cardActionMap.newAction(m_cardsInDeck.cardsInDeck[deckIndex], m_direction, m_currentTilePos,CharType::player, collision);
 		}
 	}
 }
 
-void Player::initialiseBattleMode()
+void Player::InitialiseBattleMode()
 {
-	cardsInDeck.resetDeck();
-	cardsInHand.initialise(this);
+	m_cardsInDeck.resetDeck();
+	m_cardsInHand.initialise(this);
 	//*cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
 	//*healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
-	BattlingCharacter::initialiseBattleMode();
+	BattlingCharacter::InitialiseBattleMode();
 }
 
-void Player::draw(sf::RenderWindow& window)
+void Player::DrawToScreen(sf::RenderWindow& window)
 {
 	//cardPointsNumber.draw(window, Sprite::viewportSpace);
 	//healthNumber.draw(window, Sprite::viewportSpace);
-	cardsInHand.draw(window, this);
-	BattlingCharacter::draw(window);
+	m_cardsInHand.draw(window, this);
+	BattlingCharacter::DrawToScreen(window);
 }
 
