@@ -22,11 +22,12 @@ void Sprite::draw(sf::RenderWindow& window, CoordSpace coordSpace)
 	case(localSpace):
 	{
 		PositionalEntity* pWorkingObject = pPositionalEntity;
-		do
+		position = sf::Vector2f(pWorkingObject->position.x + position.x, pWorkingObject->position.y + position.y);
+		while (pWorkingObject != rootObject)
 		{
-			position = sf::Vector2f(pWorkingObject->position.x + position.x, pWorkingObject->position.y + position.y);
 			pWorkingObject = static_cast<PositionalEntity*>(pWorkingObject->parentObject);
-		} while (pWorkingObject != rootObject);
+			position = sf::Vector2f(pWorkingObject->position.x + position.x, pWorkingObject->position.y + position.y);
+		} 
 		break;
 	}
 	case(worldSpace):
