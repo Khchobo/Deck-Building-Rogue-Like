@@ -25,7 +25,7 @@ public:
 
 	CardSprite() {}
 
-	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", this, 1)
+	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", this, this, 1)
 	{
 		movementLocation = 2;
 		inMotion = 1;

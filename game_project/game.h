@@ -54,8 +54,8 @@ public:
 		{
 			for (int i = 0; i < 1; i++)
 			{
-				Enemy newEnemy(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13+i, 13+i), imageManager);
-				enemies.push_back((newEnemy));
+				
+				enemies.emplace_back(std::make_unique<Enemy>(&battlingCharacterTypes["basicSlime"], "basicSlime", sf::Vector2i(13 + i, 13 + i), imageManager));
 			}
 		}
 
@@ -96,7 +96,7 @@ private:
 
 	ImageManager* imageManager;
 
-	std::vector<Enemy> enemies;
+	std::vector<std::unique_ptr<Enemy>> enemies;
 
 	std::vector<std::vector<int>> collisionMap;
 	std::vector<TileType> tileTypeMap;

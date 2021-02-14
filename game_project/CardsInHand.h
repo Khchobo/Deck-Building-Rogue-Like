@@ -18,16 +18,12 @@ public:
 
 	CardsInHand(){}
 
-	CardsInHand(int x, ImageManager* imageManager) : cardsInHand(x),
+	CardsInHand(int x, ImageManager* imageManager, BattlingCharacter* parentObject) : cardsInHand(x),
 		deckSprite("DeckSprite",
 			sf::Vector2f(setPosition(Alignment::right, Axis::x, -(windowInfo.UIWidth/2.0f)*windowInfo.tileSizeInPixels),
 			setPosition(Alignment::centre, Axis::y, 0))
-			,imageManager, "card2", nullptr)
-	{
-		selected = rand() % x;
-		cardsInHand[selected].movementLocation = 1;
-		cardsInHand[selected].offset = 1;
-	}
+			,imageManager, "card2", (PositionalEntity*)(parentObject), (PositionalEntity*)(parentObject))
+	{}
 
 	void initialise(BattlingCharacter* parent);
 
@@ -45,12 +41,12 @@ public:
 
 	void cardInfoDraw(const std::vector<Card>& cardsInDeck, sf::RenderWindow& window);
 
-	bool anyCardsInMotion(std::vector<CardSprite> cardsInHand);
+	bool anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& cardsInHand);
 
-	void changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,
+	void changeSelection(unsigned int& selected, std::string identifier, std::vector<std::unique_ptr<CardSprite>>& cardsInHand,
 							std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck);
 
-	std::vector<CardSprite> cardsInHand;
+	std::vector<std::unique_ptr<CardSprite>> cardsInHand;
 
 private:
 

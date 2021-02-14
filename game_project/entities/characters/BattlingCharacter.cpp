@@ -1,14 +1,16 @@
 #include "BattlingCharacter.h"
 #include "AnimationManager.h"
 
-BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos) : PositionalEntity(identity, pos, imageManager, identity, this), //todo replace with filename
-cardsInHand(1, imageManager), cardsInDeck(type), type(type), directionalArrow("directionalArrow", imageManager, "directionalArrow", this)
+BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos) : 
+	PositionalEntity(identity, pos, imageManager, identity,	this, this), //todo replace with filename
+cardsInHand(1, imageManager, this), cardsInDeck(type), type(type), directionalArrow("directionalArrow", imageManager, "directionalArrow", (Entity*)this, (Entity*)this)
 {
 	currentTilePos = sf::Vector2i(pos.x/windowInfo.tileSizeInPixels, pos.y/ windowInfo.tileSizeInPixels);
 	//type->identifier = identity;
 	cardPoints = type->cardPointsMax;
 	cardPointsStepCost = 5;
 	health = type->maxHealth;
+	direction = 0;
 
 	arrowDirectionUpdate();
 
@@ -186,6 +188,5 @@ void BattlingCharacter::draw(sf::RenderWindow& window)
 	//directionalArrow.position.x += windowInfo.backgroundTexturePosition.x;
 	//directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
 	GET_OBJECT_COMPONENT(Sprite, "Sprite", directionalArrow)->draw(window, Sprite::localSpace);
-	GET_COMPONENT(Sprite, "Sprite")->parent = this; //Again this should really only happen in constructor but for some reason that doesn't work
 	GET_COMPONENT(Sprite,"Sprite")->draw(window, Sprite::CoordSpace::localSpace);
 }

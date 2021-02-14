@@ -18,7 +18,7 @@ void NumberEntity::initialise(sf::Vector2f incomingPosition, int initialValue)
 	}
 
 	value = initialValue;
-	position = std::make_shared<sf::Vector2f>(incomingPosition);
+	//position = std::make_shared<sf::Vector2f>(incomingPosition);
 }
 
 void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace)
@@ -35,7 +35,7 @@ void NumberEntity::draw(sf::RenderWindow& window, CoordSpace coordSpace)
 	sprite.setTexture(texture);
 	textureSize = texture.getSize();
 
-	Sprite::draw(window, viewportSpace);
+	//Sprite::draw(window, viewportSpace);
 }
 
 void NumberEntity::storeDigit(std::vector<int>& vectorOfDigits, int recursionDepth, int x)

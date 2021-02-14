@@ -11,20 +11,17 @@ void Game::loop()
 			if (window.hasFocus()) {
 
 				renderModeTimeout++;
-				runTime += frameTime;
-				
+				runTime += frameTime;				
 				
 				sf::Time elapsed = clock.getElapsedTime();
 				frameTime = elapsed.asSeconds();
 				//std::cout << 1/frameTime << std::endl;
 				clock.restart();
 
-
 				// check all the window's events that were triggered since the last iteration of the loop
 				sf::Event event;
 				while (window.pollEvent(event))
 				{
-
 					switch (event.type) {
 					case sf::Event::KeyPressed:
 						keyboardArray[event.key.code] = true;
@@ -128,10 +125,10 @@ void Game::action()
 	
 	for (auto& enemy : enemies)
 	{
-		enemy.action(player.currentTilePos, cardActionMap, collisionMap);
+		enemy->action(player.currentTilePos, cardActionMap, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
-			tileMap.testDrawPath(enemy.currentPath);
+			tileMap.testDrawPath(enemy->currentPath);
 		}
 	}
 
@@ -166,7 +163,7 @@ window.draw(tileMap);
 
 for (auto& enemy : enemies)
 {
-	enemy.draw(window);
+	enemy->draw(window);
 }
 //draw cards if in battle mode
 if (renderMode == 1)

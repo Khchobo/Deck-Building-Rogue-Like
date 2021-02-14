@@ -15,19 +15,19 @@ using namespace standaloneFunctions;
 
 void CardsInHand::newMotion(int index)
 {
-	cardsInHand[index].inMotion = true;
-	cardsInHand[index].previousPos = cardsInHand[index].position;
+	cardsInHand[index]->inMotion = true;
+	cardsInHand[index]->previousPos = cardsInHand[index]->position;
 }
 
 //print card info to console
 void CardsInHand::cardInfoPrint(std::vector<Card>& cardsInDeck)
 {
 	std::cout << std::setprecision(40);
-	std::cout << "ID of selected card: " << cardsInHand[selected].id << std::endl;
+	std::cout << "ID of selected card: " << cardsInHand[selected]->id << std::endl;
 	std::cout << std::setprecision(3);
 	for(unsigned int i=0;i<cardsInDeck.size();i++)
 	{
-		if (cardsInHand[selected].id == cardsInDeck[i].id)
+		if (cardsInHand[selected]->id == cardsInDeck[i].id)
 		{
 			std::cout << "Selected Cards Name: " << cardsInDeck[i].name<<std::endl
 					<< "Attack Type: " << attackTypeMap[cardsInDeck[i].attackType] << " | Attack Radius: " <<
@@ -45,7 +45,7 @@ void CardsInHand::cardInfoDraw(const std::vector<Card>& cardsInDeck,sf::RenderWi
 	
 	for (unsigned int i = 0; i < cardsInDeck.size(); i++)
 	{
-		if (cardsInHand[selected].id == cardsInDeck[i].id)
+		if (cardsInHand[selected]->id == cardsInDeck[i].id)
 		{
 			std::ostringstream streamObj3;
 			streamObj3 << std::setprecision(2);
@@ -87,7 +87,8 @@ void CardsInHand::initialise(BattlingCharacter* parent)
 		drawCard(parent);
 	}
 	selected = 0;
-
+	cardsInHand[selected]->movementLocation = 1;
+	cardsInHand[selected]->offset = 1;
 }
 
 void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
@@ -95,8 +96,7 @@ void CardsInHand::draw(sf::RenderWindow &window, const Entity* parent)
 	GET_OBJECT_COMPONENT(Sprite, "Sprite", deckSprite)->draw(window, Sprite::CoordSpace::viewportSpace);
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		*GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->position = cardsInHand[i].position; //this should really happen in the constructor but for some reason the pointer becomes invalid
-		GET_OBJECT_COMPONENT(Sprite, "Sprite", cardsInHand[i])->draw(window, Sprite::CoordSpace::viewportSpace);	
+ 		GET_OBJECT_POINTER_COMPONENT(Sprite, "Sprite", cardsInHand[i])->draw(window, Sprite::CoordSpace::viewportSpace);	
 	}
 	cardInfoDraw((dynamic_cast<const BattlingCharacter*>(parent))->cardsInDeck.cardsInDeck,window);
 	noOfCardsInHand.draw(window);
@@ -116,12 +116,12 @@ void CardsInHand::resize()
 	//centred as it is moved up by 48 i.e. half the length of the card
 	deckSprite.position.y = setPosition(ALIGN::centre, Axis::y, -48);
 
-	*noOfCardsInHand.position = deckSprite.position;
+	//*noOfCardsInHand.position = deckSprite.position; //TODO MAKE NUMBER ENTITY A POSITIONAL ENTITY
 
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		cardsInHand[i].previousPos.y = cardsInHand[i].previousPos.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
-		cardsInHand[i].position.y = cardsInHand[i].position.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
+		cardsInHand[i]->previousPos.y = cardsInHand[i]->previousPos.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
+		cardsInHand[i]->position.y = cardsInHand[i]->position.y + (windowInfo.getWindowHeight() - windowInfo.windowedHeightPixels);
 	}
 }
 
@@ -166,7 +166,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 			else if (parent->behaviourTriggers[useCard] && cardsInHand.size() > 1)
 			{
 				int deckCardIndex;
-				long double cardSelected = cardsInHand[selected].id;
+				long double cardSelected = cardsInHand[selected]->id;
 
 				//Firstly, find and save the index of the selected card in the deck
 
@@ -191,7 +191,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 				{
 
 					//todo turn movement location into enum
-					cardsInHand[i].movementLocation = 3;
+					cardsInHand[i]->movementLocation = 3;
 					newMotion(i);
 				}
 
@@ -204,7 +204,7 @@ int CardsInHand::action(BattlingCharacter* parent)
 				}
 				else
 				{
-					cardsInHand[selected + 1].movementLocation = 4;
+					cardsInHand[selected + 1]->movementLocation = 4;
 					newMotion(selected + 1);
 					cardsInHand.erase(cardsInHand.begin() + selected);
 				}
@@ -217,16 +217,16 @@ int CardsInHand::action(BattlingCharacter* parent)
 	//move all the cards currently in motion
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		if (cardsInHand[i].inMotion==true)
+		if (cardsInHand[i]->inMotion==true)
 		{
-			cardsInHand[i].move(i);
+			cardsInHand[i]->move(i);
 		}
 	}
 
 	return 0;
 }
 
-void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<CardSprite> cardsInHand,
+void CardsInHand::changeSelection(unsigned int& selected, std::string identifier, std::vector<std::unique_ptr<CardSprite>>& cardsInHand,
 									std::map<BehaviourTrigger, bool> behaviourTriggers, std::vector<Card>& cardsInDeck)
 {
 	//std::cout << selected;
@@ -256,11 +256,11 @@ void CardsInHand::changeSelection(unsigned int& selected, std::string identifier
 	}
 }
 
-bool CardsInHand::anyCardsInMotion(std::vector<CardSprite> cardsInHand)
+bool CardsInHand::anyCardsInMotion(std::vector<std::unique_ptr<CardSprite>>& cardsInHand)
 {
 	for (unsigned int i = 0; i < cardsInHand.size(); i++)
 	{
-		if (cardsInHand[i].inMotion == true)
+		if (cardsInHand[i]->inMotion == true)
 		{
 			return true;
 		}
@@ -272,21 +272,19 @@ void CardsInHand::drawCard(BattlingCharacter* parent)
 {
 	if (parent->cardsInDeck.cardsRemaining.size()>0)
 	{
-		std::cout << "Drawing New Card" << std::endl;
-
-		CardSprite newCard = CardSprite(&static_cast<PositionalEntity>(deckSprite), parent->imageManager);
-		//choose a new card from the list of remaining cards
-
-		int rando = rand();
-		//std::cout << cardsRemaining.size() << " " << rando << std::endl;
-		int index = rando % parent->cardsInDeck.cardsRemaining.size();
-		newCard.id = parent->cardsInDeck.cardsRemaining[index];
-		parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
-		noOfCardsInHand.value--;
-		
 		if (parent->identity == "player")
 		{
-			cardsInHand.push_back(std::move(newCard));
+			cardsInHand.push_back(std::make_unique<CardSprite>(&static_cast<PositionalEntity>(deckSprite), parent->imageManager));
+
+			std::cout << "Drawing New Card" << std::endl;
+			//choose a new card from the list of remaining cards
+
+			int rando = rand();
+			//std::cout << cardsRemaining.size() << " " << rando << std::endl;
+			int index = rando % parent->cardsInDeck.cardsRemaining.size();
+			cardsInHand[cardsInHand.size()-1]->id = parent->cardsInDeck.cardsRemaining[index];
+			parent->cardsInDeck.cardsRemaining.erase(parent->cardsInDeck.cardsRemaining.begin() + index);
+			noOfCardsInHand.value--;
 
 
 			//for some reason this breaks the textures so we now have to reload them

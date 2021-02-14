@@ -31,7 +31,7 @@ void CardSprite::move(int i)
 			return;
 		}
 
-		if (movementLocation ==2)
+		if (movementLocation == 2)
 		{
 			motionTime = 0.55f;
 		}

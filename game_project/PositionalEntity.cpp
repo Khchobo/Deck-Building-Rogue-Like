@@ -1,14 +1,16 @@
 #include "PositionalEntity.h"
 #include "Sprite.h"
 
-PositionalEntity::PositionalEntity(std::string identity, sf::Vector2f pos, ImageManager* imageManager, std::string filename, PositionalEntity* parent, int spriteCentering) : Entity(identity, imageManager), position(pos)
+PositionalEntity::PositionalEntity(std::string identity, sf::Vector2f pos, ImageManager* imageManager,
+	std::string filename, Entity* parentObject, Entity* rootObject, int spriteCentering) :
+	Entity(identity, imageManager, parentObject, rootObject), position(pos)
 {
-	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(parent, imageManager, this, filename, spriteCentering);
-	components.emplace_back(std::move(sprite));
+	components.emplace_back(std::make_shared<Sprite>((Entity*)this, rootObject, imageManager, filename, spriteCentering));
 }
 
-PositionalEntity::PositionalEntity(std::string identity, ImageManager* imageManager, std::string filename, PositionalEntity* parent, int spriteCentering) : Entity(identity, imageManager)
+PositionalEntity::PositionalEntity(std::string identity, ImageManager* imageManager,
+	std::string filename, Entity* parentObject, Entity* rootObject, int spriteCentering) :
+	Entity(identity, imageManager, parentObject, rootObject)
 {
-	std::shared_ptr<Sprite> sprite = std::make_shared<Sprite>(parent, imageManager, this, filename, spriteCentering);
-	components.emplace_back(std::move(sprite));
+	components.emplace_back(std::make_shared<Sprite>((Entity*)this, rootObject, imageManager, filename, spriteCentering));
 }
