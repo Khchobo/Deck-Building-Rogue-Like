@@ -14,3 +14,6 @@ PositionalEntity::PositionalEntity(std::string identity, ImageManager* imageMana
 {
 	m_components.emplace_back(std::make_shared<Sprite>((Entity*)this, rootObject, imageManager, filename, spriteCentering));
 }
+
+void PositionalEntity::Initialise() { return; };
+void PositionalEntity::Update() { return; };

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "AiComponent.h"
 
 void Game::loop()
 {
@@ -128,7 +129,7 @@ void Game::action()
 		enemy->Update(player.m_currentTilePos, cardActionMap, collisionMap);
 		if (gameData["debugSettings"]["drawAIPath"].asBool())
 		{
-			tileMap.testDrawPath(enemy->m_currentPath);
+			tileMap.testDrawPath(GET_OBJECT_POINTER_COMPONENT(AiComponent, "AiComponent", enemy)->GetCurrentPath());
 		}
 	}
 

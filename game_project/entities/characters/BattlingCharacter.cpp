@@ -1,9 +1,11 @@
 #include "BattlingCharacter.h"
 #include "AnimationManager.h"
 
+#define ADD_COMPONENT()
+
 BattlingCharacter::BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos) : 
 	PositionalEntity(identity, pos, imageManager, identity,	this, this), //todo replace with filename
-m_cardsInHand(1, imageManager, this), m_cardsInDeck(type), m_battlingCharacterType(type), m_directionalArrow("directionalArrow", imageManager, "directionalArrow", (Entity*)this, (Entity*)this)
+m_cardsInHand(1, imageManager, this, this), m_cardsInDeck(type), m_battlingCharacterType(type), m_directionalArrow("directionalArrow", imageManager, "directionalArrow", (Entity*)this, (Entity*)this)
 {
 	m_currentTilePos = sf::Vector2i(pos.x/windowInfo.tileSizeInPixels, pos.y/ windowInfo.tileSizeInPixels);
 	//type->identifier = identity;
@@ -14,8 +16,7 @@ m_cardsInHand(1, imageManager, this), m_cardsInDeck(type), m_battlingCharacterTy
 
 	ArrowDirectionUpdate();
 
-	std::shared_ptr<AnimationManager> animationManager = std::make_shared<AnimationManager>();
-	animationManager->initalise(type);
+	std::shared_ptr<AnimationManager> animationManager = std::make_shared<AnimationManager>(this, this, m_battlingCharacterType);
 	m_components.emplace_back(std::move(animationManager));
 };
 
@@ -187,4 +188,19 @@ void BattlingCharacter::DrawToScreen(sf::RenderWindow& window)
 	//directionalArrow.position.y += windowInfo.backgroundTexturePosition.y;
 	GET_OBJECT_COMPONENT(Sprite, "Sprite", m_directionalArrow)->DrawToScreen(window, Sprite::localSpace);
 	GET_COMPONENT(Sprite,"Sprite")->DrawToScreen(window, Sprite::CoordSpace::localSpace);
+}
+
+actionState BattlingCharacter::GetActionState()
+{
+	return m_actionState;
+}
+
+int BattlingCharacter::GetDirection()
+{
+	return m_direction;
+}
+
+void BattlingCharacter::SetDirection(int direction)
+{
+	m_direction = direction;
 }

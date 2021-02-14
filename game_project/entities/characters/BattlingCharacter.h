@@ -18,9 +18,16 @@ public:
 
 	BattlingCharacter(BattlingCharacterType* type, std::string identity, ImageManager* imageManager, sf::Vector2f pos);
 	
+	//Todo use this
+	void Initialise() override { return; };
+	void Update() override { return; };
+
 	void InitiateNewMotion(unsigned int direction, std::vector<std::vector<int>>& collision);
 	virtual void InitialiseBattleMode();
 	virtual void DrawToScreen(sf::RenderWindow& window);
+	actionState GetActionState();
+	int GetDirection();
+	void SetDirection(int direction);
 
 	//current tile alignment or tile alignment before current motion began
 	sf::Vector2i m_currentTilePos;

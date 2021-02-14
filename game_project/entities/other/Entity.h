@@ -10,7 +10,7 @@
 #include <memory>
 
 #define GET_COMPONENT(cast,name) dynamic_cast<cast*>(GetComponent(name).get())
-#define GET_PARENT_COMPONENT(cast,name) dynamic_cast<cast*>(parent->GetComponent(name).get())
+#define GET_PARENT_COMPONENT(cast,name) dynamic_cast<cast*>(m_pParentObject->GetComponent(name).get())
 #define GET_OBJECT_COMPONENT(cast, name, object) dynamic_cast<cast*>(object.GetComponent(name).get())
 #define GET_OBJECT_POINTER_COMPONENT(cast, name, object) dynamic_cast<cast*>(object->GetComponent(name).get())
 
@@ -18,9 +18,20 @@ class Entity
 {
 public:
 
-	Entity(){}
-	Entity(std::string identity, ImageManager* imageManager, Entity* parentObject, Entity* rootObject) : m_identity(identity), m_pImageManager(imageManager), m_pParentObject(parentObject), m_pRootObject(rootObject) {}
+	Entity(std::string identity, Entity* parentObject, Entity* rootObject) : m_identity(identity),
+		m_pParentObject(parentObject), m_pRootObject(rootObject)
+	{
+	//	Initialise();
+	}
+	Entity(std::string identity, ImageManager* imageManager, Entity* parentObject, Entity* rootObject) : m_identity(identity),
+	m_pImageManager(imageManager), m_pParentObject(parentObject), m_pRootObject(rootObject) 
+	{ 
+	//	Initialise();
+	}
 	virtual ~Entity() {};
+
+	virtual void Update() = 0;
+	virtual void Initialise() = 0;
 
 	std::shared_ptr <Entity> GetComponent(std::string _identity);
 

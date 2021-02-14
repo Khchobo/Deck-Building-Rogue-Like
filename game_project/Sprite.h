@@ -7,8 +7,6 @@ public:
 
 	enum CoordSpace { localSpace,worldSpace,viewportSpace };
 
-	Sprite() {}
-
 	Sprite(Entity* parentObject, Entity* rootObject, ImageManager* imageManager, std::string filename = "", int centering = 0)
 		 : Entity(filename, imageManager, parentObject, rootObject) {	
 		//using identity to define filepath is temporary till i can move sprite definitions into data
@@ -30,6 +28,9 @@ public:
 		}
 	Initialise(parentObject, rootObject, filename, centering);
 	}
+
+	void Initialise() override {};
+	void Update() override {};
 
 	void Initialise(Entity* _parentObject, Entity* _rootObject, std::string filename, int centering = 0);
 	virtual void DrawToScreen(sf::RenderWindow& window, CoordSpace coordSpace = localSpace);

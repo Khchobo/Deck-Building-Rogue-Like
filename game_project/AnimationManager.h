@@ -23,20 +23,21 @@ class AnimationManager : public Entity
 {
 public:
 
-	AnimationManager(){}
+	AnimationManager(Entity* parentObject, Entity* rootObject, BattlingCharacterType* type) : Entity("AnimationManager", parentObject, rootObject), m_battlingCharacterType(type) { Initialise(); }
 
-	void initalise(BattlingCharacterType* type)
+	virtual void Initialise() override
 	{
-		m_identity = "AnimationManager";
-		transitions = &type->animationTransitions;
-		playingAnimations[0] = PlayingAnimation("defaultSquash", type);
+		transitions = &m_battlingCharacterType->animationTransitions;
+		playingAnimations[0] = PlayingAnimation("defaultSquash", m_battlingCharacterType);
 	}
 
-	void update(BattlingCharacter* parent);
+	virtual void Update() override;
 
 	void updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, Sprite* sprite);
 
 private:
+
+	BattlingCharacterType* m_battlingCharacterType;
 	TransitionMap* transitions;
 	//can only contain one of each animation type. currently this is 1 but need to increase this number as more are added.
 	std::vector<PlayingAnimation> playingAnimations= std::vector<PlayingAnimation>(1);

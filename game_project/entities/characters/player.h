@@ -33,8 +33,11 @@ public:
 	void Resize();
 
 	//This is the entity that displays the number of card points to the window. cardPoints stores the actual value
-	NumberEntity m_cardPointsNumber;
-	NumberEntity m_healthNumber;
+	//NumberEntity m_cardPointsNumber;
+	//NumberEntity m_healthNumber;
+
+	//Todo move into eventual cards manager
+	int m_deckIndex;
 
 private:
 	void CheckInputs(std::map<int, bool> keyboardArray);

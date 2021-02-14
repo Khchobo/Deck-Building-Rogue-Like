@@ -2,9 +2,9 @@
 #include <iostream>
 #include <assert.h>
 
-NumberEntity::NumberEntity() : m_digitTextures(10) { Initialise(sf::Vector2f(0,0), 0); }
-
-NumberEntity::NumberEntity(sf::Vector2f incomingPosition, int initialValue) : m_digitTextures(10)
+//TODO null pointers here are temporary until I fix this class to work like a normal sprite does
+NumberEntity::NumberEntity() :Sprite(nullptr, nullptr, nullptr, "NumberEntity"), m_digitTextures(10) { Initialise(sf::Vector2f(0,0), 0); }
+NumberEntity::NumberEntity(sf::Vector2f incomingPosition, int initialValue) : Sprite(nullptr, nullptr, nullptr, "NumberEntity"), m_digitTextures(10)
 {
 	Initialise(incomingPosition, initialValue);
 }

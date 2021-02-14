@@ -71,13 +71,13 @@ void Player::Update(std::map<int, bool> keyboardArray, std::vector<std::vector<i
 	if (renderMode == 1)
 	{
 		
-		m_healthNumber.m_value = static_cast<int>(m_health);
-		m_cardPointsNumber.m_value = static_cast<int>(m_cardPoints);
-		int deckIndex=m_cardsInHand.action(this);
+		//m_healthNumber.m_value = static_cast<int>(m_health);
+		//m_cardPointsNumber.m_value = static_cast<int>(m_cardPoints);
+		m_cardsInHand.Update();
 
 		if (m_behaviourTriggers[useCardSuccess])
 		{
-			cardActionMap.newAction(m_cardsInDeck.cardsInDeck[deckIndex], m_direction, m_currentTilePos,CharType::player, collision);
+			cardActionMap.newAction(m_cardsInDeck.cardsInDeck[m_deckIndex], m_direction, m_currentTilePos,CharType::player, collision);
 		}
 	}
 }
@@ -85,7 +85,7 @@ void Player::Update(std::map<int, bool> keyboardArray, std::vector<std::vector<i
 void Player::InitialiseBattleMode()
 {
 	m_cardsInDeck.resetDeck();
-	m_cardsInHand.initialise(this);
+	m_cardsInHand.Initialise();
 	//*cardPointsNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 32.0f);
 	//*healthNumber.position = sf::Vector2f(windowInfo.activeSceneWidthPixels + 3.5f * 32.0f, windowInfo.getWindowHeight() - 64.0f);
 	BattlingCharacter::InitialiseBattleMode();

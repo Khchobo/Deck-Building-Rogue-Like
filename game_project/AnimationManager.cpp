@@ -1,8 +1,8 @@
 #include "AnimationManager.h"
 
-void AnimationManager::update(BattlingCharacter* parent)
+void AnimationManager::Update()
 {
-	updateAnimations(parent->m_behaviourTriggers, parent->m_battlingCharacterType, GET_PARENT_COMPONENT(Sprite,"Sprite"));
+	updateAnimations(dynamic_cast<BattlingCharacter*>(m_pParentObject)->m_behaviourTriggers, m_battlingCharacterType, GET_PARENT_COMPONENT(Sprite,"Sprite"));
 }
 
 void AnimationManager::updateAnimations(std::map<BehaviourTrigger, bool> behaviourTriggers, BattlingCharacterType* type, Sprite* sprite)

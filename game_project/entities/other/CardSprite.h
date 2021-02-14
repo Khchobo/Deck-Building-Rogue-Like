@@ -20,8 +20,6 @@ public:
 	//the ID of the card in the deck
 	long double id;
 
-	CardSprite() {}
-
 	CardSprite(PositionalEntity* deckSprite, ImageManager* imageManager, Entity* parent) : PositionalEntity("cardSprite", deckSprite->position, imageManager, "card2", parent, parent, 1)
 	{
 		SetState(CardLocationState::New);
